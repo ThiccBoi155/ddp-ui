@@ -25,17 +25,12 @@ public class DragAndClick : MonoBehaviour
     {
         if (followTarget && rid != null)
         {
-            //rid.AddForce(-rid.velocity, ForceMode2D.Impulse);
+            // This is the distance to the target. Also represented in units / second
+            Vector2 toTarget = target - (Vector2)transform.position;
             
-
-            Vector2 toTarget = target - (Vector2)transform.position - offset;
-
-            Vector2 temp = toTarget / Time.fixedDeltaTime;
-
-            //rid.AddForce(toTarget - rid.velocity, ForceMode2D.Impulse);
-            //rid.AddForce(toTarget, ForceMode2D.Impulse);
-            rid.AddForce(temp - rid.velocity, ForceMode2D.Impulse);
-            //rid.AddForce(temp, ForceMode2D.Impulse);
+            Vector2 newVelocity = toTarget / Time.fixedDeltaTime;
+            
+            rid.AddForce(newVelocity - rid.velocity, ForceMode2D.Impulse);
         }
     }
 
@@ -72,13 +67,12 @@ public class DragAndClick : MonoBehaviour
     Vector2 startMTouchPos;
     // This value is measured in (world) units rather than screen pixel units or percentage
     public float maxClickDistance = .1f;
-    public float maxClickDelay = .5f;
+    // This value is measured in seconds
+    public float maxClickDelay = .1f;
 
     private void OnMTouchDown(Vector2 pos)
     {
         offset = pos - (Vector2)transform.position;
-
-        //StartFollowTarget();
 
         startMTouchPos = pos;
         timeAtMTouchClick = Time.time;
@@ -114,5 +108,21 @@ public class DragAndClick : MonoBehaviour
     private void ClickAction()
     {
         Debug.Log(logMessage);
+    }
+
+    //////////////////
+    // Click action //
+    //////////////////
+
+    private void OnDrawGizmos()
+    {
+        //Gizmos.matrix = transform.localToWorldMatrix;
+
+        Gizmos.color = Color.red;
+        //Gizmos.DrawSphere(Vector3.zero, .25f);
+        Gizmos.DrawSphere(transform.position, .1f);
+
+        Gizmos.color = Color.green;
+        Gizmos.DrawSphere((Vector2)transform.position + offset, .1f);
     }
 }
