@@ -11,17 +11,23 @@ public class StaticDraggable : MonoBehaviour
         cam = Camera.main;
     }
 
-    Vector2 difference = Vector2.zero;
+    ///////////////////////////////////////
+    // MTouch : Combined mouse and touch //
+    ///////////////////////////////////////
 
     private void OnMouseDown()
     {
-        difference = cam.ScreenToWorldPoint(Input.mousePosition) - transform.position;
+        OnMTouchDown(cam.ScreenToWorldPoint(Input.mousePosition));
     }
 
     private void OnMouseDrag()
     {
-        transform.position = (Vector2)cam.ScreenToWorldPoint(Input.mousePosition) - difference;
+        OnMTouchDrag(cam.ScreenToWorldPoint(Input.mousePosition));
     }
+
+    /////////
+    // ... //
+    /////////
 
     private void Update()
     {
@@ -33,4 +39,20 @@ public class StaticDraggable : MonoBehaviour
         }
     }
 
+    ///////////////////////////////////////
+    // MTouch : Combined mouse and touch //
+    ///////////////////////////////////////
+
+    // Vector from transform.position to mouse position
+    Vector2 offset = Vector2.zero;
+
+    private void OnMTouchDown(Vector2 pos)
+    {
+        offset = pos - (Vector2)transform.position;
+    }
+
+    private void OnMTouchDrag(Vector2 pos)
+    {
+        transform.position = pos - offset;
+    }
 }
