@@ -67,8 +67,9 @@ public class DragAndClick : MonoBehaviour
     Vector2 startMTouchPos;
     // This value is measured in (world) units rather than screen pixel units or percentage
     public float maxClickDistance = .1f;
-    // This value is measured in seconds
-    public float maxClickDelay = .1f;
+    // Theese values are measured in seconds
+    public float maxClickDelay = .5f;
+    public float delayBeforeDrag = .1f;
 
     private void OnMTouchDown(Vector2 pos)
     {
@@ -82,7 +83,7 @@ public class DragAndClick : MonoBehaviour
     {
         target = pos - offset;
 
-        if (Time.time - timeAtMTouchClick > maxClickDelay)
+        if (Time.time - timeAtMTouchClick > delayBeforeDrag)
             StartFollowTarget();
     }
 
@@ -114,6 +115,7 @@ public class DragAndClick : MonoBehaviour
     // Click action //
     //////////////////
 
+    /*/
     private void OnDrawGizmos()
     {
         //Gizmos.matrix = transform.localToWorldMatrix;
@@ -125,4 +127,5 @@ public class DragAndClick : MonoBehaviour
         Gizmos.color = Color.green;
         Gizmos.DrawSphere((Vector2)transform.position + offset, .1f);
     }
+    //*/
 }
