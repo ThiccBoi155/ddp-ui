@@ -6,9 +6,9 @@ public class CoverFlow : MonoBehaviour
 {
     public float position;
 
-    public float angle = 56;
-    public float selectGap = 2.7f;
-    public float stackGap = 1.1f;
+    public float angle = 88;
+    public float selectGap = 2.6f;
+    public float stackGap = 0.6f;
 
     public bool jumpRight = false;
     public bool jumpLeft = false;
