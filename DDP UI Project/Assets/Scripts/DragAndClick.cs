@@ -7,6 +7,8 @@ public class DragAndClick : MonoBehaviour
     Camera cam;
     [HideInInspector]
     public Rigidbody2D rid;
+    [HideInInspector]
+    public Collider2D col;
 
     public string logMessage = "Default message";
 
@@ -27,6 +29,10 @@ public class DragAndClick : MonoBehaviour
             rid = GetComponent<Rigidbody2D>();
             if (rid == null)
                 Debug.Log($"\"{name}\" did not contain a ridgidbody");
+
+            col = GetComponent<Collider2D>();
+            if (rid == null)
+                Debug.Log($"\"{name}\" did not contain a collider");
 
             setupRan = true;
         }

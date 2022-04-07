@@ -6,6 +6,7 @@ public class CoverFlow : MonoBehaviour
 {
     [Header("References")]
     public Camera cam;
+    public BorderCollider bc;
 
     [Header("Prefabs")]
     public GameObject disc;
@@ -20,20 +21,20 @@ public class CoverFlow : MonoBehaviour
     public bool ejectDiscNow = false;
 
     [Header("Position, rotation and scale settings")]
-    public float angle = 88;
-    public float selectGap = 2.6f;
+    public float angle = 88; // 59.92
+    public float selectGap = 2.6f; // 3.43
     public float stackGap = 0.6f;
 
-    public float scale = 1f;
+    public float scale = 1f; // .67
 
     [Header("Eject settings")]
-    public float ejectSpeed = 3f;
+    public float ejectSpeed = 5f;
     public float ejectAngle = 0f;
     public bool randomEjectAngle = true;
-    public float randomEjectRange = 45f;
+    public float randomEjectRange = 25f;
 
     [Header("Fix position settings (Disable: fixPositionDelay = -1)")]
-    public float fixPositionDelay = .7f;
+    public float fixPositionDelay = .5f;
     public float fixPositionLerpVal = .1f;
     public float roundWithinRangeVal = .01f;
 
@@ -77,8 +78,8 @@ public class CoverFlow : MonoBehaviour
         }
         if (ejectDiscNow)
         {
-            EjectDisc();
             ejectDiscNow = false;
+            EjectDisc();
         }
     }
 
@@ -201,8 +202,8 @@ public class CoverFlow : MonoBehaviour
 
         GameObject newDisc = Instantiate(disc);
 
-        newDisc.transform.position = transform.position;
-        
+        newDisc.transform.position = (Vector2)transform.position;
+
         DragAndClick discDAC = newDisc.GetComponent<DragAndClick>();
 
         float currentEjectAngle;
@@ -215,6 +216,8 @@ public class CoverFlow : MonoBehaviour
         Quaternion q = Quaternion.AngleAxis(currentEjectAngle, Vector3.forward);
 
         discDAC.rid.AddForce(q * Vector3.up * ejectSpeed, ForceMode2D.Impulse);
+
+        Physics2D.IgnoreCollision(bc.col, discDAC.col);
 
         Debug.Log($"Vec vel: {discDAC.rid.velocity}, float vel: {discDAC.rid.velocity.magnitude}");
     }
