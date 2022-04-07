@@ -21,6 +21,8 @@ public class CoverFlow : MonoBehaviour
 
     public bool lookAtCamera = true;
 
+    public float scale = 1f;
+
     private void Awake()
     {
         cam = Camera.main;
@@ -31,6 +33,8 @@ public class CoverFlow : MonoBehaviour
         BooleanButtons();
 
         UpdatePositions();
+
+        SetScale();
 
         LookAtCamera();
     }
@@ -91,9 +95,9 @@ public class CoverFlow : MonoBehaviour
 
                 newX = ((coverPos * prefix - 1) * stackGap + selectGap) * prefix;
             }
-                 
-
-            cover.position = new Vector3(newX, cover.position.y, cover.position.z);
+            
+            //cover.localPosition = new Vector3(newX, cover.localPosition.y, cover.localPosition.z);
+            cover.localPosition = new Vector3(newX, 0, 0);
 
             i++;
         }
@@ -103,6 +107,11 @@ public class CoverFlow : MonoBehaviour
     {
         //transform.LookAt(cam.transform.position);
         //transform.localRotation = Quaternion.AngleAxis(180f, Vector3.up);
+    }
+
+    private void SetScale()
+    {
+        transform.localScale = new Vector3(scale, scale, scale);
     }
 
     // Range(-1 to 1) to range(0 to 1)
@@ -116,5 +125,7 @@ public class CoverFlow : MonoBehaviour
         BooleanButtons();
 
         UpdatePositions();
+
+        SetScale();
     }
 }

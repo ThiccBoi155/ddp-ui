@@ -50,6 +50,8 @@ public class BorderCollider : MonoBehaviour
 
         if (attachToCam)
         {
+            transform.position = new Vector3(cam.transform.position.x, cam.transform.position.y, 0);
+
             buttomLeft = cam.ScreenToWorldPoint(new Vector3(0, 0, -cam.transform.position.z));
             topRight = cam.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, -cam.transform.position.z));
 
