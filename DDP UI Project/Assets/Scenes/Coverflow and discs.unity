@@ -2237,8 +2237,11 @@ MonoBehaviour:
   angle: 59.92
   selectGap: 3.43
   stackGap: 0.6
-  lookAtCamera: 1
   scale: 0.67
+  fixPositionDelay: 0.7
+  fixPositionLerpVal: 0.1
+  roundWithinRangeVal: 0.01
+  lookAtCamera: 1
 --- !u!4 &1721329801
 Transform:
   m_ObjectHideFlags: 0
@@ -2247,7 +2250,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1721329799}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -3.87, z: 0}
+  m_LocalPosition: {x: 0, y: -3.87, z: -0.2}
   m_LocalScale: {x: 0.67, y: 0.67, z: 0.67}
   m_ConstrainProportionsScale: 0
   m_Children:

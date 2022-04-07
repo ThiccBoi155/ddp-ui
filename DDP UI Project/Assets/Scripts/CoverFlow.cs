@@ -14,14 +14,20 @@ public class CoverFlow : MonoBehaviour
     public bool jumpLeft = false;
     public bool roundPosition = false;
 
-    [Header("Settings")]
+    [Header("Position, rotation and scale settings")]
     public float angle = 88;
     public float selectGap = 2.6f;
     public float stackGap = 0.6f;
 
-    public bool lookAtCamera = true;
-
     public float scale = 1f;
+
+    [Header("Fix position settings (Disable: fixPositionDelay = -1)")]
+    public float fixPositionDelay = .7f;
+    public float fixPositionLerpVal = .1f;
+    public float roundWithinRangeVal = .01f;
+
+    [Header("Other settings")]
+    public bool lookAtCamera = true;
 
     private void Awake()
     {
@@ -36,7 +42,7 @@ public class CoverFlow : MonoBehaviour
 
         SetScale();
 
-        LookAtCamera();
+        FixPositionAfterTime();
     }
 
     private void BooleanButtons()
@@ -103,15 +109,56 @@ public class CoverFlow : MonoBehaviour
         }
     }
 
-    private void LookAtCamera()
-    {
-        //transform.LookAt(cam.transform.position);
-        //transform.localRotation = Quaternion.AngleAxis(180f, Vector3.up);
-    }
-
     private void SetScale()
     {
         transform.localScale = new Vector3(scale, scale, scale);
+    }
+
+    private float lastCFPos = 0f;
+    private float notIntegerPosTime = 0f;
+
+    private void FixPositionAfterTime()
+    {
+        if (fixPositionDelay != -1)
+        {
+            if (!IsInteger(CFPosition) && CFPosition == lastCFPos)
+            {
+                notIntegerPosTime += Time.deltaTime;
+            }
+            else
+            {
+                lastCFPos = CFPosition;
+                notIntegerPosTime = 0f;
+            }
+
+            if (fixPositionDelay <= notIntegerPosTime)
+            {
+                float target = Mathf.Round(CFPosition);
+
+                CFPosition = Mathf.Lerp(CFPosition, target, fixPositionLerpVal);
+
+                CFPosition = RoundWithinRange(CFPosition, roundWithinRangeVal);
+
+                lastCFPos = CFPosition;
+            }
+        }
+    }
+
+    private bool IsInteger(float f)
+    {
+        return f % 1f == 0;
+    }
+
+    private float RoundWithinRange(float f, float roundRange)
+    {
+        float roundedF = Mathf.Round(f);
+
+        float fRange = Mathf.Abs(f - roundedF);
+
+        if (fRange <= roundRange)
+            return roundedF;
+        else
+            return f;
     }
 
     // Range(-1 to 1) to range(0 to 1)
