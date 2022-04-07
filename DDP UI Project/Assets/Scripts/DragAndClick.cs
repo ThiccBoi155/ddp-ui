@@ -5,20 +5,32 @@ using UnityEngine;
 public class DragAndClick : MonoBehaviour
 {
     Camera cam;
-    Rigidbody2D rid;
+    [HideInInspector]
+    public Rigidbody2D rid;
 
     public string logMessage = "Default message";
 
     private void Awake()
     {
-        cam = Camera.main;
-        target = transform.position;
+        Setup();
+    }
 
-        rid = GetComponent<Rigidbody2D>();
-        if (rid == null)
-            Debug.Log($"\"{name}\" did not contain a ridgidbody");
+    bool setupRan = false;
 
-        //Debug.Log($"Time stuff: {Time.fixedDeltaTime}");
+    public void Setup()
+    {
+        if (!setupRan)
+        {
+            cam = Camera.main;
+            target = transform.position;
+
+            rid = GetComponent<Rigidbody2D>();
+            if (rid == null)
+                Debug.Log($"\"{name}\" did not contain a ridgidbody");
+
+            setupRan = true;
+        }
+
     }
 
     private void FixedUpdate()

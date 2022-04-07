@@ -7,6 +7,9 @@ public class CoverFlow : MonoBehaviour
     [Header("References")]
     public Camera cam;
 
+    [Header("Prefabs")]
+    public GameObject disc;
+
     [Header("Temporary input")]
     public float CFPosition;
 
@@ -14,12 +17,20 @@ public class CoverFlow : MonoBehaviour
     public bool jumpLeft = false;
     public bool roundPosition = false;
 
+    public bool ejectDiscNow = false;
+
     [Header("Position, rotation and scale settings")]
     public float angle = 88;
     public float selectGap = 2.6f;
     public float stackGap = 0.6f;
 
     public float scale = 1f;
+
+    [Header("Eject settings")]
+    public float ejectSpeed = 3f;
+    public float ejectAngle = 0f;
+    public bool randomEjectAngle = true;
+    public float randomEjectRange = 45f;
 
     [Header("Fix position settings (Disable: fixPositionDelay = -1)")]
     public float fixPositionDelay = .7f;
@@ -43,6 +54,8 @@ public class CoverFlow : MonoBehaviour
         SetScale();
 
         FixPositionAfterTime();
+
+
     }
 
     private void BooleanButtons()
@@ -61,6 +74,11 @@ public class CoverFlow : MonoBehaviour
         {
             roundPosition = false;
             CFPosition = Mathf.Round(CFPosition);
+        }
+        if (ejectDiscNow)
+        {
+            EjectDisc();
+            ejectDiscNow = false;
         }
     }
 
@@ -165,6 +183,40 @@ public class CoverFlow : MonoBehaviour
     float Rangem1to1Range0to1(float f)
     {
         return (f + 1) / 2;
+    }
+
+    private void EjectDisc()
+    {
+        if (disc == null)
+        {
+            Debug.Log("Disc prefab was not found");
+            return;
+        }
+
+        if (disc.GetComponent<DragAndClick>() == null)
+        {
+            Debug.Log("Disc did not contain DragAndClick");
+            return;
+        }
+
+        GameObject newDisc = Instantiate(disc);
+
+        newDisc.transform.position = transform.position;
+        
+        DragAndClick discDAC = newDisc.GetComponent<DragAndClick>();
+
+        float currentEjectAngle;
+
+        if (!randomEjectAngle)
+            currentEjectAngle = ejectAngle;
+        else
+            currentEjectAngle = Mathf.Lerp(-randomEjectRange, randomEjectRange, Random.value);
+
+        Quaternion q = Quaternion.AngleAxis(currentEjectAngle, Vector3.forward);
+
+        discDAC.rid.AddForce(q * Vector3.up * ejectSpeed, ForceMode2D.Impulse);
+
+        Debug.Log($"Vec vel: {discDAC.rid.velocity}, float vel: {discDAC.rid.velocity.magnitude}");
     }
 
     private void OnDrawGizmos()

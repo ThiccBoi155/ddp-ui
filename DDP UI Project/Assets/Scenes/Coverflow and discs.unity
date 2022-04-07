@@ -2230,14 +2230,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cam: {fileID: 1059207972}
+  disc: {fileID: 2855458033268161971, guid: 57ab81409c671b0488eae5e10208104e, type: 3}
   CFPosition: 7
   jumpRight: 0
   jumpLeft: 0
   roundPosition: 0
+  ejectDiscNow: 0
   angle: 59.92
   selectGap: 3.43
   stackGap: 0.6
   scale: 0.67
+  ejectSpeed: 5
+  ejectAngle: 0
+  randomEjectAngle: 1
+  randomEjectRange: 25
   fixPositionDelay: 0.7
   fixPositionLerpVal: 0.1
   roundWithinRangeVal: 0.01
