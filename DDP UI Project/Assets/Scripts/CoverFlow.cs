@@ -4,21 +4,35 @@ using UnityEngine;
 
 public class CoverFlow : MonoBehaviour
 {
-    public float position;
+    [Header("References")]
+    public Camera cam;
 
-    public float angle = 88;
-    public float selectGap = 2.6f;
-    public float stackGap = 0.6f;
+    [Header("Temporary input")]
+    public float CFPosition;
 
     public bool jumpRight = false;
     public bool jumpLeft = false;
     public bool roundPosition = false;
+
+    [Header("Settings")]
+    public float angle = 88;
+    public float selectGap = 2.6f;
+    public float stackGap = 0.6f;
+
+    public bool lookAtCamera = true;
+
+    private void Awake()
+    {
+        cam = Camera.main;
+    }
 
     private void Update()
     {
         BooleanButtons();
 
         UpdatePositions();
+
+        LookAtCamera();
     }
 
     private void BooleanButtons()
@@ -26,17 +40,17 @@ public class CoverFlow : MonoBehaviour
         if (jumpRight)
         {
             jumpRight = false;
-            position++;
+            CFPosition++;
         }
         if (jumpLeft)
         {
             jumpLeft = false;
-            position--;
+            CFPosition--;
         }
         if (roundPosition)
         {
             roundPosition = false;
-            position = Mathf.Round(position);
+            CFPosition = Mathf.Round(CFPosition);
         }
     }
 
@@ -45,13 +59,23 @@ public class CoverFlow : MonoBehaviour
         float i = 0;
         foreach (Transform cover in transform)
         {
-            float coverPos = i - position;
+            float coverPos = i - CFPosition;
 
+            //*
             Quaternion qm1 = Quaternion.Euler(90, -90, 90 + angle);
             Quaternion q0 = Quaternion.Euler(90, -90, 90);
             Quaternion q1 = Quaternion.Euler(90, -90, 90 - angle);
+            /*/
+
+            Quaternion q0 = Quaternion.Euler(90, -90, 90);
+
+            Quaternion qm1 = q0 + Quaternion.AngleAxis(angle, Vector3.up);
             
-            cover.rotation = Quaternion.Lerp(qm1, q1, Rangem1to1Range0to1(coverPos));
+            Quaternion q1 = q0; //Quaternion.AngleAxis(-angle, Vector3.up);
+
+            //*/
+
+            cover.localRotation = Quaternion.Lerp(qm1, q1, Rangem1to1Range0to1(coverPos));
 
             float newX;
 
@@ -73,6 +97,12 @@ public class CoverFlow : MonoBehaviour
 
             i++;
         }
+    }
+
+    private void LookAtCamera()
+    {
+        //transform.LookAt(cam.transform.position);
+        //transform.localRotation = Quaternion.AngleAxis(180f, Vector3.up);
     }
 
     // Range(-1 to 1) to range(0 to 1)

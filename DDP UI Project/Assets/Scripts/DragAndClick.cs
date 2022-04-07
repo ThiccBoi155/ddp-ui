@@ -38,19 +38,33 @@ public class DragAndClick : MonoBehaviour
     // OnMouse //
     /////////////
 
+    // This function works under the assumption that the camera has no rotation, and all interactable objects are at z = 0
+    Vector3 MouseToWorldPoint(Vector3 mousePos)
+    {
+        mousePos.z = -cam.transform.position.z;
+
+        return cam.ScreenToWorldPoint(mousePos);
+    }
+
     private void OnMouseDown()
     {
-        OnMTouchDown(cam.ScreenToWorldPoint(Input.mousePosition));
+        OnMTouchDown(MouseToWorldPoint(Input.mousePosition));
+
+        //Debug.Log($"Down - Screen: {Input.mousePosition}, World: {cam.ScreenToWorldPoint(Input.mousePosition)}");
     }
 
     private void OnMouseDrag()
     {
-        OnMTouchDrag(cam.ScreenToWorldPoint(Input.mousePosition));
+        OnMTouchDrag(MouseToWorldPoint(Input.mousePosition));
+
+        //Debug.Log($"Drag - Screen: {Input.mousePosition}, World: {cam.ScreenToWorldPoint(Input.mousePosition)}");
     }
 
     private void OnMouseUp()
     {
-        OnMTouchUp(cam.ScreenToWorldPoint(Input.mousePosition));
+        OnMTouchUp(MouseToWorldPoint(Input.mousePosition));
+
+        //Debug.Log($"Up - Screen: {Input.mousePosition}, World: {cam.ScreenToWorldPoint(Input.mousePosition)}");
     }
 
     ///////////////////////////////////////
