@@ -10,13 +10,16 @@ public class BorderCollider : MonoBehaviour
     public Camera cam;
     public EdgeCollider2D col;
     public EdgeCollider2D trigger;
+    public CoverFlow cf;
 
-    [Header("Settings")]
-    public bool attachToCam;
-    public bool constantAttachToCam;
-
+    [Header("Value settings")]
     public Vector2 buttomLeft;
     public Vector2 topRight;
+
+    [Header("Set settings")]
+    public bool attachToCam;
+    public bool constantAttachToCam;
+    public bool attachButtomToPanel;
 
     private void Awake()
     {
@@ -27,6 +30,7 @@ public class BorderCollider : MonoBehaviour
     {
         SetBorderColliderToCameraBorder();
         SetEdgeCollider();
+        SetButtomToPanel();
     }
 
     void SetReferences()
@@ -90,6 +94,15 @@ public class BorderCollider : MonoBehaviour
         }
     }
 
+    void SetButtomToPanel()
+    {
+        if (attachButtomToPanel)
+        {
+            attachButtomToPanel = false;
+            buttomLeft.y = cf.GetTopOfThePanel().y;
+        }
+    }
+
     private void OnTriggerExit2D(Collider2D collision)
     {
         Physics2D.IgnoreCollision(col, collision, false);
@@ -100,5 +113,6 @@ public class BorderCollider : MonoBehaviour
         SetReferences();
         SetBorderColliderToCameraBorder();
         SetEdgeCollider();
+        SetButtomToPanel();
     }
 }

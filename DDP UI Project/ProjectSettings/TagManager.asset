@@ -47,3 +47,9 @@ TagManager:
   - name: Disc image
     uniqueID: 1521865175
     locked: 0
+  - name: temp1
+    uniqueID: 892919179
+    locked: 0
+  - name: temp2
+    uniqueID: 3898369111
+    locked: 0

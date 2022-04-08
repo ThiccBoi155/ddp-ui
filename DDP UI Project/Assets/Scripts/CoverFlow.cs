@@ -27,11 +27,16 @@ public class CoverFlow : MonoBehaviour
 
     public float scale = 1f; // .67
 
-    [Header("Eject settings")]
+    [Header("Eject speed settings")]
     public float ejectSpeed = 5f;
+    [Header("Eject angle settings")]
     public float ejectAngle = 0f;
     public bool randomEjectAngle = true;
-    public float randomEjectRange = 25f;
+    public float randomEjectAngleRange = 25f;
+    [Header("Eject torque settings")]
+    public float ejectTorque = 0f;
+    public bool randomEjectTorque = true;
+    public float randomEjectTorqueRange = .5f;
 
     [Header("Fix position settings (Disable: fixPositionDelay = -1)")]
     public float fixPositionDelay = .5f;
@@ -202,7 +207,14 @@ public class CoverFlow : MonoBehaviour
 
         GameObject newDisc = Instantiate(disc);
 
-        newDisc.transform.position = (Vector2)transform.position;
+        //newDisc.transform.position = (Vector2)transform.position;
+        //newDisc.transform.position = (Vector2)(GetTopOfThePanel() - newDisc.transform.lossyScale / 2);
+
+        float newPosY = GetTopOfThePanel().y - newDisc.transform.lossyScale.y / 2 + ejectSpeed * Time.fixedDeltaTime;
+
+        Vector2 newPos = new Vector3(transform.position.x, newPosY);
+
+        newDisc.transform.position = newPos;
 
         DragAndClick discDAC = newDisc.GetComponent<DragAndClick>();
 
@@ -211,11 +223,20 @@ public class CoverFlow : MonoBehaviour
         if (!randomEjectAngle)
             currentEjectAngle = ejectAngle;
         else
-            currentEjectAngle = Mathf.Lerp(-randomEjectRange, randomEjectRange, Random.value);
+            currentEjectAngle = Mathf.Lerp(-randomEjectAngleRange, randomEjectAngleRange, Random.value);
 
         Quaternion q = Quaternion.AngleAxis(currentEjectAngle, Vector3.forward);
 
         discDAC.rid.AddForce(q * Vector3.up * ejectSpeed, ForceMode2D.Impulse);
+
+        float currentEjectTorque;
+
+        if (!randomEjectTorque)
+            currentEjectTorque = ejectTorque;
+        else
+            currentEjectTorque = Mathf.Lerp(-randomEjectTorqueRange, randomEjectTorqueRange, Random.value);
+
+        discDAC.rid.AddTorque(currentEjectTorque, ForceMode2D.Impulse);
 
         Physics2D.IgnoreCollision(bc.col, discDAC.col);
 
@@ -265,6 +286,21 @@ public class CoverFlow : MonoBehaviour
         Gizmos.DrawSphere(projectPointToXYPlane(cam, upRightCorner), .1f);
         Gizmos.DrawSphere(projectPointToXYPlane(cam, upLeftCorner), .1f);
         Gizmos.DrawSphere(projectPointToXYPlane(cam, upMiddle), .1f);
+    }
+
+    public Vector3 GetTopOfThePanel()
+    {
+        Transform panel1 = transform;
+
+        foreach (Transform cover in transform)
+        {
+            panel1 = cover;
+            break;
+        }
+
+        Vector3 upMiddle = transform.position + Vector3.up * panel1.lossyScale.x * 5;
+
+        return projectPointToXYPlane(cam, upMiddle);
     }
 
     // Creates ray from _cam to point and finds the intersection with the xy-plane (z = 0)
