@@ -41,3 +41,9 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Disc
+    uniqueID: 4059355511
+    locked: 0
+  - name: Disc image
+    uniqueID: 1521865175
+    locked: 0

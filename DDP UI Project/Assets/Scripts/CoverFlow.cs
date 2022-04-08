@@ -229,5 +229,67 @@ public class CoverFlow : MonoBehaviour
         UpdatePositions();
 
         SetScale();
+
+        DrawProjectedPanelPoints();
+    }
+
+    void DrawProjectedPanelPoints()
+    {
+        Transform panel1 = transform;
+
+        foreach (Transform cover in transform)
+        {
+            panel1 = cover;
+            break;
+        }
+
+        // fix this shit
+
+        Gizmos.color = Color.green;
+
+        Gizmos.DrawSphere(panel1.position, .1f);
+
+        Vector3 upRight = Vector3.up + Vector3.right;
+        Vector3 upLeft = Vector3.up + Vector3.left;
+
+        Vector3 upRightCorner = transform.position + upRight * panel1.lossyScale.x * 5;
+        Vector3 upLeftCorner = transform.position + upLeft * panel1.lossyScale.x * 5;
+        Vector3 upMiddle = transform.position + Vector3.up * panel1.lossyScale.x * 5;
+
+        Gizmos.DrawSphere(upRightCorner, .1f);
+        Gizmos.DrawSphere(upLeftCorner, .1f);
+        Gizmos.DrawSphere(upMiddle, .1f);
+
+        Gizmos.color = Color.blue;
+
+        Gizmos.DrawSphere(projectPointToXYPlane(cam, upRightCorner), .1f);
+        Gizmos.DrawSphere(projectPointToXYPlane(cam, upLeftCorner), .1f);
+        Gizmos.DrawSphere(projectPointToXYPlane(cam, upMiddle), .1f);
+    }
+
+    // Creates ray from _cam to point and finds the intersection with the xy-plane (z = 0)
+    Vector3 projectPointToXYPlane(Camera _cam, Vector3 point)
+    {
+        // If point is in front of the plane.
+        Ray camToPointRay = new Ray(point, point - _cam.transform.position);
+
+        // If point is behind the plane. (This one might be unnecesarry.)
+        Ray pointToCamRay = new Ray(point, _cam.transform.position - point);
+        
+        Plane xyPlane = new Plane(Vector3.forward, Vector3.zero);
+
+        float distance = 0;
+
+        if (xyPlane.Raycast(camToPointRay, out distance))
+
+            return camToPointRay.GetPoint(distance);
+
+        else if (xyPlane.Raycast(pointToCamRay, out distance))
+
+            return pointToCamRay.GetPoint(distance);
+
+        else
+
+            return -Vector3.one;
     }
 }
