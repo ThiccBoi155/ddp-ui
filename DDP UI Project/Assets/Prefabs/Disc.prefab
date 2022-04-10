@@ -577,6 +577,7 @@ MonoBehaviour:
   rid: {fileID: 8611517344786495406}
   col: {fileID: 0}
   logMessage: Button A
+  smallForceIndex: 0.005
   maxClickDistance: 0.1
   maxClickDelay: 0.5
   delayBeforeDrag: 0.1

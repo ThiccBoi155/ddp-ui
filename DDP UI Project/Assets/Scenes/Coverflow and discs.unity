@@ -2293,6 +2293,7 @@ MonoBehaviour:
   fixPositionLerpVal: 0.1
   roundWithinRangeVal: 0.01
   lookAtCamera: 1
+  discList: []
 --- !u!4 &1721329801
 Transform:
   m_ObjectHideFlags: 0

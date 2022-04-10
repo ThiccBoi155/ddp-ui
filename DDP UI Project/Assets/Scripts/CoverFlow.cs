@@ -46,9 +46,15 @@ public class CoverFlow : MonoBehaviour
     [Header("Other settings")]
     public bool lookAtCamera = true;
 
+    [Header("Private fields (Don't edit this)")]
+    [SerializeField]
+    private List<DragAndClick> discList;
+
     private void Awake()
     {
         cam = Camera.main;
+
+        discList = new List<DragAndClick>();
     }
 
     private void Update()
@@ -60,8 +66,6 @@ public class CoverFlow : MonoBehaviour
         SetScale();
 
         FixPositionAfterTime();
-
-
     }
 
     private void BooleanButtons()
@@ -193,6 +197,8 @@ public class CoverFlow : MonoBehaviour
 
     private void EjectDisc()
     {
+        // Error check
+
         if (disc == null)
         {
             Debug.Log("Disc prefab was not found");
@@ -205,10 +211,17 @@ public class CoverFlow : MonoBehaviour
             return;
         }
 
+        // Instantiation and setup
+
         GameObject newDisc = Instantiate(disc);
 
-        //newDisc.transform.position = (Vector2)transform.position;
-        //newDisc.transform.position = (Vector2)(GetTopOfThePanel() - newDisc.transform.lossyScale / 2);
+        DragAndClick discDAC = newDisc.GetComponent<DragAndClick>();
+
+        discList.Add(discDAC);
+
+        discDAC.cf = this;
+
+        // Spawn position
 
         float newPosY = GetTopOfThePanel().y - newDisc.transform.lossyScale.y / 2 + ejectSpeed * Time.fixedDeltaTime;
 
@@ -216,7 +229,7 @@ public class CoverFlow : MonoBehaviour
 
         newDisc.transform.position = newPos;
 
-        DragAndClick discDAC = newDisc.GetComponent<DragAndClick>();
+        // Rigid body related
 
         float currentEjectAngle;
 
@@ -240,7 +253,13 @@ public class CoverFlow : MonoBehaviour
 
         Physics2D.IgnoreCollision(bc.col, discDAC.col);
 
-        Debug.Log($"Vec vel: {discDAC.rid.velocity}, float vel: {discDAC.rid.velocity.magnitude}");
+        // Other disc values
+        
+    }
+
+    public void RemoveDiscFromList(DragAndClick dac)
+    {
+        discList.Remove(dac);
     }
 
     private void OnDrawGizmos()
@@ -327,5 +346,16 @@ public class CoverFlow : MonoBehaviour
         else
 
             return -Vector3.one;
+    }
+
+    // I don't know if this works
+    Transform GetCurrentPanel()
+    {
+        int currentIndex = Mathf.RoundToInt(CFPosition);
+
+        if (0 < currentIndex && currentIndex < transform.childCount)
+            return GetComponentsInChildren<Transform>()[currentIndex];
+        else
+            return null;
     }
 }

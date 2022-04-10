@@ -9,8 +9,12 @@ public class DragAndClick : MonoBehaviour
     public Rigidbody2D rid;
     [HideInInspector]
     public Collider2D col;
+    [HideInInspector]
+    public CoverFlow cf;
 
     public string logMessage = "Default message";
+
+    public float smallForceIndex = 0f;
 
     private void Awake()
     {
@@ -41,6 +45,8 @@ public class DragAndClick : MonoBehaviour
 
     private void FixedUpdate()
     {
+        SmallConstantForce();
+
         if (followTarget && rid != null)
         {
             // This is the distance to the target. Also represented in units / second
@@ -50,6 +56,13 @@ public class DragAndClick : MonoBehaviour
             
             rid.AddForce(newVelocity - rid.velocity, ForceMode2D.Impulse);
         }
+    }
+
+    void SmallConstantForce()
+    {
+        Vector2 smallForce = -transform.position * smallForceIndex;
+
+        rid.AddForce(smallForce, ForceMode2D.Force);
     }
 
     /////////////
@@ -160,4 +173,14 @@ public class DragAndClick : MonoBehaviour
         Gizmos.DrawSphere((Vector2)transform.position + offset, .1f);
     }
     //*/
+
+    ///////////
+    // Other //
+    ///////////
+    
+    private void OnDestroy()
+    {
+        if (cf != null)
+            cf.RemoveDiscFromList(this);
+    }
 }
