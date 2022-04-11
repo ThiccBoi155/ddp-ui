@@ -70,9 +70,7 @@ public class DragAndClick : MonoBehaviour
     // This function works under the assumption that the camera has no rotation, and all interactable objects are at z = 0
     Vector3 MouseToWorldPoint(Vector3 mousePos)
     {
-        mousePos.z = -cam.transform.position.z;
-
-        return cam.ScreenToWorldPoint(mousePos);
+        return Funcs.MouseToWorldPoint(mousePos, cam);
     }
 
     private void OnMouseDown()

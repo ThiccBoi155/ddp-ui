@@ -4,6 +4,14 @@ using UnityEngine;
 
 public static class Funcs
 {
+    // This function works under the assumption that the camera has no rotation, and all interactable objects are at z = 0
+    public static Vector3 MouseToWorldPoint(Vector3 mousePos, Camera _cam)
+    {
+        mousePos.z = _cam.transform.position.z * -1f;
+
+        return _cam.ScreenToWorldPoint(mousePos);
+    }
+
     // Creates ray from _cam to point and finds the intersection with the xy-plane (z = 0)
     public static Vector3 projectPointToXYPlane(Camera _cam, Vector3 point)
     {
