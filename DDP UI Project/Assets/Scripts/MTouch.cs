@@ -2,16 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// Needs to be renaming for MTouch and MMTouch
 public class MTouch : MonoBehaviour
 {
     Camera cam;
 
-    int mouseIndex = -1;
-
-    // This might not be needed outside of gizmos
-    public List<Vector2> startMTouches = new List<Vector2>();
-
-    public List<Vector2> mTouches = new List<Vector2>();
+    public List<MMTouch> mMTouches = new List<MMTouch>();
 
     private void Awake()
     {
@@ -29,23 +25,18 @@ public class MTouch : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            startMTouches.Add(Input.mousePosition);
-            mTouches.Add(new Vector2());
-
-            mouseIndex = mTouches.Count - 1;
+            mMTouches.Add(new MMTouch(Input.mousePosition, -1));
         }
 
         if (Input.GetMouseButton(0))
         {
-            mTouches[mouseIndex] = Input.mousePosition;
+            mMTouches.Find(mm => mm.fingerId == -1).pos = Input.mousePosition;
         }
 
         if (Input.GetMouseButtonUp(0))
         {
-            startMTouches.RemoveAt(mouseIndex);
-            mTouches.RemoveAt(mouseIndex);
-
-            mouseIndex = -1;
+            MMTouch m = mMTouches.Find(mm => mm.fingerId == -1);
+            mMTouches.Remove(m);
         }
     }
 
@@ -53,48 +44,29 @@ public class MTouch : MonoBehaviour
     private void DetectTouchInput()
     {
         int i = 0;
-        foreach (Touch t in Input.touches)
+        foreach (Touch touch in Input.touches)
         {
-            Vector2 temp = t.position;
-
-            Debug.Log($"{i}: {t.phase}");
-
-            //if (t.phase == TouchPhase.Began) ;
-
-            //*/
-            switch (t.phase)
+            Debug.Log($"{i}: {touch.phase}");
+            
+            // Do better naming
+            switch (touch.phase)
             {
                 case TouchPhase.Began:
-                    startMTouches.Add(t.position);
-                    mTouches.Add(t.position);
+                    mMTouches.Add(new MMTouch(touch.position, touch.fingerId));
                     break;
                 case TouchPhase.Stationary:
                 case TouchPhase.Moved:
-                    mTouches[i] = t.position;
+                    mMTouches.Find(mm => mm.fingerId == touch.fingerId).pos = touch.position;
                     break;
                 case TouchPhase.Ended:
                 case TouchPhase.Canceled:
-                    startMTouches.RemoveAt(i);
-                    mTouches.RemoveAt(i);
+                    MMTouch m = mMTouches.Find(mm => mm.fingerId == touch.fingerId);
+                    mMTouches.Remove(m);
                     break;
             }
-            //*/
 
             i++;
         }
-    }
-
-    void deletelater()
-    {
-        // touch down, drag, up?
-
-        /*/
-        for (int i = 0; i < Input.touchCount; i++)
-        {
-            //Vector2 temp = Input.touches[i].position;
-            Vector2 temp = Input.GetTouch(i).position;
-        }
-        //*/
     }
 
     private void OnDrawGizmos()
@@ -102,10 +74,10 @@ public class MTouch : MonoBehaviour
         Gizmos.color = Color.red;
 
         int i = 0;
-        foreach (Vector2 mt in mTouches)
+        foreach (MMTouch mm in mMTouches)
         {
-            Vector2 startMTWorld = Funcs.MouseToWorldPoint(mt, cam);
-            Vector2 mtWorld = Funcs.MouseToWorldPoint(startMTouches[i], cam);
+            Vector2 startMTWorld = Funcs.MouseToWorldPoint(mm.startPos, cam);
+            Vector2 mtWorld = Funcs.MouseToWorldPoint(mm.pos, cam);
 
             Gizmos.DrawSphere(mtWorld, .15f);
 
@@ -113,5 +85,25 @@ public class MTouch : MonoBehaviour
 
             i++;
         }
+    }
+}
+
+public class MMTouch
+{
+    public Vector2 startPos;
+    public Vector2 pos;
+    public int fingerId;
+
+    public MMTouch(Vector2 _startPos, Vector2 _pos, int _fingerId)
+    {
+        startPos = _startPos;
+        pos = _pos;
+        fingerId = _fingerId;
+    }
+
+    public MMTouch(Vector2 _samePos, int _fingerId)
+    {
+        startPos = pos = _samePos;
+        fingerId = _fingerId;
     }
 }
