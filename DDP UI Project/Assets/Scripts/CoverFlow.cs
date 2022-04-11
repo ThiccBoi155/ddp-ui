@@ -43,9 +43,6 @@ public class CoverFlow : MonoBehaviour
     public float fixPositionLerpVal = .1f;
     public float roundWithinRangeVal = .01f;
 
-    [Header("Other settings")]
-    public bool lookAtCamera = true;
-
     [Header("Private fields (Don't edit this)")]
     [SerializeField]
     private List<DragAndClick> discList;
@@ -149,7 +146,7 @@ public class CoverFlow : MonoBehaviour
     {
         if (fixPositionDelay != -1)
         {
-            if (!IsInteger(CFPosition) && CFPosition == lastCFPos)
+            if (!Funcs.IsInteger(CFPosition) && CFPosition == lastCFPos)
             {
                 notIntegerPosTime += Time.deltaTime;
             }
@@ -170,11 +167,6 @@ public class CoverFlow : MonoBehaviour
                 lastCFPos = CFPosition;
             }
         }
-    }
-
-    private bool IsInteger(float f)
-    {
-        return f % 1f == 0;
     }
 
     private float RoundWithinRange(float f, float roundRange)
@@ -302,9 +294,9 @@ public class CoverFlow : MonoBehaviour
 
         Gizmos.color = Color.blue;
 
-        Gizmos.DrawSphere(projectPointToXYPlane(cam, upRightCorner), .1f);
-        Gizmos.DrawSphere(projectPointToXYPlane(cam, upLeftCorner), .1f);
-        Gizmos.DrawSphere(projectPointToXYPlane(cam, upMiddle), .1f);
+        Gizmos.DrawSphere(Funcs.projectPointToXYPlane(cam, upRightCorner), .1f);
+        Gizmos.DrawSphere(Funcs.projectPointToXYPlane(cam, upLeftCorner), .1f);
+        Gizmos.DrawSphere(Funcs.projectPointToXYPlane(cam, upMiddle), .1f);
     }
 
     public Vector3 GetTopOfThePanel()
@@ -319,33 +311,7 @@ public class CoverFlow : MonoBehaviour
 
         Vector3 upMiddle = transform.position + Vector3.up * panel1.lossyScale.x * 5;
 
-        return projectPointToXYPlane(cam, upMiddle);
-    }
-
-    // Creates ray from _cam to point and finds the intersection with the xy-plane (z = 0)
-    Vector3 projectPointToXYPlane(Camera _cam, Vector3 point)
-    {
-        // If point is in front of the plane.
-        Ray camToPointRay = new Ray(point, point - _cam.transform.position);
-
-        // If point is behind the plane. (This one might be unnecesarry.)
-        Ray pointToCamRay = new Ray(point, _cam.transform.position - point);
-        
-        Plane xyPlane = new Plane(Vector3.forward, Vector3.zero);
-
-        float distance = 0;
-
-        if (xyPlane.Raycast(camToPointRay, out distance))
-
-            return camToPointRay.GetPoint(distance);
-
-        else if (xyPlane.Raycast(pointToCamRay, out distance))
-
-            return pointToCamRay.GetPoint(distance);
-
-        else
-
-            return -Vector3.one;
+        return Funcs.projectPointToXYPlane(cam, upMiddle);
     }
 
     // I don't know if this works
