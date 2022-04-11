@@ -9,8 +9,6 @@ public class DragAndClick : MonoBehaviour
     public Rigidbody2D rid;
     [HideInInspector]
     public Collider2D col;
-    [HideInInspector]
-    public CoverFlow cf;
 
     public string logMessage = "Default message";
 
@@ -151,7 +149,7 @@ public class DragAndClick : MonoBehaviour
         followTarget = true;
     }
 
-    private void ClickAction()
+    protected virtual void ClickAction()
     {
         Debug.Log(logMessage);
     }
@@ -178,9 +176,4 @@ public class DragAndClick : MonoBehaviour
     // Other //
     ///////////
     
-    private void OnDestroy()
-    {
-        if (cf != null)
-            cf.RemoveDiscFromList(this);
-    }
 }

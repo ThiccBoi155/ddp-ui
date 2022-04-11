@@ -9,7 +9,7 @@ public class CoverFlow : MonoBehaviour
     public BorderCollider bc;
 
     [Header("Prefabs")]
-    public GameObject disc;
+    public GameObject discObj;
 
     [Header("Temporary input")]
     public float CFPosition;
@@ -45,13 +45,13 @@ public class CoverFlow : MonoBehaviour
 
     [Header("Private fields (Don't edit this)")]
     [SerializeField]
-    private List<DragAndClick> discList;
+    private List<Disc> discList;
 
     private void Awake()
     {
         cam = Camera.main;
 
-        discList = new List<DragAndClick>();
+        discList = new List<Disc>();
     }
 
     private void Update()
@@ -191,13 +191,13 @@ public class CoverFlow : MonoBehaviour
     {
         // Error check
 
-        if (disc == null)
+        if (discObj == null)
         {
             Debug.Log("Disc prefab was not found");
             return;
         }
 
-        if (disc.GetComponent<DragAndClick>() == null)
+        if (discObj.GetComponent<DragAndClick>() == null)
         {
             Debug.Log("Disc did not contain DragAndClick");
             return;
@@ -205,13 +205,13 @@ public class CoverFlow : MonoBehaviour
 
         // Instantiation and setup
 
-        GameObject newDisc = Instantiate(disc);
+        GameObject newDisc = Instantiate(discObj);
 
-        DragAndClick discDAC = newDisc.GetComponent<DragAndClick>();
+        Disc disc = newDisc.GetComponent<Disc>();
 
-        discList.Add(discDAC);
+        discList.Add(disc);
 
-        discDAC.cf = this;
+        disc.cf = this;
 
         // Spawn position
 
@@ -232,7 +232,7 @@ public class CoverFlow : MonoBehaviour
 
         Quaternion q = Quaternion.AngleAxis(currentEjectAngle, Vector3.forward);
 
-        discDAC.rid.AddForce(q * Vector3.up * ejectSpeed, ForceMode2D.Impulse);
+        disc.rid.AddForce(q * Vector3.up * ejectSpeed, ForceMode2D.Impulse);
 
         float currentEjectTorque;
 
@@ -241,15 +241,32 @@ public class CoverFlow : MonoBehaviour
         else
             currentEjectTorque = Mathf.Lerp(-randomEjectTorqueRange, randomEjectTorqueRange, Random.value);
 
-        discDAC.rid.AddTorque(currentEjectTorque, ForceMode2D.Impulse);
+        disc.rid.AddTorque(currentEjectTorque, ForceMode2D.Impulse);
 
-        Physics2D.IgnoreCollision(bc.col, discDAC.col);
+        Physics2D.IgnoreCollision(bc.col, disc.col);
 
         // Other disc values
-        
+
+        /*
+        int i = 0;
+        foreach (Transform t in GetComponentsInChildren<Transform>())
+        {
+            Debug.Log($"{t.name} - {i}");
+
+            i++;
+        }
+
+        Debug.Log(GetCurrentPanel().name);
+        */
+        Cover c = GetCurrentCover();
+
+        if (c == null)
+            Debug.Log("hmm");
+
+        disc.SetCoverArt(c.GetDiscSprite());
     }
 
-    public void RemoveDiscFromList(DragAndClick dac)
+    public void RemoveDiscFromList(Disc dac)
     {
         discList.Remove(dac);
     }
@@ -319,9 +336,46 @@ public class CoverFlow : MonoBehaviour
     {
         int currentIndex = Mathf.RoundToInt(CFPosition);
 
-        if (0 < currentIndex && currentIndex < transform.childCount)
+        if (0 <= currentIndex && currentIndex < transform.childCount)
             return GetComponentsInChildren<Transform>()[currentIndex];
         else
+        {
+            Debug.Log("Index out of range");
+
             return null;
+        }
+    }
+
+    Cover GetCurrentCover()
+    {
+        int currentIndex = Mathf.RoundToInt(CFPosition);
+
+        if (0 <= currentIndex && currentIndex < transform.childCount)
+        {
+            // (Index 0 is the transform of this)
+            Transform t = GetComponentsInChildren<Transform>()[currentIndex + 1];
+
+            if (t == null)
+            {
+                Debug.Log("Cound not find child");
+                return null;
+            }
+
+            Cover c = t.GetComponent<Cover>();
+
+            if (c == null)
+            {
+                Debug.Log("Cound not find Cover component");
+                return null;
+            }
+
+            return c;
+        }
+        else
+        {
+            Debug.Log($"Index out of range. (Index: {currentIndex})");
+
+            return null;
+        }
     }
 }

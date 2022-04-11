@@ -434,7 +434,7 @@ GameObject:
   - component: {fileID: 8611517344786495393}
   - component: {fileID: 8611517344786495406}
   - component: {fileID: 8611517344786495407}
-  - component: {fileID: 8611517344786495404}
+  - component: {fileID: 4355670550867991345}
   m_Layer: 0
   m_Name: Disc
   m_TagString: Untagged
@@ -562,7 +562,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gravityVector: {x: 0, y: 0}
---- !u!114 &8611517344786495404
+--- !u!114 &4355670550867991345
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -571,13 +571,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 8611517344786495405}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 519cec0d1654b5f46984a4c905e6f193, type: 3}
+  m_Script: {fileID: 11500000, guid: 9c86fce7e256f0f429193061803bc477, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rid: {fileID: 8611517344786495406}
+  rid: {fileID: 0}
   col: {fileID: 0}
-  logMessage: Button A
+  logMessage: Default message
   smallForceIndex: 0.005
   maxClickDistance: 0.1
   maxClickDelay: 0.5
   delayBeforeDrag: 0.1
+  coverArt: {fileID: 8361143694403929406}
+  cf: {fileID: 0}
