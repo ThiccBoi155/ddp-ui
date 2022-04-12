@@ -7,8 +7,11 @@ public class MTouchController : MonoBehaviour
 {
     Camera cam;
 
-    public List<MTouch> mMTouches = new List<MTouch>();
+    [Header("When multiTouch is true, the mouse doesn't work")]
+    public bool multiTouch = true;
     public Dictionary<int, MTouch> mTouches = new Dictionary<int, MTouch>();
+
+    private bool previousMultiTouch = true;
 
     private void Awake()
     {
@@ -17,9 +20,12 @@ public class MTouchController : MonoBehaviour
 
     private void Update()
     {
-        //DetectMouseInput();
+        UpdateMultiTouchBool();
 
-        DetectTouchInput();
+        if (multiTouch)
+            DetectTouchInput();
+        else
+            DetectMouseInput();
     }
 
     private void DetectMouseInput()
@@ -31,7 +37,8 @@ public class MTouchController : MonoBehaviour
 
         if (Input.GetMouseButton(0))
         {
-            mTouches[-1].pos = Input.mousePosition;
+            if (mTouches.ContainsKey(-1))
+                mTouches[-1].pos = Input.mousePosition;
         }
 
         if (Input.GetMouseButtonUp(0))
@@ -46,18 +53,16 @@ public class MTouchController : MonoBehaviour
         int i = 0;
         foreach (Touch touch in Input.touches)
         {
-            //Debug.Log($"{i}: {touch.phase}");
-            
-            // Do better naming
             switch (touch.phase)
             {
                 case TouchPhase.Began:
-                    mTouches.Add(touch.fingerId, new MTouch(Input.mousePosition));
+                    mTouches.Add(touch.fingerId, new MTouch(touch.position));
                     break;
 
                 case TouchPhase.Stationary:
                 case TouchPhase.Moved:
-                    mTouches[touch.fingerId].pos = Input.mousePosition;
+                    if (mTouches.ContainsKey(touch.fingerId))
+                        mTouches[touch.fingerId].pos = touch.position;
                     break;
 
                 case TouchPhase.Ended:
@@ -67,6 +72,18 @@ public class MTouchController : MonoBehaviour
             }
 
             i++;
+        }
+    }
+
+    private void UpdateMultiTouchBool()
+    {
+        if (multiTouch != previousMultiTouch)
+        {
+            Debug.Log("Clear!");
+
+            mTouches.Clear();
+
+            previousMultiTouch = multiTouch;
         }
     }
 
@@ -83,8 +100,6 @@ public class MTouchController : MonoBehaviour
             Gizmos.DrawSphere(mtWorld, .15f);
 
             Gizmos.DrawLine(startMTWorld, mtWorld);
-
-            Debug.Log($"{kvp.Key}: {startMTWorld} --- {mtWorld}");
 
             i++;
         }
@@ -106,19 +121,42 @@ public class MTouch
     {
         startPos = pos = _samePos;
     }
+}
 
-    /*/
-    public MTouch(Vector2 _startPos, Vector2 _pos, int _fingerId)
+// Currently not in use. Might be useful eventually.
+public class MTouchDict : IEnumerable
+{
+    public Dictionary<int, MTouch> mTouches;
+
+    public MTouchDict()
     {
-        startPos = _startPos;
-        pos = _pos;
-        fingerId = _fingerId;
+        mTouches = new Dictionary<int, MTouch>();
     }
 
-    public MTouch(Vector2 _samePos, int _fingerId)
+    public void Add(Vector2 _samePos, int fingerId)
     {
-        startPos = pos = _samePos;
-        fingerId = _fingerId;
+        mTouches.Add(fingerId, new MTouch(_samePos));
     }
-    //*/
+
+    // Currently not in use
+    public void Add(Vector2 _startPos, Vector2 _pos, int fingerId)
+    {
+        mTouches.Add(fingerId, new MTouch(_startPos, _pos));
+    }
+
+    public void SetPos(Vector2 _pos, int fingerId)
+    {
+        if (mTouches.ContainsKey(fingerId))
+            mTouches[fingerId].pos = _pos;
+    }
+
+    public void Remove(int fingerId)
+    {
+        mTouches.Remove(fingerId);
+    }
+
+    public IEnumerator GetEnumerator()
+    {
+        return mTouches.GetEnumerator();
+    }
 }

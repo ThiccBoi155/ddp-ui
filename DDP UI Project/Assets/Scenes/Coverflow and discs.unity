@@ -275,7 +275,7 @@ GameObject:
   - component: {fileID: 51174266}
   - component: {fileID: 51174265}
   m_Layer: 0
-  m_Name: MTouch
+  m_Name: MTouch controller
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -293,6 +293,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b1123ffa6e86c04ca45316b87badf65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  multiTouch: 0
 --- !u!4 &51174266
 Transform:
   m_ObjectHideFlags: 0
