@@ -19,8 +19,11 @@ public class Disc : DragAndClick
         // Nothing
     }
 
-    private void OnDestroy()
+    // It still works without "new"-keyword, since the base function is also called
+    private new void OnDestroy()
     {
+        base.OnDestroy();
+
         if (cf != null)
             cf.RemoveDiscFromList(this);
     }

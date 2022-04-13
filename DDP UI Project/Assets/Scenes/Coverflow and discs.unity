@@ -293,7 +293,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b1123ffa6e86c04ca45316b87badf65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  multiTouch: 0
+  multiTouch: 1
 --- !u!4 &51174266
 Transform:
   m_ObjectHideFlags: 0
@@ -667,8 +667,8 @@ MonoBehaviour:
   col: {fileID: 317927052}
   trigger: {fileID: 317927054}
   cf: {fileID: 1721329800}
-  buttomLeft: {x: -2.8875642, y: -2.5816314}
-  topRight: {x: 2.8875642, y: 5.7734957}
+  buttomLeft: {x: -2.5993793, y: -2.581632}
+  topRight: {x: 2.5993793, y: 5.7734957}
   attachToCam: 0
   constantAttachToCam: 0
   attachButtomToPanel: 0
@@ -688,11 +688,11 @@ EdgeCollider2D:
   m_Offset: {x: 0, y: 0}
   m_EdgeRadius: 0
   m_Points:
-  - {x: -2.8875642, y: -2.5816314}
-  - {x: -2.8875642, y: 5.7734957}
-  - {x: 2.8875642, y: 5.7734957}
-  - {x: 2.8875642, y: -2.5816314}
-  - {x: -2.8875642, y: -2.5816314}
+  - {x: -2.5993793, y: -2.581632}
+  - {x: -2.5993793, y: 5.7734957}
+  - {x: 2.5993793, y: 5.7734957}
+  - {x: 2.5993793, y: -2.581632}
+  - {x: -2.5993793, y: -2.581632}
   m_AdjacentStartPoint: {x: 0, y: 0}
   m_AdjacentEndPoint: {x: 0, y: 0}
   m_UseAdjacentStartPoint: 0
@@ -728,11 +728,11 @@ EdgeCollider2D:
   m_Offset: {x: 0, y: 0}
   m_EdgeRadius: 0
   m_Points:
-  - {x: -2.8875642, y: -2.5816314}
-  - {x: -2.8875642, y: 5.7734957}
-  - {x: 2.8875642, y: 5.7734957}
-  - {x: 2.8875642, y: -2.5816314}
-  - {x: -2.8875642, y: -2.5816314}
+  - {x: -2.5993793, y: -2.581632}
+  - {x: -2.5993793, y: 5.7734957}
+  - {x: 2.5993793, y: 5.7734957}
+  - {x: 2.5993793, y: -2.581632}
+  - {x: -2.5993793, y: -2.581632}
   m_AdjacentStartPoint: {x: 0, y: 0}
   m_AdjacentEndPoint: {x: 0, y: 0}
   m_UseAdjacentStartPoint: 0

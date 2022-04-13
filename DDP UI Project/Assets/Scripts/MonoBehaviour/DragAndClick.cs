@@ -2,13 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DragAndClick : MonoBehaviour
+public class DragAndClick : MonoBehaviour, MTouchable
 {
     Camera cam;
     [HideInInspector]
     public Rigidbody2D rid;
     [HideInInspector]
     public Collider2D col;
+
+    public Collider2D MTouchCollider { get { return col; } }
+
+    public bool Grapped { get; set; } = false;
 
     public string logMessage = "Default message";
 
@@ -36,9 +40,16 @@ public class DragAndClick : MonoBehaviour
             if (rid == null)
                 Debug.Log($"\"{name}\" did not contain a collider");
 
+            AddThisToMTouchController();
+
             setupRan = true;
         }
 
+    }
+
+    public void AddThisToMTouchController()
+    {
+        MTouchController.AddToMTouchables(this);
     }
 
     private void FixedUpdate()
@@ -67,6 +78,8 @@ public class DragAndClick : MonoBehaviour
     // OnMouse //
     /////////////
 
+    /*/
+
     // This function works under the assumption that the camera has no rotation, and all interactable objects are at z = 0
     Vector3 MouseToWorldPoint(Vector3 mousePos)
     {
@@ -94,6 +107,8 @@ public class DragAndClick : MonoBehaviour
         //Debug.Log($"Up - Screen: {Input.mousePosition}, World: {cam.ScreenToWorldPoint(Input.mousePosition)}");
     }
 
+    //*/
+
     ///////////////////////////////////////
     // MTouch : Combined mouse and touch //
     ///////////////////////////////////////
@@ -112,7 +127,7 @@ public class DragAndClick : MonoBehaviour
     public float maxClickDelay = .5f;
     public float delayBeforeDrag = .1f;
 
-    private void OnMTouchDown(Vector2 pos)
+    public void OnMTouchDown(Vector2 pos)
     {
         offset = pos - (Vector2)transform.position;
 
@@ -120,7 +135,7 @@ public class DragAndClick : MonoBehaviour
         timeAtMTouchClick = Time.time;
     }
 
-    private void OnMTouchDrag(Vector2 pos)
+    public void OnMTouchDrag(Vector2 pos)
     {
         target = pos - offset;
 
@@ -128,9 +143,8 @@ public class DragAndClick : MonoBehaviour
             StartFollowTarget();
     }
 
-    private void OnMTouchUp(Vector2 pos)
+    public void OnMTouchUp(Vector2 pos)
     {
-
         if ((pos - startMTouchPos).magnitude <= maxClickDistance && Time.time - timeAtMTouchClick <= maxClickDelay)
             ClickAction();
 
@@ -173,5 +187,9 @@ public class DragAndClick : MonoBehaviour
     ///////////
     // Other //
     ///////////
-    
+
+    protected void OnDestroy()
+    {
+        MTouchController.RemoveFromMTouchables(this);
+    }
 }

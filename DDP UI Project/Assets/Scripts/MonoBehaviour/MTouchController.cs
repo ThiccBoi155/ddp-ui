@@ -5,6 +5,22 @@ using UnityEngine;
 // Needs to be renaming for MTouch and MMTouch
 public class MTouchController : MonoBehaviour
 {
+    private static List<MTouchable> mTouchables = new List<MTouchable>();
+
+    public static void AddToMTouchables(MTouchable mt)
+    {
+        if (mTouchables == null)
+            mTouchables = new List<MTouchable>();
+
+        mTouchables.Add(mt);
+    }
+
+    public static void RemoveFromMTouchables(MTouchable mt)
+    {
+        if (mTouchables != null)
+            mTouchables.Remove(mt);
+    }
+
     Camera cam;
 
     [Header("When multiTouch is true, the mouse doesn't work")]
@@ -32,18 +48,17 @@ public class MTouchController : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            mTouches.Add(-1, new MTouch(Input.mousePosition));
+            MTouchDown(Input.mousePosition, -1);
         }
 
         if (Input.GetMouseButton(0))
         {
-            if (mTouches.ContainsKey(-1))
-                mTouches[-1].pos = Input.mousePosition;
+            MTouchDrag(Input.mousePosition, -1);
         }
 
         if (Input.GetMouseButtonUp(0))
         {
-            mTouches.Remove(-1);
+            MTouchUp(-1);
         }
     }
 
@@ -56,18 +71,17 @@ public class MTouchController : MonoBehaviour
             switch (touch.phase)
             {
                 case TouchPhase.Began:
-                    mTouches.Add(touch.fingerId, new MTouch(touch.position));
+                    MTouchDown(touch.position, touch.fingerId);
                     break;
 
                 case TouchPhase.Stationary:
                 case TouchPhase.Moved:
-                    if (mTouches.ContainsKey(touch.fingerId))
-                        mTouches[touch.fingerId].pos = touch.position;
+                    MTouchDrag(touch.position, touch.fingerId);
                     break;
 
                 case TouchPhase.Ended:
                 case TouchPhase.Canceled:
-                    mTouches.Remove(touch.fingerId);
+                    MTouchUp(touch.fingerId);
                     break;
             }
 
@@ -86,6 +100,56 @@ public class MTouchController : MonoBehaviour
             previousMultiTouch = multiTouch;
         }
     }
+
+
+
+    private void MTouchDown(Vector2 pos, int fingerId)
+    {
+        mTouches.Add(fingerId, new MTouch(pos));
+
+        foreach (MTouchable mt in mTouchables)
+        {
+            Vector2 v = Funcs.MouseToWorldPoint(mTouches[fingerId].pos, cam);
+
+            if (mt.MTouchCollider.bounds.Contains(v) && !mt.Grapped)
+            {
+                mTouches[fingerId].currentMT = mt;
+                mt.Grapped = true;
+                mt.OnMTouchDown(v);
+            }
+        }
+    }
+
+    private void MTouchDrag(Vector2 pos, int fingerId)
+    {
+        if (mTouches.ContainsKey(fingerId))
+        {
+            mTouches[fingerId].pos = pos;
+
+            if (mTouches[fingerId].currentMT != null)
+            {
+                Vector2 v = Funcs.MouseToWorldPoint(mTouches[fingerId].pos, cam);
+
+                mTouches[fingerId].currentMT.OnMTouchDrag(v);
+            }
+        }
+    }
+
+    private void MTouchUp(int fingerId)
+    {
+        if (mTouches.ContainsKey(fingerId))
+            if (mTouches[fingerId].currentMT != null)
+            {
+                Vector2 v = Funcs.MouseToWorldPoint(mTouches[fingerId].pos, cam);
+
+                mTouches[fingerId].currentMT.Grapped = false;
+                mTouches[fingerId].currentMT.OnMTouchUp(v);
+            }
+
+        mTouches.Remove(fingerId);
+    }
+
+
 
     private void OnDrawGizmos()
     {
