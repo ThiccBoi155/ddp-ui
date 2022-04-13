@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DragAndClick : MonoBehaviour, MTouchable
+public class DragAndClick : MTouchable
 {
     Camera cam;
     [HideInInspector]
@@ -10,15 +10,15 @@ public class DragAndClick : MonoBehaviour, MTouchable
     [HideInInspector]
     public Collider2D col;
 
-    public Collider2D MTouchCollider { get { return col; } }
+    public override Collider2D MTouchCollider { get { return col; } }
 
-    public bool Grapped { get; set; } = false;
+    public override bool Grapped { get; set; } = false;
 
     public string logMessage = "Default message";
 
     public float smallForceIndex = 0f;
 
-    private void Awake()
+    private new void Awake()
     {
         Setup();
     }
@@ -45,11 +45,6 @@ public class DragAndClick : MonoBehaviour, MTouchable
             setupRan = true;
         }
 
-    }
-
-    public void AddThisToMTouchController()
-    {
-        MTouchController.AddToMTouchables(this);
     }
 
     private void FixedUpdate()
@@ -127,7 +122,7 @@ public class DragAndClick : MonoBehaviour, MTouchable
     public float maxClickDelay = .5f;
     public float delayBeforeDrag = .1f;
 
-    public void OnMTouchDown(Vector2 pos)
+    public override void OnMTouchDown(Vector2 pos)
     {
         offset = pos - (Vector2)transform.position;
 
@@ -135,7 +130,7 @@ public class DragAndClick : MonoBehaviour, MTouchable
         timeAtMTouchClick = Time.time;
     }
 
-    public void OnMTouchDrag(Vector2 pos)
+    public override void OnMTouchDrag(Vector2 pos)
     {
         target = pos - offset;
 
@@ -143,7 +138,7 @@ public class DragAndClick : MonoBehaviour, MTouchable
             StartFollowTarget();
     }
 
-    public void OnMTouchUp(Vector2 pos)
+    public override void OnMTouchUp(Vector2 pos)
     {
         if ((pos - startMTouchPos).magnitude <= maxClickDistance && Time.time - timeAtMTouchClick <= maxClickDelay)
             ClickAction();
@@ -187,9 +182,4 @@ public class DragAndClick : MonoBehaviour, MTouchable
     ///////////
     // Other //
     ///////////
-
-    protected void OnDestroy()
-    {
-        MTouchController.RemoveFromMTouchables(this);
-    }
 }

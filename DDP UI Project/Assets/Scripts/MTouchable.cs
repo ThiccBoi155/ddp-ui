@@ -1,19 +1,35 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public interface MTouchable
+public abstract class MTouchable: MonoBehaviour
 {
-    Collider2D MTouchCollider { get; }
+    public abstract Collider2D MTouchCollider { get; }
 
-    bool Grapped { get; set; }
+    public abstract bool Grapped { get; set; }
 
-    void AddThisToMTouchController();
-    //void RemoveThisWhenDestroyed();
 
-    void OnMTouchDown(Vector2 pos);
 
-    void OnMTouchDrag(Vector2 pos);
+    protected void Awake()
+    {
+        AddThisToMTouchController();
+    }
 
-    void OnMTouchUp(Vector2 pos);
+    protected void AddThisToMTouchController()
+    {
+        MTouchController.AddToMTouchables(this);
+    }
+
+
+
+    public abstract void OnMTouchDown(Vector2 pos);
+
+    public abstract void OnMTouchDrag(Vector2 pos);
+
+    public abstract void OnMTouchUp(Vector2 pos);
+
+
+
+    protected void OnDestroy()
+    {
+        MTouchController.RemoveFromMTouchables(this);
+    }
 }

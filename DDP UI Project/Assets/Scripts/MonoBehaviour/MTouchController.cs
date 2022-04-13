@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// Needs to be renaming for MTouch and MMTouch
 public class MTouchController : MonoBehaviour
 {
     private static List<MTouchable> mTouchables = new List<MTouchable>();
@@ -93,8 +92,6 @@ public class MTouchController : MonoBehaviour
     {
         if (multiTouch != previousMultiTouch)
         {
-            Debug.Log("Clear!");
-
             mTouches.Clear();
 
             previousMultiTouch = multiTouch;
