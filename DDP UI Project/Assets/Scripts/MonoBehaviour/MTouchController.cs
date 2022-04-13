@@ -4,20 +4,21 @@ using UnityEngine;
 
 public class MTouchController : MonoBehaviour
 {
+    // There might need to be a hiearchy structure for different MTouchables, if their colliders ever overlap in a meaningful way
     private static List<MTouchable> mTouchables = new List<MTouchable>();
 
-    public static void AddToMTouchables(MTouchable mt)
+    public static void AddToMTouchables(MTouchable mtble)
     {
         if (mTouchables == null)
             mTouchables = new List<MTouchable>();
 
-        mTouchables.Add(mt);
+        mTouchables.Add(mtble);
     }
 
-    public static void RemoveFromMTouchables(MTouchable mt)
+    public static void RemoveFromMTouchables(MTouchable mtble)
     {
         if (mTouchables != null)
-            mTouchables.Remove(mt);
+            mTouchables.Remove(mtble);
     }
 
     Camera cam;
@@ -104,15 +105,17 @@ public class MTouchController : MonoBehaviour
     {
         mTouches.Add(fingerId, new MTouch(pos));
 
-        foreach (MTouchable mt in mTouchables)
-        {
-            Vector2 v = Funcs.MouseToWorldPoint(mTouches[fingerId].pos, cam);
+        MTouch mt = mTouches[fingerId];
 
-            if (mt.MTouchCollider.bounds.Contains(v) && !mt.Grapped)
+        foreach (MTouchable mtble in mTouchables)
+        {
+            Vector2 v = Funcs.MouseToWorldPoint(mt.pos, cam);
+
+            if (mtble.MTouchCollider.bounds.Contains(v) && !mtble.grapped)
             {
-                mTouches[fingerId].currentMT = mt;
-                mt.Grapped = true;
-                mt.OnMTouchDown(v);
+                mt.currentMTble = mtble;
+                mtble.grapped = true;
+                mtble.OnMTouchDown(mt);
             }
         }
     }
@@ -121,13 +124,13 @@ public class MTouchController : MonoBehaviour
     {
         if (mTouches.ContainsKey(fingerId))
         {
-            mTouches[fingerId].pos = pos;
+            MTouch mt = mTouches[fingerId];
 
-            if (mTouches[fingerId].currentMT != null)
+            mt.pos = pos;
+
+            if (mt.currentMTble != null)
             {
-                Vector2 v = Funcs.MouseToWorldPoint(mTouches[fingerId].pos, cam);
-
-                mTouches[fingerId].currentMT.OnMTouchDrag(v);
+                mt.currentMTble.OnMTouchDrag(mt);
             }
         }
     }
@@ -135,13 +138,15 @@ public class MTouchController : MonoBehaviour
     private void MTouchUp(int fingerId)
     {
         if (mTouches.ContainsKey(fingerId))
-            if (mTouches[fingerId].currentMT != null)
-            {
-                Vector2 v = Funcs.MouseToWorldPoint(mTouches[fingerId].pos, cam);
+        {
+            MTouch mt = mTouches[fingerId];
 
-                mTouches[fingerId].currentMT.Grapped = false;
-                mTouches[fingerId].currentMT.OnMTouchUp(v);
+            if (mt.currentMTble != null)
+            {
+                mt.currentMTble.grapped = false;
+                mt.currentMTble.OnMTouchUp(mt);
             }
+        }
 
         mTouches.Remove(fingerId);
     }

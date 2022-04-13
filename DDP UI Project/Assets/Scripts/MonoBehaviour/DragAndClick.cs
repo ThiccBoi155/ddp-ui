@@ -12,8 +12,6 @@ public class DragAndClick : MTouchable
 
     public override Collider2D MTouchCollider { get { return col; } }
 
-    public override bool Grapped { get; set; } = false;
-
     public string logMessage = "Default message";
 
     public float smallForceIndex = 0f;
@@ -115,32 +113,37 @@ public class DragAndClick : MTouchable
     bool followTarget = false;
     
     float timeAtMTouchClick;
-    Vector2 startMTouchPos;
     // This value is measured in (world) units rather than screen pixel units or percentage
     public float maxClickDistance = .1f;
     // Theese values are measured in seconds
     public float maxClickDelay = .5f;
     public float delayBeforeDrag = .1f;
 
-    public override void OnMTouchDown(Vector2 pos)
+    public override void OnMTouchDown(MTouch mt)
     {
-        offset = pos - (Vector2)transform.position;
+        Vector2 wPos = Funcs.MouseToWorldPoint(mt.pos, cam);
 
-        startMTouchPos = pos;
+        offset = wPos - (Vector2)transform.position;
+
         timeAtMTouchClick = Time.time;
     }
 
-    public override void OnMTouchDrag(Vector2 pos)
+    public override void OnMTouchDrag(MTouch mt)
     {
-        target = pos - offset;
+        Vector2 wPos = Funcs.MouseToWorldPoint(mt.pos, cam);
+
+        target = wPos - offset;
 
         if (Time.time - timeAtMTouchClick > delayBeforeDrag)
             StartFollowTarget();
     }
 
-    public override void OnMTouchUp(Vector2 pos)
+    public override void OnMTouchUp(MTouch mt)
     {
-        if ((pos - startMTouchPos).magnitude <= maxClickDistance && Time.time - timeAtMTouchClick <= maxClickDelay)
+        Vector2 wPos = Funcs.MouseToWorldPoint(mt.pos, cam);
+        Vector2 startWPos = Funcs.MouseToWorldPoint(mt.startPos, cam);
+
+        if ((wPos - startWPos).magnitude <= maxClickDistance && Time.time - timeAtMTouchClick <= maxClickDelay)
             ClickAction();
 
         followTarget = false;

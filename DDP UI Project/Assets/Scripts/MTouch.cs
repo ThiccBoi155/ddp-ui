@@ -6,19 +6,19 @@ public class MTouch
 {
     public Vector2 startPos;
     public Vector2 pos;
-    public MTouchable currentMT;
+    public MTouchable currentMTble;
 
     public MTouch(Vector2 _startPos, Vector2 _pos)
     {
         startPos = _startPos;
         pos = _pos;
-        currentMT = null;
+        currentMTble = null;
     }
 
     public MTouch(Vector2 _samePos)
     {
         startPos = pos = _samePos;
-        currentMT = null;
+        currentMTble = null;
     }
 }
 
