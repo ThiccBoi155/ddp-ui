@@ -187,7 +187,7 @@ public class CoverFlow : MonoBehaviour
         return (f + 1) / 2;
     }
 
-    private void EjectDisc()
+    public void EjectDisc()
     {
         // Error check
 

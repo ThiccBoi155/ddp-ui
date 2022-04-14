@@ -9,7 +9,7 @@ public class SimpleButton : MTouchable
     private Camera cam;
     private Collider2D trigger;
 
-    private new void Awake()
+    protected new void Awake()
     {
         base.Awake();
 
@@ -21,6 +21,8 @@ public class SimpleButton : MTouchable
     }
 
     float timeAtMTouchClick;
+
+    [Header("Settings")]
     // This value is measured in (world) units rather than screen pixel units or percentage
     public float maxClickDistance = .1f;
     // Theese values are measured in seconds
