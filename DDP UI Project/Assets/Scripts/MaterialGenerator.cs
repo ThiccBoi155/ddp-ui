@@ -3,6 +3,7 @@ using UnityEditor;
 
 public class MaterialGenerator
 {
+    /*/
     Cover coverPrefab;
 
     [MenuItem("Assets/Create Materials")]
@@ -74,6 +75,7 @@ public class MaterialGenerator
 
         Debug.Log("Prefab materials created (mabye)");
     }
+    //*/
 
     /*/
     [MenuItem("Assets/Add covers to scene")]

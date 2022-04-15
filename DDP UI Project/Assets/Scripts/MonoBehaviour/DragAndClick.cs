@@ -67,44 +67,9 @@ public class DragAndClick : MTouchable
         rid.AddForce(smallForce, ForceMode2D.Force);
     }
 
-    /////////////
-    // OnMouse //
-    /////////////
-
-    /*/
-
-    // This function works under the assumption that the camera has no rotation, and all interactable objects are at z = 0
-    Vector3 MouseToWorldPoint(Vector3 mousePos)
-    {
-        return Funcs.MouseToWorldPoint(mousePos, cam);
-    }
-
-    private void OnMouseDown()
-    {
-        OnMTouchDown(MouseToWorldPoint(Input.mousePosition));
-
-        //Debug.Log($"Down - Screen: {Input.mousePosition}, World: {cam.ScreenToWorldPoint(Input.mousePosition)}");
-    }
-
-    private void OnMouseDrag()
-    {
-        OnMTouchDrag(MouseToWorldPoint(Input.mousePosition));
-
-        //Debug.Log($"Drag - Screen: {Input.mousePosition}, World: {cam.ScreenToWorldPoint(Input.mousePosition)}");
-    }
-
-    private void OnMouseUp()
-    {
-        OnMTouchUp(MouseToWorldPoint(Input.mousePosition));
-
-        //Debug.Log($"Up - Screen: {Input.mousePosition}, World: {cam.ScreenToWorldPoint(Input.mousePosition)}");
-    }
-
-    //*/
-
-    ///////////////////////////////////////
-    // MTouch : Combined mouse and touch //
-    ///////////////////////////////////////
+    ////////////
+    // MTouch //
+    ////////////
 
     // Vector from transform.position to mouse position
     Vector2 offset = Vector2.zero;
@@ -149,40 +114,18 @@ public class DragAndClick : MTouchable
         followTarget = false;
     }
 
-    //////////////////
-    // Click action //
-    //////////////////
-    
     private void StartFollowTarget()
     {
         rid.angularVelocity = 0;
         followTarget = true;
     }
 
-    protected virtual void ClickAction()
-    {
-        Debug.Log(logMessage);
-    }
-
     //////////////////
     // Click action //
     //////////////////
 
-    /*/
-    private void OnDrawGizmos()
+    protected virtual void ClickAction()
     {
-        //Gizmos.matrix = transform.localToWorldMatrix;
-
-        Gizmos.color = Color.red;
-        //Gizmos.DrawSphere(Vector3.zero, .25f);
-        Gizmos.DrawSphere(transform.position, .1f);
-
-        Gizmos.color = Color.green;
-        Gizmos.DrawSphere((Vector2)transform.position + offset, .1f);
+        Debug.Log(logMessage);
     }
-    //*/
-
-    ///////////
-    // Other //
-    ///////////
 }
