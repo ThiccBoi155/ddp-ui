@@ -42,4 +42,20 @@ public static class Funcs
     {
         return f % 1f == 0;
     }
+
+    public static void cabVector2Magnitude(ref Vector2 v, float maxMag)
+    {
+        if (maxMag < v.magnitude)
+        {
+            v.Normalize();
+
+            v *= maxMag;
+        }
+    }
+
+    public static void cabFloat(ref float f, float max)
+    {
+        if (max < f)
+            f = max;
+    }
 }

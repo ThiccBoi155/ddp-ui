@@ -14,7 +14,12 @@ public class DragAndClick : MTouchable
 
     public string logMessage = "Default message";
 
+    [Header("Physics settings")]
     public float smallForceIndex = 0f;
+    public float maxDragVelocity = float.MaxValue;
+    public float velocityMultiplier = 1f;
+    public bool accelerate = false;
+    public float maxAcceleration = float.MaxValue;
 
     private new void Awake()
     {
@@ -51,13 +56,42 @@ public class DragAndClick : MTouchable
 
         if (followTarget && rid != null)
         {
-            // This is the distance to the target. Also represented in units / second
-            Vector2 toTarget = target - (Vector2)transform.position;
-            
-            Vector2 newVelocity = toTarget / Time.fixedDeltaTime;
-            
-            rid.AddForce(newVelocity - rid.velocity, ForceMode2D.Impulse);
+            if (!accelerate)
+                FollowTargetSetVelocity();
+            else
+                FollowTargetAccelerate();
         }
+    }
+
+    void FollowTargetSetVelocity()
+    {
+        // This is the distance to the target. Also represented in units / second
+        Vector2 toTarget = target - (Vector2)transform.position;
+
+        Vector2 newVelocity = toTarget / Time.fixedDeltaTime * velocityMultiplier;
+
+        Funcs.cabVector2Magnitude(ref newVelocity, maxDragVelocity);
+
+        Vector2 addForceAmmount = (newVelocity - rid.velocity) * rid.mass;
+
+        rid.AddForce(addForceAmmount, ForceMode2D.Impulse);
+    }
+    
+    void FollowTargetAccelerate()
+    {
+        Vector2 toTarget = target - (Vector2)transform.position;
+
+        Vector2 targetVelocity = toTarget / Time.fixedDeltaTime * velocityMultiplier;
+
+        //Funcs.cabVector2Magnitude(ref targetVelocity, maxDragVelocity);
+
+        Vector2 velocityDelta = targetVelocity - rid.velocity;
+
+        Funcs.cabVector2Magnitude(ref velocityDelta, maxAcceleration);
+
+        Vector2 addForceAmmount = (velocityDelta) * rid.mass;
+
+        rid.AddForce(addForceAmmount, ForceMode2D.Impulse);
     }
 
     void SmallConstantForce()
@@ -79,6 +113,7 @@ public class DragAndClick : MTouchable
     
     float timeAtMTouchClick;
     // This value is measured in (world) units rather than screen pixel units or percentage
+    [Header("MTouch settings")]
     public float maxClickDistance = .1f;
     // Theese values are measured in seconds
     public float maxClickDelay = .5f;

@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class Disc : DragAndClick
 {
+    [Header("References")]
     public SpriteRenderer coverArt;
 
     [HideInInspector]

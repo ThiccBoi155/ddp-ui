@@ -293,7 +293,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b1123ffa6e86c04ca45316b87badf65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  multiTouch: 1
+  multiTouch: 0
 --- !u!4 &51174266
 Transform:
   m_ObjectHideFlags: 0
@@ -842,8 +842,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eab813cdac1abbb4c87234d90150e496, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  printOnUpdate: 1
-  printOnFixedUpdate: 1
+  printOnUpdate: 0
+  printOnFixedUpdate: 0
 --- !u!4 &445208627
 Transform:
   m_ObjectHideFlags: 0
