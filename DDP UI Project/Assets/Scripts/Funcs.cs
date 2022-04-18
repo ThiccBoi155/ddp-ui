@@ -43,7 +43,8 @@ public static class Funcs
         return f % 1f == 0;
     }
 
-    public static void cabVector2Magnitude(ref Vector2 v, float maxMag)
+    // Remember, magnitude cannot be less than 0
+    public static void capVector2Magnitude(ref Vector2 v, float maxMag)
     {
         if (maxMag < v.magnitude)
         {

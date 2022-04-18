@@ -18,8 +18,8 @@ public class DragAndClick : MTouchable
     public float smallForceIndex = 0f;
     public float maxDragVelocity = float.MaxValue;
     public float velocityMultiplier = 1f;
-    public bool accelerate = false;
-    public float maxAcceleration = float.MaxValue;
+    //public bool accelerate = false;
+    //public float maxAcceleration = float.MaxValue;
 
     private new void Awake()
     {
@@ -56,11 +56,15 @@ public class DragAndClick : MTouchable
 
         if (followTarget && rid != null)
         {
-            if (!accelerate)
-                FollowTargetSetVelocity();
-            else
-                FollowTargetAccelerate();
+            FollowTargetSetVelocity();
         }
+    }
+
+    void FollowTargetMovePosition()
+    {
+        Debug.Log("Hello");
+
+        rid.MovePosition(target);
     }
 
     void FollowTargetSetVelocity()
@@ -70,7 +74,7 @@ public class DragAndClick : MTouchable
 
         Vector2 newVelocity = toTarget / Time.fixedDeltaTime * velocityMultiplier;
 
-        Funcs.cabVector2Magnitude(ref newVelocity, maxDragVelocity);
+        Funcs.capVector2Magnitude(ref newVelocity, maxDragVelocity);
 
         Vector2 addForceAmmount = (newVelocity - rid.velocity) * rid.mass;
 
@@ -79,6 +83,9 @@ public class DragAndClick : MTouchable
     
     void FollowTargetAccelerate()
     {
+        // remove this...
+        float maxAcceleration = float.MaxValue;
+
         Vector2 toTarget = target - (Vector2)transform.position;
 
         Vector2 targetVelocity = toTarget / Time.fixedDeltaTime * velocityMultiplier;
@@ -87,7 +94,7 @@ public class DragAndClick : MTouchable
 
         Vector2 velocityDelta = targetVelocity - rid.velocity;
 
-        Funcs.cabVector2Magnitude(ref velocityDelta, maxAcceleration);
+        Funcs.capVector2Magnitude(ref velocityDelta, maxAcceleration);
 
         Vector2 addForceAmmount = (velocityDelta) * rid.mass;
 
