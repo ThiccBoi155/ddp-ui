@@ -574,12 +574,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c86fce7e256f0f429193061803bc477, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  grapped: 0
   rid: {fileID: 0}
   col: {fileID: 0}
   logMessage: Default message
   smallForceIndex: 0.005
+  maxDragVelocity: 3.4028235e+38
+  velocityMultiplier: 1
+  maxLastVelocities: 3
+  lastVelocities: []
+  lastVelocitiesDropOff: 0.3
   maxClickDistance: 0.1
   maxClickDelay: 0.5
-  delayBeforeDrag: 0.1
+  delayBeforeDrag: 0
   coverArt: {fileID: 8361143694403929406}
   cf: {fileID: 0}

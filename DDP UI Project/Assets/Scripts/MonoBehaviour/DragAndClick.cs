@@ -14,12 +14,19 @@ public class DragAndClick : MTouchable
 
     public string logMessage = "Default message";
 
-    [Header("Physics settings")]
+    [Header("Other physics settings")]
     public float smallForceIndex = 0f;
+
+    [Header("Drag physics settings")]
     public float maxDragVelocity = float.MaxValue;
     public float velocityMultiplier = 1f;
     //public bool accelerate = false;
     //public float maxAcceleration = float.MaxValue;
+
+    [Header("Physics settings")]
+    public int maxLastVelocities = 3;
+    public List<Vector2> lastVelocities = new List<Vector2>();
+    public float lastVelocitiesDropOff = 0f;
 
     private new void Awake()
     {
@@ -54,10 +61,12 @@ public class DragAndClick : MTouchable
     {
         SmallConstantForce();
 
+        //*/
         if (followTarget && rid != null)
         {
             FollowTargetSetVelocity();
         }
+        //*/
     }
 
     void FollowTargetMovePosition()
@@ -76,9 +85,12 @@ public class DragAndClick : MTouchable
 
         Funcs.capVector2Magnitude(ref newVelocity, maxDragVelocity);
 
-        Vector2 addForceAmmount = (newVelocity - rid.velocity) * rid.mass;
+        SetVelocity(newVelocity);
 
-        rid.AddForce(addForceAmmount, ForceMode2D.Impulse);
+        lastVelocities.Add(rid.velocity);
+
+        if (maxLastVelocities < lastVelocities.Count)
+            lastVelocities.RemoveAt(0);
     }
     
     void FollowTargetAccelerate()
@@ -99,6 +111,55 @@ public class DragAndClick : MTouchable
         Vector2 addForceAmmount = (velocityDelta) * rid.mass;
 
         rid.AddForce(addForceAmmount, ForceMode2D.Impulse);
+    }
+
+    void SetVelocity(Vector2 velocity)
+    {
+        Vector2 addForceAmmount = (velocity - rid.velocity) * rid.mass;
+
+        rid.AddForce(addForceAmmount, ForceMode2D.Impulse);
+    }
+
+    Vector2 LargestVelocity()
+    {
+        Vector2 largestVel = new Vector2();
+
+        foreach (Vector2 v in lastVelocities)
+        {
+            if (largestVel.magnitude < v.magnitude)
+                largestVel = v;
+        }
+
+        return largestVel;
+    }
+
+    Vector2 GetThrowVelocity()
+    {
+        Vector2 largestVel = new Vector2();
+
+        float f = 0;
+
+        foreach (Vector2 currentVelocity in lastVelocities)
+        {
+            float currentDropoff = 1f - lastVelocitiesDropOff * f;
+
+            float currentMagnitude = currentVelocity.magnitude * currentDropoff;
+
+            if (largestVel.magnitude < currentMagnitude)
+            {
+                Vector2 v = currentVelocity;
+
+                v.Normalize();
+
+                v *= currentMagnitude;
+
+                largestVel = v;
+            }
+
+            f++;
+        }
+
+        return largestVel;
     }
 
     void SmallConstantForce()
@@ -133,6 +194,8 @@ public class DragAndClick : MTouchable
         offset = wPos - (Vector2)transform.position;
 
         timeAtMTouchClick = Time.time;
+
+        lastVelocities.Clear();
     }
 
     public override void OnMTouchDrag(MTouch mt)
@@ -143,6 +206,13 @@ public class DragAndClick : MTouchable
 
         if (Time.time - timeAtMTouchClick > delayBeforeDrag)
             StartFollowTarget();
+
+        /*/
+        if (followTarget && rid != null)
+        {
+            FollowTargetSetVelocity();
+        }
+        //*/
     }
 
     public override void OnMTouchUp(MTouch mt)
@@ -154,6 +224,18 @@ public class DragAndClick : MTouchable
             ClickAction();
 
         followTarget = false;
+
+        if (lastVelocities.Count != 0)
+            //SetVelocity(GetThrowVelocity());
+        {
+            Vector2 v = GetThrowVelocity();
+
+            Debug.Log(v);
+
+            SetVelocity(v);
+        }
+
+        //lastVelocities.Clear();
     }
 
     private void StartFollowTarget()
