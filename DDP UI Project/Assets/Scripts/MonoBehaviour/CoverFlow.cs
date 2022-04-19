@@ -12,7 +12,25 @@ public class CoverFlow : MonoBehaviour
     public GameObject discObj;
 
     [Header("Temporary input")]
-    public float CFPosition;
+    public float cFPosition;
+    public float CFPosition
+    {
+        get { return cFPosition; }
+        set
+        {
+            float minPos = -maxMinPositoin;
+            float maxPos = maxMinPositoin + coverCount - 1f;
+
+            if (value <= minPos)
+                cFPosition = minPos;
+
+            else if (maxPos <= value)
+                cFPosition = maxPos;
+
+            else
+                cFPosition = value;
+        }
+    }
 
     public bool jumpRight = false;
     public bool jumpLeft = false;
@@ -38,20 +56,28 @@ public class CoverFlow : MonoBehaviour
     public bool randomEjectTorque = true;
     public float randomEjectTorqueRange = .5f;
 
+    [Header("MaxMinPositoin (range: 0 - 0.499999)")]
+    public float maxMinPositoin = .5f;
+
     [Header("Fix position settings (Disable: fixPositionDelay = -1)")]
     public float fixPositionDelay = .5f;
     public float fixPositionLerpVal = .1f;
     public float roundWithinRangeVal = .01f;
+    public bool countFixTimeNow = true;
 
     [Header("Private fields (Don't edit this)")]
     [SerializeField]
     private List<Disc> discList;
+
+    private int coverCount = 1;
 
     private void Awake()
     {
         cam = Camera.main;
 
         discList = new List<Disc>();
+
+        coverCount = transform.childCount;
     }
 
     private void Update()
@@ -70,17 +96,17 @@ public class CoverFlow : MonoBehaviour
         if (jumpRight)
         {
             jumpRight = false;
-            CFPosition++;
+            cFPosition++;
         }
         if (jumpLeft)
         {
             jumpLeft = false;
-            CFPosition--;
+            cFPosition--;
         }
         if (roundPosition)
         {
             roundPosition = false;
-            CFPosition = Mathf.Round(CFPosition);
+            cFPosition = Mathf.Round(cFPosition);
         }
         if (ejectDiscNow)
         {
@@ -94,7 +120,7 @@ public class CoverFlow : MonoBehaviour
         float i = 0;
         foreach (Transform cover in transform)
         {
-            float coverPos = i - CFPosition;
+            float coverPos = i - cFPosition;
 
             //*
             Quaternion qm1 = Quaternion.Euler(90, -90, 90 + angle);
@@ -144,27 +170,27 @@ public class CoverFlow : MonoBehaviour
 
     private void FixPositionAfterTime()
     {
-        if (fixPositionDelay != -1)
+        if (fixPositionDelay != -1 )
         {
-            if (!Funcs.IsInteger(CFPosition) && CFPosition == lastCFPos)
+            if (!Funcs.IsInteger(cFPosition) && cFPosition == lastCFPos && countFixTimeNow)
             {
                 notIntegerPosTime += Time.deltaTime;
             }
             else
             {
-                lastCFPos = CFPosition;
+                lastCFPos = cFPosition;
                 notIntegerPosTime = 0f;
             }
 
             if (fixPositionDelay <= notIntegerPosTime)
             {
-                float target = Mathf.Round(CFPosition);
+                float target = Mathf.Round(cFPosition);
 
-                CFPosition = Mathf.Lerp(CFPosition, target, fixPositionLerpVal);
+                cFPosition = Mathf.Lerp(cFPosition, target, fixPositionLerpVal);
 
-                CFPosition = RoundWithinRange(CFPosition, roundWithinRangeVal);
+                cFPosition = RoundWithinRange(cFPosition, roundWithinRangeVal);
 
-                lastCFPos = CFPosition;
+                lastCFPos = cFPosition;
             }
         }
     }
@@ -334,7 +360,7 @@ public class CoverFlow : MonoBehaviour
     // I don't know if this works
     Transform GetCurrentPanel()
     {
-        int currentIndex = Mathf.RoundToInt(CFPosition);
+        int currentIndex = Mathf.RoundToInt(cFPosition);
 
         if (0 <= currentIndex && currentIndex < transform.childCount)
             return GetComponentsInChildren<Transform>()[currentIndex];
@@ -348,7 +374,7 @@ public class CoverFlow : MonoBehaviour
 
     Cover GetCurrentCover()
     {
-        int currentIndex = Mathf.RoundToInt(CFPosition);
+        int currentIndex = Mathf.RoundToInt(cFPosition);
 
         if (0 <= currentIndex && currentIndex < transform.childCount)
         {
