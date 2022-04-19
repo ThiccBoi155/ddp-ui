@@ -229,9 +229,6 @@ public class DragAndClick : MTouchable
             //SetVelocity(GetThrowVelocity());
         {
             Vector2 v = GetThrowVelocity();
-
-            Debug.Log(v);
-
             SetVelocity(v);
         }
 

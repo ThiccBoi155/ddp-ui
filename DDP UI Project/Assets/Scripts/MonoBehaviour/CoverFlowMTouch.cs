@@ -62,17 +62,17 @@ public class CoverFlowMTouch : MTouchable
 
     public override void OnMTouchDrag(MTouch mt)
     {
-        //Vector2 wPos = Funcs.MouseToWorldPoint(mt.pos, cam);
-        //Vector2 startWPos = Funcs.MouseToWorldPoint(mt.startPos, cam);
+        Vector2 wPos = Funcs.MouseToWorldPoint(mt.pos, cam);
+        Vector2 startWPos = Funcs.MouseToWorldPoint(mt.startPos, cam);
 
         Vector2 delta = mt.pos - mt.startPos;
-        Vector2 wDelta = Funcs.MouseToWorldPoint(delta, cam);
+        Vector2 wDelta = wPos - startWPos;
 
         if (Time.time - timeAtMTouchClick > delayBeforeDrag || maxClickDistance <= wDelta.magnitude)
             dragging = true;
 
         if (dragging)
-            cf.CFPosition = startCFPosition - delta.x * multiplier;
+            cf.CFPosition = startCFPosition - wDelta.x * multiplier;
     }
 
     public override void OnMTouchUp(MTouch mt)

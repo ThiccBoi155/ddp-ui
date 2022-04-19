@@ -3953,7 +3953,10 @@ MonoBehaviour:
   cam: {fileID: 0}
   dragArea: {fileID: 771743550}
   cf: {fileID: 0}
-  multiplier: 0.01
+  multiplier: 1
+  maxClickDistance: 0.1
+  maxClickDelay: 0.5
+  delayBeforeDrag: 0.1
 --- !u!1 &1725212140
 GameObject:
   m_ObjectHideFlags: 0
