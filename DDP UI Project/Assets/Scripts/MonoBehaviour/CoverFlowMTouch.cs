@@ -37,9 +37,21 @@ public class CoverFlowMTouch : MTouchable
 
     }
 
+    bool dragging = false;
+
+    float timeAtMTouchClick;
+    // This value is measured in (world) units rather than screen pixel units or percentage
+    [Header("MTouch settings")]
+    public float maxClickDistance = .1f;
+    // Theese values are measured in seconds
+    public float maxClickDelay = .5f;
+    public float delayBeforeDrag = .1f;
+
     public override void OnMTouchDown(MTouch mt)
     {
         Vector2 wPos = Funcs.MouseToWorldPoint(mt.pos, cam);
+
+        timeAtMTouchClick = Time.time;
 
         startCFPosition = cf.cFPosition;
 
@@ -54,14 +66,31 @@ public class CoverFlowMTouch : MTouchable
         //Vector2 startWPos = Funcs.MouseToWorldPoint(mt.startPos, cam);
 
         Vector2 delta = mt.pos - mt.startPos;
-        //Vector2 wDelta = Funcs.MouseToWorldPoint(delta, cam);
+        Vector2 wDelta = Funcs.MouseToWorldPoint(delta, cam);
 
-        cf.CFPosition = startCFPosition - delta.x * multiplier;
+        if (Time.time - timeAtMTouchClick > delayBeforeDrag || maxClickDistance <= wDelta.magnitude)
+            dragging = true;
+
+        if (dragging)
+            cf.CFPosition = startCFPosition - delta.x * multiplier;
     }
 
     public override void OnMTouchUp(MTouch mt)
     {
+        Vector2 wPos = Funcs.MouseToWorldPoint(mt.pos, cam);
+        Vector2 startWPos = Funcs.MouseToWorldPoint(mt.startPos, cam);
+
+        if ((wPos - startWPos).magnitude <= maxClickDistance && Time.time - timeAtMTouchClick <= maxClickDelay)
+            ClickAction();
+
         holding = false;
         cf.countFixTimeNow = true;
+        dragging = false;
+    }
+
+    void ClickAction()
+    {
+        if (Funcs.IsInteger(cf.cFPosition))
+            cf.ejectDiscNow = true;
     }
 }
