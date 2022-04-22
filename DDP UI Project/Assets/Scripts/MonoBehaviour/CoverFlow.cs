@@ -21,7 +21,7 @@ public class CoverFlow : MonoBehaviour
             float minPos = -maxMinPositoin;
             float maxPos = maxMinPositoin + coverCount - 1f;
 
-            if (cFGap)
+            if (cFMoveGap)
                 maxPos += 1f;
 
             if (value <= minPos)
@@ -76,7 +76,7 @@ public class CoverFlow : MonoBehaviour
 
     private int coverCount = 1;
 
-    private bool cFGap = false;
+    private bool cFMoveGap = false;
 
     private Transform detachedChild = null;
 
@@ -122,7 +122,7 @@ public class CoverFlow : MonoBehaviour
             roundPosition = false;
             cFPosition = Mathf.Round(cFPosition);
         }
-        if (cFGap)
+        if (cFMoveGap)
             ejectDiscNow = false;
 
         if (ejectDiscNow)
@@ -149,8 +149,8 @@ public class CoverFlow : MonoBehaviour
         {
             float coverPos = i - cFPosition;
 
-            if (cFGap)
-                Funcs.MakeCFGap(ref coverPos);
+            if (cFMoveGap)
+                Funcs.MakeCFMoveGap(ref coverPos);
 
             //*
             Quaternion qm1 = Quaternion.Euler(90, -90, 90 + angle);
@@ -458,7 +458,7 @@ public class CoverFlow : MonoBehaviour
 
             detachedChild.position += new Vector3(0f, 0f, -.4f);
 
-            cFGap = true;
+            cFMoveGap = true;
             UpdateCoverCount();
         }
         else
@@ -472,7 +472,7 @@ public class CoverFlow : MonoBehaviour
             detachedChild.parent = transform;
             detachedChild.SetSiblingIndex(GetCurrentCoverIndex());
             detachedChild = null;
-            cFGap = false;
+            cFMoveGap = false;
             UpdateCoverCount();
         }
         else

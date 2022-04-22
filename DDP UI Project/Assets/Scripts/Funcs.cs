@@ -60,7 +60,7 @@ public static class Funcs
             f = max;
     }
 
-    public static void MakeCFGap(ref float val)
+    public static void MakeCFMoveGap(ref float val)
     {
         if (-1f < val)
         {
