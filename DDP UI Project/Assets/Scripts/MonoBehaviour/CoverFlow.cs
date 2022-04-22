@@ -41,7 +41,7 @@ public class CoverFlow : MonoBehaviour
 
     public bool ejectDiscNow = false;
 
-    public bool cFGap = false;
+    public bool toggleMoveCurrentCover = false;
 
     [Header("Position, rotation and scale settings")]
     public float angle = 88; // 59.92
@@ -76,7 +76,9 @@ public class CoverFlow : MonoBehaviour
 
     private int coverCount = 1;
 
-    
+    private bool cFGap = false;
+
+    private Transform detachedChild = null;
 
     private void Awake()
     {
@@ -84,6 +86,11 @@ public class CoverFlow : MonoBehaviour
 
         discList = new List<Disc>();
 
+        UpdateCoverCount();
+    }
+
+    void UpdateCoverCount()
+    {
         coverCount = transform.childCount;
     }
 
@@ -122,6 +129,16 @@ public class CoverFlow : MonoBehaviour
         {
             ejectDiscNow = false;
             EjectDisc();
+        }
+
+        if (toggleMoveCurrentCover)
+        {
+            toggleMoveCurrentCover = false;
+
+            if (detachedChild == null)
+                DetachFromParent();
+            else
+                SetBackToParent();
         }
     }
 
@@ -370,6 +387,7 @@ public class CoverFlow : MonoBehaviour
         return Funcs.projectPointToXYPlane(cam, upMiddle);
     }
 
+    /*/
     // I don't know if this works
     Transform GetCurrentPanel()
     {
@@ -384,10 +402,16 @@ public class CoverFlow : MonoBehaviour
             return null;
         }
     }
+    //*/
+
+    int GetCurrentCoverIndex()
+    {
+        return Mathf.RoundToInt(CFPosition);
+    }
 
     Cover GetCurrentCover()
     {
-        int currentIndex = Mathf.RoundToInt(cFPosition);
+        int currentIndex = GetCurrentCoverIndex();
 
         if (0 <= currentIndex && currentIndex < transform.childCount)
         {
@@ -416,5 +440,42 @@ public class CoverFlow : MonoBehaviour
 
             return null;
         }
+    }
+
+    void DetachFromParent()
+    {
+        if (detachedChild == null)
+        {
+            if (!Funcs.IsInteger(cFPosition))
+            {
+                cFPosition = Mathf.Round(cFPosition);
+                UpdatePositions();
+                Debug.Log("Position was instantly rounded");
+            }
+
+            detachedChild = GetCurrentCover().transform;
+            detachedChild.parent = null;
+
+            detachedChild.position += new Vector3(0f, 0f, -.4f);
+
+            cFGap = true;
+            UpdateCoverCount();
+        }
+        else
+            Debug.Log("Child is already detached");
+    }
+
+    void SetBackToParent()
+    {
+        if (detachedChild != null)
+        {
+            detachedChild.parent = transform;
+            detachedChild.SetSiblingIndex(GetCurrentCoverIndex());
+            detachedChild = null;
+            cFGap = false;
+            UpdateCoverCount();
+        }
+        else
+            Debug.Log("No child is detached");
     }
 }

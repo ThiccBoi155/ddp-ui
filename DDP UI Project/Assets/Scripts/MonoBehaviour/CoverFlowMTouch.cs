@@ -90,7 +90,7 @@ public class CoverFlowMTouch : MTouchable
 
     void ClickAction()
     {
-        if (Funcs.IsInteger(cf.cFPosition))
+        //if (Funcs.IsInteger(cf.cFPosition))
             cf.ejectDiscNow = true;
     }
 }
