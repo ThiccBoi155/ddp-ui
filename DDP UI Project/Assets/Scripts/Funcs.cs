@@ -59,4 +59,15 @@ public static class Funcs
         if (max < f)
             f = max;
     }
+
+    public static void MakeCFGap(ref float val)
+    {
+        if (-1f < val)
+        {
+            if (val <= 0f)
+                val = Mathf.Lerp(-1f, 1f, val + 1f);
+            else
+                val = val + 1f;
+        }
+    } 
 }

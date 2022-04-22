@@ -21,6 +21,9 @@ public class CoverFlow : MonoBehaviour
             float minPos = -maxMinPositoin;
             float maxPos = maxMinPositoin + coverCount - 1f;
 
+            if (cFGap)
+                maxPos += 1f;
+
             if (value <= minPos)
                 cFPosition = minPos;
 
@@ -37,6 +40,8 @@ public class CoverFlow : MonoBehaviour
     public bool roundPosition = false;
 
     public bool ejectDiscNow = false;
+
+    public bool cFGap = false;
 
     [Header("Position, rotation and scale settings")]
     public float angle = 88; // 59.92
@@ -70,6 +75,8 @@ public class CoverFlow : MonoBehaviour
     private List<Disc> discList;
 
     private int coverCount = 1;
+
+    
 
     private void Awake()
     {
@@ -108,6 +115,9 @@ public class CoverFlow : MonoBehaviour
             roundPosition = false;
             cFPosition = Mathf.Round(cFPosition);
         }
+        if (cFGap)
+            ejectDiscNow = false;
+
         if (ejectDiscNow)
         {
             ejectDiscNow = false;
@@ -121,6 +131,9 @@ public class CoverFlow : MonoBehaviour
         foreach (Transform cover in transform)
         {
             float coverPos = i - cFPosition;
+
+            if (cFGap)
+                Funcs.MakeCFGap(ref coverPos);
 
             //*
             Quaternion qm1 = Quaternion.Euler(90, -90, 90 + angle);
