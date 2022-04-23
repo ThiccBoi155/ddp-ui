@@ -21,7 +21,7 @@ public class CoverFlow : MonoBehaviour
             float minPos = -maxMinPositoin;
             float maxPos = maxMinPositoin + coverCount - 1f;
 
-            if (cFMoveGap)
+            if (CFMoveGap)
                 maxPos += 1f;
 
             if (value <= minPos)
@@ -70,13 +70,18 @@ public class CoverFlow : MonoBehaviour
     public float roundWithinRangeVal = .01f;
     public bool countFixTimeNow = true;
 
+    // Come up with better names
+    [Header("Move cover settings")]
+    public Vector3 moveCoverDeltaPos = new Vector3(0f, 0f, .4f);
+    public float learpMoveCoverStuff = .5f;
+
     [Header("Private fields (Don't edit this)")]
     [SerializeField]
     private List<Disc> discList;
 
     private int coverCount = 1;
 
-    private bool cFMoveGap = false;
+    public bool CFMoveGap { get; private set; }
 
     private Transform detachedChild = null;
 
@@ -103,6 +108,8 @@ public class CoverFlow : MonoBehaviour
         SetScale();
 
         FixPositionAfterTime();
+
+        SetDetachedChildPosition();
     }
 
     private void BooleanButtons()
@@ -122,7 +129,7 @@ public class CoverFlow : MonoBehaviour
             roundPosition = false;
             cFPosition = Mathf.Round(cFPosition);
         }
-        if (cFMoveGap)
+        if (CFMoveGap)
             ejectDiscNow = false;
 
         if (ejectDiscNow)
@@ -149,7 +156,7 @@ public class CoverFlow : MonoBehaviour
         {
             float coverPos = i - cFPosition;
 
-            if (cFMoveGap)
+            if (CFMoveGap)
                 Funcs.MakeCFMoveGap(ref coverPos);
 
             //*
@@ -456,9 +463,7 @@ public class CoverFlow : MonoBehaviour
             detachedChild = GetCurrentCover().transform;
             detachedChild.parent = null;
 
-            detachedChild.position += new Vector3(0f, 0f, -.4f);
-
-            cFMoveGap = true;
+            CFMoveGap = true;
             UpdateCoverCount();
         }
         else
@@ -472,10 +477,19 @@ public class CoverFlow : MonoBehaviour
             detachedChild.parent = transform;
             detachedChild.SetSiblingIndex(GetCurrentCoverIndex());
             detachedChild = null;
-            cFMoveGap = false;
+            CFMoveGap = false;
             UpdateCoverCount();
         }
         else
             Debug.Log("No child is detached");
+    }
+
+    void SetDetachedChildPosition()
+    {
+        if (detachedChild != null)
+        {
+            Vector3 targetPos = transform.position + moveCoverDeltaPos;
+            detachedChild.position = Vector3.Lerp(detachedChild.position, targetPos, learpMoveCoverStuff);
+        }
     }
 }

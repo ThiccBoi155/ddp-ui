@@ -10,7 +10,8 @@ public class CoverFlowMTouch : MTouchable
     public CoverFlow cf;
 
     [Header("Settings")]
-    public float multiplier = 1f;
+    public float dragMultiplier = 1f;
+    public float moveDragMultiplier = 1f;
 
     protected new void Awake()
     {
@@ -71,8 +72,15 @@ public class CoverFlowMTouch : MTouchable
         if (Time.time - timeAtMTouchClick > delayBeforeDrag || maxClickDistance <= wDelta.magnitude)
             dragging = true;
 
+        float currentMultiplier;
+
+        if (cf.CFMoveGap)
+            currentMultiplier = moveDragMultiplier;
+        else
+            currentMultiplier = dragMultiplier;
+
         if (dragging)
-            cf.CFPosition = startCFPosition - wDelta.x * multiplier;
+            cf.CFPosition = startCFPosition - wDelta.x * currentMultiplier;
     }
 
     public override void OnMTouchUp(MTouch mt)

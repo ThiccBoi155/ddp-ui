@@ -3883,6 +3883,7 @@ MonoBehaviour:
   jumpLeft: 0
   roundPosition: 0
   ejectDiscNow: 0
+  toggleMoveCurrentCover: 0
   angle: 59.92
   selectGap: 3.43
   stackGap: 0.6
@@ -3899,6 +3900,8 @@ MonoBehaviour:
   fixPositionLerpVal: 0.1
   roundWithinRangeVal: 0.01
   countFixTimeNow: 1
+  moveCoverDeltaPos: {x: 0, y: 0, z: -1}
+  learpMoveCoverStuff: 0.1
   discList: []
 --- !u!4 &1721329801
 Transform:
