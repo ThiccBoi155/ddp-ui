@@ -78,6 +78,20 @@ public static class Funcs
             f = max;
     }
 
+    public static void cabFloatAbs(ref float f, float max)
+    {
+        if (max < 0)
+            Debug.Log("Max value should not be less than 0");
+
+        if (max < Mathf.Abs(f))
+        {
+            if (f < 0)
+                f = -max;
+            else
+                f = max;
+        }
+    }
+
     // (-2 -> -2) (-1 -> -1) (-0.5 -> 0) (0 -> 1) (1 -> 2)
     public static void MakeCFMoveGap(ref float val)
     {

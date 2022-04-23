@@ -28,6 +28,8 @@ public class CoverFlowMTouch : MTouchable
     private float velocity = 0f;
     [SerializeField]
     private List<float> storedCFPositions = new List<float>();
+    [SerializeField]
+    private List<float> storedVelocities = new List<float>();
 
     protected new void Awake()
     {
@@ -72,6 +74,7 @@ public class CoverFlowMTouch : MTouchable
         cf.countFixTimeNow = false;
 
         storedCFPositions.Clear();
+        storedVelocities.Clear();
 
         storedCFPositions.Add(startCFPosition);
     }
@@ -130,12 +133,45 @@ public class CoverFlowMTouch : MTouchable
 
         storedCFPositions.Add(cf.CFPosition);
 
-        if (maxStoredCFPos < storedCFPositions.Count)
+        int count = storedCFPositions.Count;
+
+        if (2 <= count)
+        {
+            float deltaPos = storedCFPositions[count - 1] - storedCFPositions[count - 2];
+
+            // This works under the assumption that this function is run through Update()
+            float newVelocity = deltaPos / Time.deltaTime;
+
+            storedVelocities.Add(newVelocity);
+        }
+
+        if (maxStoredCFPos < count)
             storedCFPositions.RemoveAt(0);
+
+        if (maxStoredCFPos - 1 < storedVelocities.Count)
+        {
+            storedVelocities.RemoveAt(0);
+        }
     }
 
     void CalculateCFThrowVelocity()
     {
+        if (1 < storedVelocities.Count)
+        {
+            float largestVelocity = 0;
+
+            foreach (float vel in storedVelocities)
+            {
+                if (Mathf.Abs(largestVelocity) < Mathf.Abs(vel))
+                {
+                    largestVelocity = vel;
+                }
+            }
+
+            velocity = largestVelocity;
+        }
+
+        /*/
         if (2 < storedCFPositions.Count)
         {
             float pos1 = storedCFPositions[0];
@@ -143,6 +179,7 @@ public class CoverFlowMTouch : MTouchable
 
             velocity = pos2 - pos1;
         }
+        //*/
     }
 
     void CalculatePhysics()
@@ -152,12 +189,16 @@ public class CoverFlowMTouch : MTouchable
 
         if (!dragging && velocity != 0)
         {
-            velocity += -velocity * resistanceMultiplier;
+            velocity += -velocity * resistanceMultiplier * Time.deltaTime;
 
-            cf.CFPosition += velocity;
+            Funcs.cabFloatAbs(ref velocity, maxVelocity);
+
+            // This works under the assumption that this function is run through Update()
+            cf.CFPosition += velocity * Time.deltaTime;
 
             if (cf.MaxCFPos == cf.CFPosition || cf.CFPosition == cf.MinCFPos)
-                velocity *= -bounceMultiplier;
+                // Add bounce? It didn't work so well last time
+                velocity = 0;
         }
     }
 }

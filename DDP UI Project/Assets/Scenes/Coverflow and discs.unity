@@ -3982,18 +3982,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   grapped: 0
-  cam: {fileID: 0}
+  cam: {fileID: 1059207972}
   dragArea: {fileID: 771743550}
-  cf: {fileID: 0}
+  cf: {fileID: 1721329800}
   dragMultiplier: 1
   moveDragMultiplier: 0.5
-  resistanceMultiplier: 0.05
-  maxVelocity: 0.7
-  minVelocity: 0.005
+  resistanceMultiplier: 5
+  maxVelocity: 25
+  minVelocity: 0.5
   bounceMultiplier: 0
   maxStoredCFPos: 5
   velocity: 0
   storedCFPositions: []
+  storedVelocities: []
   maxClickDistance: 0.1
   maxClickDelay: 0.5
   delayBeforeDrag: 0.1
