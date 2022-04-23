@@ -181,10 +181,7 @@ public class CoverFlow : MonoBehaviour
         {
             toggleMoveCurrentCover = false;
 
-            if (detachedChild == null)
-                DetachFromParent();
-            else
-                SetBackToParent();
+            ToggleMoveCover();
         }
     }
 
@@ -263,6 +260,14 @@ public class CoverFlow : MonoBehaviour
                 lastCFPos = cFPosition;
             }
         }
+    }
+
+    public void ToggleMoveCover()
+    {
+        if (detachedChild == null)
+            DetachFromParent();
+        else
+            SetBackToParent();
     }
 
     ////////////////////
