@@ -109,7 +109,7 @@ public class CoverFlow : MonoBehaviour
 
         FixPositionAfterTime();
 
-        SetDetachedChildPosition();
+        //SetDetachedChildPosition();
     }
 
     private void BooleanButtons()
@@ -190,8 +190,8 @@ public class CoverFlow : MonoBehaviour
                 newX = ((coverPos * prefix - 1) * stackGap + selectGap) * prefix;
             }
             
-            //cover.localPosition = new Vector3(newX, cover.localPosition.y, cover.localPosition.z);
-            cover.localPosition = new Vector3(newX, 0, 0);
+            cover.localPosition = new Vector3(newX, cover.localPosition.y, cover.localPosition.z);
+            //cover.localPosition = new Vector3(newX, 0, 0);
 
             i++;
         }
@@ -465,6 +465,13 @@ public class CoverFlow : MonoBehaviour
 
             CFMoveGap = true;
             UpdateCoverCount();
+
+            Cover cov = detachedChild.GetComponent<Cover>();
+            if (cov != null)
+            {
+                cov.cl = CoverLearp.LearpAway;
+                cov.cf = this;
+            }
         }
         else
             Debug.Log("Child is already detached");
@@ -474,6 +481,13 @@ public class CoverFlow : MonoBehaviour
     {
         if (detachedChild != null)
         {
+            Cover cov = detachedChild.GetComponent<Cover>();
+            if (cov != null)
+            {
+                cov.cl = CoverLearp.LearpToCF;
+                cov.cf = this;
+            }
+
             detachedChild.parent = transform;
             detachedChild.SetSiblingIndex(GetCurrentCoverIndex());
             detachedChild = null;

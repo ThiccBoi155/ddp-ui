@@ -40,4 +40,37 @@ public class Cover : MonoBehaviour
 
         return discSprite;
     }
+
+    public CoverLearp cl = CoverLearp.DontLearp;
+    public CoverFlow cf;
+
+    private void LateUpdate()
+    {
+        if (cl == CoverLearp.LearpAway || cl == CoverLearp.LearpToCF)
+            SetPosition();
+    }
+
+    void SetPosition()
+    {
+        Vector3 targetPos;
+
+        if (cl == CoverLearp.LearpToCF)
+            targetPos = cf.transform.position;
+        else
+            targetPos = cf.transform.position + cf.moveCoverDeltaPos;
+
+        targetPos.x = transform.position.x;
+
+        transform.position = Vector3.Lerp(transform.position, targetPos, cf.learpMoveCoverStuff);
+
+        // set cl to DontLearp when transform.position is within a certain range of targetPos
+        // deactivate learpActivated when transform.position is within a certain range of targetPos
+    }
+}
+
+public enum CoverLearp : byte
+{
+    DontLearp,
+    LearpToCF,
+    LearpAway
 }
