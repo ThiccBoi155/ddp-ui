@@ -1,17 +1,83 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 
 public class CoverFlow : MonoBehaviour
 {
+    private const int space = 30;
+
+    ////////////////////
+    //// Pulic fields
+    ////////////////////
+
     [Header("References")]
     public Camera cam;
     public BorderCollider bc;
 
     [Header("Prefabs")]
     public GameObject discObj;
+    
+    [Space(space)]
 
     [Header("Temporary input")]
+    public bool toggleMoveCurrentCover = false;
+
+    [Space(space)]
+
+    [Header("Eject speed settings")]
+    public float ejectSpeed = 5f;
+    [Header("Eject angle settings")]
+    public float ejectAngle = 0f;
+    public bool randomEjectAngle = true;
+    public float randomEjectAngleRange = 25f;
+    [Header("Eject torque settings")]
+    public float ejectTorque = 0f;
+    public bool randomEjectTorque = true;
+    public float randomEjectTorqueRange = .5f;
+
+    [Space(space)]
+
+    [Header("Position, rotation and scale settings")]
+    public float angle = 88; // 59.92
+    public float selectGap = 2.6f; // 3.43
+    public float stackGap = 0.6f;
+
+    [Header("Max/min CF position")]
+    [Range(0f, .499999f)]
+    public float maxMinPositoin = .5f;
+
+    [Header("Fix position settings (Disable: fixPositionDelay = -1)")]
+    public float fixPositionDelay = .5f;
+    public float fixPositionLerpVal = .1f;
+    public float roundWithinRangeVal = .01f;
+    public bool countFixTimeNow = true;
+
+    [Space(space)]
+
+    // Come up with better names
+    [Header("Move cover settings")]
+    public Vector3 moveCoverDeltaPos = new Vector3(0f, 0f, .4f);
+    public float learpMoveCoverStuff = .5f;
+
+    ////////////////////
+    //// Old temporary input
+    ////////////////////
+
+    [System.NonSerialized]
+    public bool jumpRight = false;
+    [System.NonSerialized]
+    public bool jumpLeft = false;
+    [System.NonSerialized]
+    public bool roundPosition = false;
+    [System.NonSerialized]
+    public bool ejectDiscNow = false;
+
+    ////////////////////
+    //// CFPosition
+    ////////////////////
+
+    [System.NonSerialized]
     public float cFPosition;
     public float CFPosition
     {
@@ -35,55 +101,11 @@ public class CoverFlow : MonoBehaviour
         }
     }
 
-    public bool jumpRight = false;
-    public bool jumpLeft = false;
-    public bool roundPosition = false;
-
-    public bool ejectDiscNow = false;
-
-    public bool toggleMoveCurrentCover = false;
-
-    [Header("Position, rotation and scale settings")]
-    public float angle = 88; // 59.92
-    public float selectGap = 2.6f; // 3.43
-    public float stackGap = 0.6f;
-
-    public float scale = 1f; // .67
-
-    [Header("Eject speed settings")]
-    public float ejectSpeed = 5f;
-    [Header("Eject angle settings")]
-    public float ejectAngle = 0f;
-    public bool randomEjectAngle = true;
-    public float randomEjectAngleRange = 25f;
-    [Header("Eject torque settings")]
-    public float ejectTorque = 0f;
-    public bool randomEjectTorque = true;
-    public float randomEjectTorqueRange = .5f;
-
-    [Header("MaxMinPositoin (range: 0 - 0.499999)")]
-    public float maxMinPositoin = .5f;
-
-    [Header("Fix position settings (Disable: fixPositionDelay = -1)")]
-    public float fixPositionDelay = .5f;
-    public float fixPositionLerpVal = .1f;
-    public float roundWithinRangeVal = .01f;
-    public bool countFixTimeNow = true;
-
-    // Come up with better names
-    [Header("Move cover settings")]
-    public Vector3 moveCoverDeltaPos = new Vector3(0f, 0f, .4f);
-    public float learpMoveCoverStuff = .5f;
-
-    [Header("Private fields (Don't edit this)")]
-    [SerializeField]
-    private List<Disc> discList;
+    ////////////////////
+    //// Private fields
+    ////////////////////
 
     private int coverCount = 1;
-
-    public bool CFMoveGap { get; private set; }
-
-    private Transform detachedChild = null;
 
     public float MinCFPos { get { return -maxMinPositoin; } }
     public float MaxCFPos {
@@ -97,6 +119,10 @@ public class CoverFlow : MonoBehaviour
             return maxPos;
         }
     }
+
+    ////////////////////
+    //// Setup
+    ////////////////////
 
     private void Awake()
     {
@@ -112,17 +138,17 @@ public class CoverFlow : MonoBehaviour
         coverCount = transform.childCount;
     }
 
+    ////////////////////
+    //// Update
+    ////////////////////
+
     private void Update()
     {
         BooleanButtons();
 
         UpdatePositions();
 
-        SetScale();
-
         FixPositionAfterTime();
-
-        //SetDetachedChildPosition();
     }
 
     private void BooleanButtons()
@@ -186,13 +212,13 @@ public class CoverFlow : MonoBehaviour
 
             //*/
 
-            cover.localRotation = Quaternion.Lerp(qm1, q1, Rangem1to1Range0to1(coverPos));
+            cover.localRotation = Quaternion.Lerp(qm1, q1, Funcs.Rangem1to1Range0to1(coverPos));
 
             float newX;
 
             if (-1 <= coverPos && coverPos <= 1)
             {
-                newX = Mathf.Lerp(-selectGap, selectGap, Rangem1to1Range0to1(coverPos));
+                newX = Mathf.Lerp(-selectGap, selectGap, Funcs.Rangem1to1Range0to1(coverPos));
             }
             else
             {
@@ -204,15 +230,9 @@ public class CoverFlow : MonoBehaviour
             }
             
             cover.localPosition = new Vector3(newX, cover.localPosition.y, cover.localPosition.z);
-            //cover.localPosition = new Vector3(newX, 0, 0);
 
             i++;
         }
-    }
-
-    private void SetScale()
-    {
-        transform.localScale = new Vector3(scale, scale, scale);
     }
 
     private float lastCFPos = 0f;
@@ -238,30 +258,18 @@ public class CoverFlow : MonoBehaviour
 
                 cFPosition = Mathf.Lerp(cFPosition, target, fixPositionLerpVal);
 
-                cFPosition = RoundWithinRange(cFPosition, roundWithinRangeVal);
+                cFPosition = Funcs.RoundWithinRange(cFPosition, roundWithinRangeVal);
 
                 lastCFPos = cFPosition;
             }
         }
     }
 
-    private float RoundWithinRange(float f, float roundRange)
-    {
-        float roundedF = Mathf.Round(f);
+    ////////////////////
+    //// Disc
+    ////////////////////
 
-        float fRange = Mathf.Abs(f - roundedF);
-
-        if (fRange <= roundRange)
-            return roundedF;
-        else
-            return f;
-    }
-
-    // Range(-1 to 1) to range(0 to 1)
-    float Rangem1to1Range0to1(float f)
-    {
-        return (f + 1) / 2;
-    }
+    private List<Disc> discList;
 
     public void EjectDisc()
     {
@@ -322,18 +330,7 @@ public class CoverFlow : MonoBehaviour
         Physics2D.IgnoreCollision(bc.col, disc.col);
 
         // Other disc values
-
-        /*
-        int i = 0;
-        foreach (Transform t in GetComponentsInChildren<Transform>())
-        {
-            Debug.Log($"{t.name} - {i}");
-
-            i++;
-        }
-
-        Debug.Log(GetCurrentPanel().name);
-        */
+        
         Cover c = GetCurrentCover();
 
         if (c == null)
@@ -347,50 +344,9 @@ public class CoverFlow : MonoBehaviour
         discList.Remove(dac);
     }
 
-    private void OnDrawGizmos()
-    {
-        BooleanButtons();
-
-        UpdatePositions();
-
-        SetScale();
-
-        DrawProjectedPanelPoints();
-    }
-
-    void DrawProjectedPanelPoints()
-    {
-        Transform panel1 = transform;
-
-        foreach (Transform cover in transform)
-        {
-            panel1 = cover;
-            break;
-        }
-
-        // fix this shit
-
-        Gizmos.color = Color.green;
-
-        Gizmos.DrawSphere(panel1.position, .1f);
-
-        Vector3 upRight = Vector3.up + Vector3.right;
-        Vector3 upLeft = Vector3.up + Vector3.left;
-
-        Vector3 upRightCorner = transform.position + upRight * panel1.lossyScale.x * 5;
-        Vector3 upLeftCorner = transform.position + upLeft * panel1.lossyScale.x * 5;
-        Vector3 upMiddle = transform.position + Vector3.up * panel1.lossyScale.x * 5;
-
-        Gizmos.DrawSphere(upRightCorner, .1f);
-        Gizmos.DrawSphere(upLeftCorner, .1f);
-        Gizmos.DrawSphere(upMiddle, .1f);
-
-        Gizmos.color = Color.blue;
-
-        Gizmos.DrawSphere(Funcs.projectPointToXYPlane(cam, upRightCorner), .1f);
-        Gizmos.DrawSphere(Funcs.projectPointToXYPlane(cam, upLeftCorner), .1f);
-        Gizmos.DrawSphere(Funcs.projectPointToXYPlane(cam, upMiddle), .1f);
-    }
+    ////////////////////
+    //// Get cover values
+    ////////////////////
 
     public Vector3 GetTopOfThePanel()
     {
@@ -406,24 +362,7 @@ public class CoverFlow : MonoBehaviour
 
         return Funcs.projectPointToXYPlane(cam, upMiddle);
     }
-
-    /*/
-    // I don't know if this works
-    Transform GetCurrentPanel()
-    {
-        int currentIndex = Mathf.RoundToInt(cFPosition);
-
-        if (0 <= currentIndex && currentIndex < transform.childCount)
-            return GetComponentsInChildren<Transform>()[currentIndex];
-        else
-        {
-            Debug.Log("Index out of range");
-
-            return null;
-        }
-    }
-    //*/
-
+    
     int GetCurrentCoverIndex()
     {
         return Mathf.RoundToInt(CFPosition);
@@ -461,6 +400,13 @@ public class CoverFlow : MonoBehaviour
             return null;
         }
     }
+
+    ////////////////////
+    //// Move cover
+    ////////////////////
+
+    public bool CFMoveGap { get; private set; }
+    private Transform detachedChild = null;
 
     void DetachFromParent()
     {
@@ -511,12 +457,50 @@ public class CoverFlow : MonoBehaviour
             Debug.Log("No child is detached");
     }
 
-    void SetDetachedChildPosition()
+    ////////////////////
+    //// Gizmos
+    ////////////////////
+
+    private void OnDrawGizmos()
     {
-        if (detachedChild != null)
+        //BooleanButtons();
+
+        UpdatePositions();
+
+        DrawProjectedPanelPoints();
+    }
+
+    void DrawProjectedPanelPoints()
+    {
+        Transform panel1 = transform;
+
+        foreach (Transform cover in transform)
         {
-            Vector3 targetPos = transform.position + moveCoverDeltaPos;
-            detachedChild.position = Vector3.Lerp(detachedChild.position, targetPos, learpMoveCoverStuff);
+            panel1 = cover;
+            break;
         }
+
+        // fix this shit
+
+        Gizmos.color = Color.green;
+
+        Gizmos.DrawSphere(panel1.position, .1f);
+
+        Vector3 upRight = Vector3.up + Vector3.right;
+        Vector3 upLeft = Vector3.up + Vector3.left;
+
+        Vector3 upRightCorner = transform.position + upRight * panel1.lossyScale.x * 5;
+        Vector3 upLeftCorner = transform.position + upLeft * panel1.lossyScale.x * 5;
+        Vector3 upMiddle = transform.position + Vector3.up * panel1.lossyScale.x * 5;
+
+        Gizmos.DrawSphere(upRightCorner, .1f);
+        Gizmos.DrawSphere(upLeftCorner, .1f);
+        Gizmos.DrawSphere(upMiddle, .1f);
+
+        Gizmos.color = Color.blue;
+
+        Gizmos.DrawSphere(Funcs.projectPointToXYPlane(cam, upRightCorner), .1f);
+        Gizmos.DrawSphere(Funcs.projectPointToXYPlane(cam, upLeftCorner), .1f);
+        Gizmos.DrawSphere(Funcs.projectPointToXYPlane(cam, upMiddle), .1f);
     }
 }

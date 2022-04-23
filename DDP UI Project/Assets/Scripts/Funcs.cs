@@ -38,6 +38,24 @@ public static class Funcs
             return -Vector3.one;
     }
 
+    // Range(-1 to 1) to range(0 to 1)
+    public static float Rangem1to1Range0to1(float f)
+    {
+        return (f + 1) / 2;
+    }
+
+    public static float RoundWithinRange(float f, float roundRange)
+    {
+        float roundedF = Mathf.Round(f);
+
+        float fRange = Mathf.Abs(f - roundedF);
+
+        if (fRange <= roundRange)
+            return roundedF;
+        else
+            return f;
+    }
+
     public static bool IsInteger(float f)
     {
         return f % 1f == 0;
