@@ -295,7 +295,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b1123ffa6e86c04ca45316b87badf65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  multiTouch: 1
+  multiTouch: 0
 --- !u!4 &51174266
 Transform:
   m_ObjectHideFlags: 0
@@ -3994,6 +3994,13 @@ MonoBehaviour:
   cf: {fileID: 0}
   dragMultiplier: 1
   moveDragMultiplier: 0.5
+  maxStoredCFPos: 5
+  storedCFPositions: []
+  velocity: 0
+  resistanceMultiplier: 0.05
+  maxVelocity: 0.7
+  minVelocity: 0.005
+  bounceMultiplier: 0.5
   maxClickDistance: 0.1
   maxClickDelay: 0.5
   delayBeforeDrag: 0.1

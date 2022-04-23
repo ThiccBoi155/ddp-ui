@@ -85,6 +85,19 @@ public class CoverFlow : MonoBehaviour
 
     private Transform detachedChild = null;
 
+    public float MinCFPos { get { return -maxMinPositoin; } }
+    public float MaxCFPos {
+        get
+        {
+            float maxPos = maxMinPositoin + coverCount - 1f;
+
+            if (CFMoveGap)
+                maxPos += 1f;
+
+            return maxPos;
+        }
+    }
+
     private void Awake()
     {
         cam = Camera.main;

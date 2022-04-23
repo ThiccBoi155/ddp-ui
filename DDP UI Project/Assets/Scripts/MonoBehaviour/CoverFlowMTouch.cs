@@ -9,9 +9,25 @@ public class CoverFlowMTouch : MTouchable
     public Collider2D dragArea;
     public CoverFlow cf;
 
-    [Header("Settings")]
+    [Header("Drag settings")]
     public float dragMultiplier = 1f;
     public float moveDragMultiplier = 1f;
+
+    [Header("Physics settings")]
+    public float resistanceMultiplier = 1f;
+
+    public float maxVelocity = .7f;
+    public float minVelocity = .01f;
+
+    public float bounceMultiplier = .5f;
+
+    public int maxStoredCFPos = 5;
+
+    [Header("Private fields (Don't edit this)")]
+    [SerializeField]
+    private float velocity = 0f;
+    [SerializeField]
+    private List<float> storedCFPositions = new List<float>();
 
     protected new void Awake()
     {
@@ -25,17 +41,12 @@ public class CoverFlowMTouch : MTouchable
 
     public override Collider2D MTouchCollider { get { return dragArea; } }
 
-    private bool holding = false;
+    //private bool holding = false;
     private float startCFPosition;
 
     private void Update()
     {
-        SetCFPosition();
-    }
-
-    void SetCFPosition()
-    {
-
+        CalculatePhysics();
     }
 
     bool dragging = false;
@@ -56,9 +67,13 @@ public class CoverFlowMTouch : MTouchable
 
         startCFPosition = cf.cFPosition;
 
-        holding = true;
+        //holding = true;
 
         cf.countFixTimeNow = false;
+
+        storedCFPositions.Clear();
+
+        storedCFPositions.Add(startCFPosition);
     }
 
     public override void OnMTouchDrag(MTouch mt)
@@ -72,6 +87,37 @@ public class CoverFlowMTouch : MTouchable
         if (Time.time - timeAtMTouchClick > delayBeforeDrag || maxClickDistance <= wDelta.magnitude)
             dragging = true;
 
+        SetCFPosition(wDelta);
+    }
+
+    public override void OnMTouchUp(MTouch mt)
+    {
+        Vector2 wPos = Funcs.MouseToWorldPoint(mt.pos, cam);
+        Vector2 startWPos = Funcs.MouseToWorldPoint(mt.startPos, cam);
+
+        Vector2 wDelta = wPos - startWPos;
+
+        SetCFPosition(wDelta);
+
+        if ((wPos - startWPos).magnitude <= maxClickDistance && Time.time - timeAtMTouchClick <= maxClickDelay)
+            ClickAction();
+
+        //holding = false;
+        cf.countFixTimeNow = true;
+        dragging = false;
+
+        CalculateCFThrowVelocity();
+    }
+
+    void ClickAction()
+    {
+        //if (Funcs.IsInteger(cf.cFPosition))
+            cf.ejectDiscNow = true;
+    }
+
+    // Better name
+    void SetCFPosition(Vector2 wDelta)
+    {
         float currentMultiplier;
 
         if (cf.CFMoveGap)
@@ -81,24 +127,37 @@ public class CoverFlowMTouch : MTouchable
 
         if (dragging)
             cf.CFPosition = startCFPosition - wDelta.x * currentMultiplier;
+
+        storedCFPositions.Add(cf.CFPosition);
+
+        if (maxStoredCFPos < storedCFPositions.Count)
+            storedCFPositions.RemoveAt(0);
     }
 
-    public override void OnMTouchUp(MTouch mt)
+    void CalculateCFThrowVelocity()
     {
-        Vector2 wPos = Funcs.MouseToWorldPoint(mt.pos, cam);
-        Vector2 startWPos = Funcs.MouseToWorldPoint(mt.startPos, cam);
+        if (2 < storedCFPositions.Count)
+        {
+            float pos1 = storedCFPositions[0];
+            float pos2 = storedCFPositions[storedCFPositions.Count - 1];
 
-        if ((wPos - startWPos).magnitude <= maxClickDistance && Time.time - timeAtMTouchClick <= maxClickDelay)
-            ClickAction();
-
-        holding = false;
-        cf.countFixTimeNow = true;
-        dragging = false;
+            velocity = pos2 - pos1;
+        }
     }
 
-    void ClickAction()
+    void CalculatePhysics()
     {
-        //if (Funcs.IsInteger(cf.cFPosition))
-            cf.ejectDiscNow = true;
+        if (Mathf.Abs(velocity) < minVelocity)
+            velocity = 0;
+
+        if (!dragging && velocity != 0)
+        {
+            velocity += -velocity * resistanceMultiplier;
+
+            cf.CFPosition += velocity;
+
+            if (cf.MaxCFPos == cf.CFPosition || cf.CFPosition == cf.MinCFPos)
+                velocity *= -bounceMultiplier;
+        }
     }
 }
