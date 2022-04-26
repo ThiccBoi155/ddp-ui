@@ -4,6 +4,7 @@ public class Disc : DragAndClick
 {
     [Header("References")]
     public SpriteRenderer coverArt;
+    public ShowDiscInfo showDiscInfo;
 
     [HideInInspector]
     public CoverFlow cf;

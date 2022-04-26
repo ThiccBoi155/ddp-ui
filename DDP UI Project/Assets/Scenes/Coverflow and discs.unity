@@ -2993,7 +2993,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 59f2f1e78d868c54ea326b4c5b11e15b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -4041,7 +4041,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cam: {fileID: 1059207972}
   bc: {fileID: 317927051}
-  discObj: {fileID: 8611517344786495405, guid: 8cd3f033ab71dbf48ae332f42746697a, type: 3}
+  discObj: {fileID: 8611517344786495405, guid: 527c0931ba41b9f409bee4d3ace30cd3, type: 3}
   toggleMoveCurrentCover: 0
   ejectSpeed: 5
   ejectAngle: 0

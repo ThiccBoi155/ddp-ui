@@ -342,6 +342,8 @@ public class CoverFlow : MonoBehaviour
             Debug.Log("hmm");
 
         disc.SetCoverArt(c.GetDiscSprite());
+
+        disc.showDiscInfo.SetDiscNum(discList.Count);
     }
 
     public void RemoveDiscFromList(Disc dac)
