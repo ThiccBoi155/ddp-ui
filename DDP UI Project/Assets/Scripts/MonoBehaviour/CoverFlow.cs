@@ -14,6 +14,7 @@ public class CoverFlow : MonoBehaviour
     [Header("References")]
     public Camera cam;
     public BorderCollider bc;
+    public Transform coverHolder;
 
     [Header("Prefabs")]
     public GameObject discObj;
@@ -135,7 +136,7 @@ public class CoverFlow : MonoBehaviour
 
     void UpdateCoverCount()
     {
-        coverCount = transform.childCount;
+        coverCount = coverHolder.transform.childCount;
     }
 
     ////////////////////
@@ -149,6 +150,8 @@ public class CoverFlow : MonoBehaviour
         UpdatePositions();
 
         FixPositionAfterTime();
+
+        Debug.Log(GetCurrentCoverIndex());
     }
 
     private void BooleanButtons()
@@ -188,7 +191,7 @@ public class CoverFlow : MonoBehaviour
     private void UpdatePositions()
     {
         float i = 0;
-        foreach (Transform cover in transform)
+        foreach (Transform cover in coverHolder.transform)
         {
             float coverPos = i - cFPosition;
 
@@ -359,7 +362,7 @@ public class CoverFlow : MonoBehaviour
     {
         Transform panel1 = transform;
 
-        foreach (Transform cover in transform)
+        foreach (Transform cover in coverHolder.transform)
         {
             panel1 = cover;
             break;
@@ -379,10 +382,10 @@ public class CoverFlow : MonoBehaviour
     {
         int currentIndex = GetCurrentCoverIndex();
 
-        if (0 <= currentIndex && currentIndex < transform.childCount)
+        if (0 <= currentIndex && currentIndex < coverHolder.transform.childCount)
         {
             // (Index 0 is the transform of this)
-            Transform t = GetComponentsInChildren<Transform>()[currentIndex + 1];
+            Transform t = coverHolder.GetComponentsInChildren<Transform>()[currentIndex + 1];
 
             if (t == null)
             {
@@ -427,7 +430,7 @@ public class CoverFlow : MonoBehaviour
             }
 
             detachedChild = GetCurrentCover().transform;
-            detachedChild.parent = null;
+            detachedChild.parent = transform; // null?
 
             CFMoveGap = true;
             UpdateCoverCount();
@@ -454,7 +457,7 @@ public class CoverFlow : MonoBehaviour
                 cov.cf = this;
             }
 
-            detachedChild.parent = transform;
+            detachedChild.parent = coverHolder.transform;
             detachedChild.SetSiblingIndex(GetCurrentCoverIndex());
             detachedChild = null;
             CFMoveGap = false;
@@ -481,7 +484,7 @@ public class CoverFlow : MonoBehaviour
     {
         Transform panel1 = transform;
 
-        foreach (Transform cover in transform)
+        foreach (Transform cover in coverHolder.transform)
         {
             panel1 = cover;
             break;

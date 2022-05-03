@@ -8,6 +8,7 @@ public class CoverFlowMTouch : MTouchable
     public Camera cam;
     public Collider2D dragArea;
     public CoverFlow cf;
+    public Transform dragOut;
 
     [Header("Drag settings")]
     public float dragMultiplier = 1f;
