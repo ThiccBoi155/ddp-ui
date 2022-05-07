@@ -150,8 +150,6 @@ public class CoverFlow : MonoBehaviour
         UpdatePositions();
 
         FixPositionAfterTime();
-
-        Debug.Log(GetCurrentCoverIndex());
     }
 
     private void BooleanButtons()

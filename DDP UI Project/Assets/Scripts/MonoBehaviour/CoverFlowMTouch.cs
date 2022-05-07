@@ -8,7 +8,7 @@ public class CoverFlowMTouch : MTouchable
     public Camera cam;
     public Collider2D dragArea;
     public CoverFlow cf;
-    public Transform dragOut;
+    public MTouchable dragOut;
 
     [Header("Drag settings")]
     public float dragMultiplier = 1f;
@@ -92,6 +92,9 @@ public class CoverFlowMTouch : MTouchable
             dragging = true;
 
         SetCFPosition(wDelta);
+
+        //Vector3 oldDOPos = dragOut.transform.position;
+        //dragOut.transform.position = new Vector3(oldDOPos.x, wPos.y, oldDOPos.z);
     }
 
     public override void OnMTouchUp(MTouch mt)
@@ -171,16 +174,6 @@ public class CoverFlowMTouch : MTouchable
 
             velocity = largestVelocity;
         }
-
-        /*/
-        if (2 < storedCFPositions.Count)
-        {
-            float pos1 = storedCFPositions[0];
-            float pos2 = storedCFPositions[storedCFPositions.Count - 1];
-
-            velocity = pos2 - pos1;
-        }
-        //*/
     }
 
     void CalculatePhysics()
@@ -202,4 +195,14 @@ public class CoverFlowMTouch : MTouchable
                 velocity = 0;
         }
     }
+
+    /*/
+    void CheckIfTouchLeft(Vector2 wPos)
+    {
+        if (!MTouchCollider.bounds.Contains(wPos))
+        {
+            
+        }
+    }
+    //*/
 }
