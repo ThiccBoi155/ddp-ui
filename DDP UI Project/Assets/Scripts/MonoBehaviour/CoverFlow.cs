@@ -275,7 +275,7 @@ public class CoverFlow : MonoBehaviour
     //// Disc
     ////////////////////
 
-    private List<Disc> discList;
+    public List<Disc> discList;
 
     public void EjectDisc()
     {
