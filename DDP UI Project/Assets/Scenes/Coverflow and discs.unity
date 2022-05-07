@@ -172,8 +172,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   texture: {fileID: 2800000, guid: dd12abe8eed811a43bc89879d1575af5, type: 3}
   discSprite: {fileID: 0}
-  cl: 0
-  cf: {fileID: 0}
+  songCount: 14
+  songDiscs: []
 --- !u!23 &10310403
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -570,8 +570,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   texture: {fileID: 2800000, guid: df24304f95e01f44c9955cccee74f4c6, type: 3}
   discSprite: {fileID: 0}
-  cl: 0
-  cf: {fileID: 0}
+  songCount: 14
+  songDiscs: []
 --- !u!23 &231939180
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1216,8 +1216,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   texture: {fileID: 2800000, guid: 7346bbd52827b844eaf8f79b94f363c1, type: 3}
   discSprite: {fileID: 0}
-  cl: 0
-  cf: {fileID: 0}
+  songCount: 14
+  songDiscs: []
 --- !u!23 &768887356
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1500,8 +1500,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   texture: {fileID: 2800000, guid: 7f8e87c6bf602fb4f96b2f1c8143ca8e, type: 3}
   discSprite: {fileID: 0}
-  cl: 0
-  cf: {fileID: 0}
+  songCount: 14
+  songDiscs: []
 --- !u!23 &841523036
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1615,8 +1615,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   texture: {fileID: 2800000, guid: 24c96b26696a1b34d8ed47148a834f8b, type: 3}
   discSprite: {fileID: 0}
-  cl: 0
-  cf: {fileID: 0}
+  songCount: 14
+  songDiscs: []
 --- !u!23 &842419772
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1730,8 +1730,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   texture: {fileID: 2800000, guid: 2adbca58744650745b6154ba6c41c81b, type: 3}
   discSprite: {fileID: 0}
-  cl: 0
-  cf: {fileID: 0}
+  songCount: 14
+  songDiscs: []
 --- !u!23 &885092423
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1926,8 +1926,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   texture: {fileID: 2800000, guid: c7e6a146bac29e047b4793ba52888423, type: 3}
   discSprite: {fileID: 0}
-  cl: 0
-  cf: {fileID: 0}
+  songCount: 14
+  songDiscs: []
 --- !u!23 &921599540
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -2097,8 +2097,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   texture: {fileID: 2800000, guid: 50ad901a8bd9d10468f68ad19191c64f, type: 3}
   discSprite: {fileID: 0}
-  cl: 0
-  cf: {fileID: 0}
+  songCount: 14
+  songDiscs: []
 --- !u!23 &1036757193
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -2212,8 +2212,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   texture: {fileID: 2800000, guid: 855a40c7c13d0d24b8fba76031c1ddf6, type: 3}
   discSprite: {fileID: 0}
-  cl: 0
-  cf: {fileID: 0}
+  songCount: 5
+  songDiscs: []
 --- !u!23 &1047866452
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -2355,8 +2355,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   texture: {fileID: 2800000, guid: 64257c834491fd44a9a0c1925feccd33, type: 3}
   discSprite: {fileID: 0}
-  cl: 0
-  cf: {fileID: 0}
+  songCount: 14
+  songDiscs: []
 --- !u!23 &1055172961
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -2582,8 +2582,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   texture: {fileID: 2800000, guid: 035ada2c39cac014b9c8a58c8dfd81fa, type: 3}
   discSprite: {fileID: 0}
-  cl: 0
-  cf: {fileID: 0}
+  songCount: 14
+  songDiscs: []
 --- !u!23 &1073974250
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -2725,8 +2725,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   texture: {fileID: 2800000, guid: ed63040b1f9a0bc4fa293a5d314c8df5, type: 3}
   discSprite: {fileID: 0}
-  cl: 0
-  cf: {fileID: 0}
+  songCount: 14
+  songDiscs: []
 --- !u!23 &1090593294
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -2840,8 +2840,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   texture: {fileID: 2800000, guid: 7143483e0b9c02242ab5d5c9e79ccf19, type: 3}
   discSprite: {fileID: 0}
-  cl: 0
-  cf: {fileID: 0}
+  songCount: 14
+  songDiscs: []
 --- !u!23 &1127418841
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -3523,8 +3523,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   texture: {fileID: 2800000, guid: 081f289871cf1dc468856d35b63bbb47, type: 3}
   discSprite: {fileID: 0}
-  cl: 0
-  cf: {fileID: 0}
+  songCount: 14
+  songDiscs: []
 --- !u!23 &1485667374
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -3638,8 +3638,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   texture: {fileID: 2800000, guid: b9d7e2b897cc27444a1f27f2679effe5, type: 3}
   discSprite: {fileID: 0}
-  cl: 0
-  cf: {fileID: 0}
+  songCount: 14
+  songDiscs: []
 --- !u!23 &1515852795
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -3864,8 +3864,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   texture: {fileID: 2800000, guid: 6875af653185ab64eb31ca1159192a03, type: 3}
   discSprite: {fileID: 0}
-  cl: 0
-  cf: {fileID: 0}
+  songCount: 14
+  songDiscs: []
 --- !u!23 &1537940994
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -3979,8 +3979,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   texture: {fileID: 2800000, guid: ac2e3e0e3b29ad94ebfe2b2c3768e93d, type: 3}
   discSprite: {fileID: 0}
-  cl: 0
-  cf: {fileID: 0}
+  songCount: 14
+  songDiscs: []
 --- !u!23 &1646157730
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -4094,8 +4094,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   texture: {fileID: 2800000, guid: a7e8f96fc8024084fbdd0f214f8aa219, type: 3}
   discSprite: {fileID: 0}
-  cl: 0
-  cf: {fileID: 0}
+  songCount: 14
+  songDiscs: []
 --- !u!23 &1684736344
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -4336,8 +4336,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   texture: {fileID: 2800000, guid: 904cf026003af6548a03ed3fa289dfa5, type: 3}
   discSprite: {fileID: 0}
-  cl: 0
-  cf: {fileID: 0}
+  songCount: 14
+  songDiscs: []
 --- !u!23 &1725212143
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -4479,8 +4479,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   texture: {fileID: 2800000, guid: 0c1cfdfc976c92848aef68ec61a7cf0e, type: 3}
   discSprite: {fileID: 0}
-  cl: 0
-  cf: {fileID: 0}
+  songCount: 14
+  songDiscs: []
 --- !u!23 &1839724045
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -4594,8 +4594,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   texture: {fileID: 2800000, guid: d1bc5c04c88c74449964bc52802882f3, type: 3}
   discSprite: {fileID: 0}
-  cl: 0
-  cf: {fileID: 0}
+  songCount: 14
+  songDiscs: []
 --- !u!23 &1870044844
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -4957,8 +4957,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   texture: {fileID: 2800000, guid: 3bf8f9f5e05881547982a3c87cbbc243, type: 3}
   discSprite: {fileID: 0}
-  cl: 0
-  cf: {fileID: 0}
+  songCount: 14
+  songDiscs: []
 --- !u!23 &2140192934
 MeshRenderer:
   m_ObjectHideFlags: 0

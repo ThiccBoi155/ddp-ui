@@ -8,6 +8,8 @@ public class Disc : DragAndClick
 
     [HideInInspector]
     public CoverFlow cf;
+    //[HideInInspector]
+    //public Cover cov;
 
     public void SetCoverArt(Sprite sprite)
     {
@@ -26,5 +28,10 @@ public class Disc : DragAndClick
 
         if (cf != null)
             cf.RemoveDiscFromList(this);
+        
+        /*/
+        if (cov != null)
+            cov.RemoveDiscFromList(this);
+        //*/
     }
 }

@@ -1,11 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class Cover : MonoBehaviour
 {
     public Texture2D texture;
     public Sprite discSprite = null;
+
+    public int songCount = 14;
+    public Disc[] songDiscs;
+
+    private void Start()
+    {
+        songDiscs = new Disc[songCount];
+    }
 
     public void SetTexture()
     {
@@ -41,7 +50,25 @@ public class Cover : MonoBehaviour
         return discSprite;
     }
 
+    public int GetNextSongIndex()
+    {
+        for (int i = 0; i < songDiscs.Length; i++)
+            if (songDiscs[i] == null)
+                return i;
+        
+        return -1;
+    }
+
+    public void RemoveDiscFromList(Disc disc)
+    {
+        for (int i = 0; i < songDiscs.Length; i++)
+            if (disc == songDiscs[i])
+                songDiscs[i] = null;
+    }
+
+    [NonSerialized]
     public CoverLearp cl = CoverLearp.DontLearp;
+    [NonSerialized]
     public CoverFlow cf;
 
     private void LateUpdate()

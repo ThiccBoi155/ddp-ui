@@ -293,6 +293,16 @@ public class CoverFlow : MonoBehaviour
             return;
         }
 
+        Cover cover = GetCurrentCover();
+
+        if (cover == null)
+            return;
+
+        int songIndex = cover.GetNextSongIndex();
+
+        if (songIndex == -1)
+            return;
+
         // Instantiation and setup
 
         GameObject newDisc = Instantiate(discObj);
@@ -302,6 +312,8 @@ public class CoverFlow : MonoBehaviour
         discList.Add(disc);
 
         disc.cf = this;
+
+        cover.songDiscs[songIndex] = disc;
 
         // Spawn position
 
@@ -336,15 +348,11 @@ public class CoverFlow : MonoBehaviour
         Physics2D.IgnoreCollision(bc.col, disc.col);
 
         // Other disc values
-        
-        Cover c = GetCurrentCover();
 
-        if (c == null)
-            Debug.Log("hmm");
+        disc.SetCoverArt(cover.GetDiscSprite());
 
-        disc.SetCoverArt(c.GetDiscSprite());
-
-        disc.showDiscInfo.SetDiscNum(discList.Count);
+        //disc.showDiscInfo.SetDiscNum(discList.Count);
+        disc.showDiscInfo.SetDiscNum(songIndex + 1);
     }
 
     public void RemoveDiscFromList(Disc dac)
