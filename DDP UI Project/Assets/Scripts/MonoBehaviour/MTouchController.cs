@@ -146,7 +146,6 @@ public class MTouchController : MonoBehaviour
             {
                 mt.currentMTble.grapped = false;
                 mt.currentMTble.OnMTouchUp(mt);
-                Debug.Log("Up happened");
             }
         }
 

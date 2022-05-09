@@ -13,6 +13,7 @@ public class DiscTrashCan : MonoBehaviour
     public Collider2D throwTrigger;
     public Collider2D col;
     public SpriteRenderer sr;
+    public AudioSource audioSource;
 
     [Header("Sprites")]
     public Sprite closedTrash;
@@ -29,6 +30,11 @@ public class DiscTrashCan : MonoBehaviour
             CloseNow();
         else
             OpenNow();
+
+        if (audioSource != null)
+            audioSource.Play();
+        else
+            Debug.Log("audiospurce is null");
     }
 
     private void OpenNow()

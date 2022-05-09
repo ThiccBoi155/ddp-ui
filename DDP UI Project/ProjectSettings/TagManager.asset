@@ -50,9 +50,6 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: temp1
+  - name: Trash can
     uniqueID: 892919179
-    locked: 0
-  - name: temp2
-    uniqueID: 3898369111
     locked: 0

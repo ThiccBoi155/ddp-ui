@@ -102,5 +102,31 @@ public static class Funcs
             else
                 val = val + 1f;
         }
-    } 
+    }
+
+    public static void minMaxValueCorrectionMove(ref float min, ref float max, ref float previousMin)
+    {
+        if (max < min)
+        {
+            if (min == previousMin)
+                min = max;
+            else
+                max = min;
+        }
+
+        previousMin = min;
+    }
+
+    public static void minMaxValueCorrectionCut(ref float min, ref float max, ref float previousMin)
+    {
+        if (max < min)
+        {
+            if (min == previousMin)
+                max = min;
+            else
+                min = max;
+        }
+
+        previousMin = min;
+    }
 }
