@@ -10,12 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 18186a96dc864004da908df8bfbf7653, type: 3}
-  m_Name: Default disc values
+  m_Name: Wooden bowl
   m_EditorClassIdentifier: 
   minSpeedRange: 0.5
   maxSpeedRange: 10
-  minVolume: 0.598
-  maxVolume: 0.718
-  minPitch: 0.7
-  maxPitch: 1.7
+  minVolume: 0.652
+  maxVolume: 0.808
+  minPitch: 0.72
+  maxPitch: 1.14
   invertPitchRange: 0
+  audioClip: {fileID: 8300000, guid: 3c560469a3942e745add4faa8557ee96, type: 3}

@@ -1284,6 +1284,8 @@ MonoBehaviour:
   delayBeforeDrag: 0
   coverArt: {fileID: 8361143694403929406}
   showDiscInfo: {fileID: 410146066225014305}
+  audioSource: {fileID: 0}
+  dv: {fileID: 0}
   cf: {fileID: 0}
 --- !u!114 &410146066225014305
 MonoBehaviour:

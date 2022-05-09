@@ -28,12 +28,51 @@ public class DiscValues : ScriptableObject
 
     float previousMinPitch;
 
-    private DiscValues previousValues;
+    [Header("Audio clip")]
+    public AudioClip audioClip;
+    [Min(0f)]
+    public float maxAudioClipLength;
+
+    AudioClip previousAudioClip;
+
+    [Header("Other settings")]
+    public bool playHereWhenTrashCanIsHit;
+
+    [Header("Drag DiscValues here to copy values")]
+    public DiscValues copyFrom;
+    public bool allowCopyFromValues;
 
     void OnValidate()
     {
         Funcs.minMaxValueCorrectionMove(ref minSpeedRange, ref maxSpeedRange, ref previousMinSpeedRange);
         Funcs.minMaxValueCorrectionMove(ref minVolume, ref maxVolume, ref previousMinVolume);
         Funcs.minMaxValueCorrectionMove(ref minPitch, ref maxPitch, ref previousMinPitch);
+
+        if (audioClip != previousAudioClip)
+            maxAudioClipLength = audioClip.length;
+        else if (audioClip.length < maxAudioClipLength)
+            maxAudioClipLength = audioClip.length;
+
+        previousAudioClip = audioClip;
+
+        if (copyFrom != null)
+        {
+            if (allowCopyFromValues)
+                SetPublicFields(copyFrom);
+            copyFrom = null;
+        }
+    }
+
+    private void SetPublicFields(DiscValues setTo)
+    {
+        minSpeedRange = setTo.minSpeedRange;
+        maxSpeedRange = setTo.maxSpeedRange;
+        minVolume = setTo.minVolume;
+        maxVolume = setTo.maxVolume;
+        minPitch = setTo.minPitch;
+        maxPitch = setTo.maxPitch;
+        audioClip = setTo.audioClip;
+        maxAudioClipLength = setTo.maxAudioClipLength;
+        playHereWhenTrashCanIsHit = setTo.playHereWhenTrashCanIsHit;
     }
 }

@@ -19,6 +19,9 @@ public class DiscTrashCan : MonoBehaviour
     public Sprite closedTrash;
     public Sprite openTrash;
 
+    [Header("...")]
+    public AudioClip collisionSound;
+
     private void Awake()
     {
         MTouchController.discTrashCans.Add(this);
@@ -31,10 +34,7 @@ public class DiscTrashCan : MonoBehaviour
         else
             OpenNow();
 
-        if (audioSource != null)
-            audioSource.Play();
-        else
-            Debug.Log("audiospurce is null");
+        PlayClickSound();
     }
 
     private void OpenNow()
@@ -44,6 +44,9 @@ public class DiscTrashCan : MonoBehaviour
 
         if (col != null)
             col.enabled = false;
+
+        if (throwTrigger != null)
+            throwTrigger.enabled = true;
     }
 
     private void CloseNow()
@@ -53,11 +56,28 @@ public class DiscTrashCan : MonoBehaviour
 
         if (col != null)
             col.enabled = true;
+
+        if (throwTrigger != null)
+            throwTrigger.enabled = false;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.GetComponent<Disc>() != null)
             Destroy(collision.gameObject);
+    }
+
+    public void PlayClickSound()
+    {
+        if (audioSource != null)
+            audioSource.Play();
+    }
+
+    public void PlayCollisionSound()
+    {
+        // Implement: Change pitch and volume
+
+        if (audioSource != null && collisionSound != null)
+            audioSource.PlayOneShot(collisionSound, audioSource.volume);
     }
 }
