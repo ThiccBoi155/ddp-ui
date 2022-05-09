@@ -7,6 +7,10 @@ public class MTouchController : MonoBehaviour
     // There might need to be a hiearchy structure for different MTouchables, if their colliders ever overlap in a meaningful way
     private static List<MTouchable> mTouchables = new List<MTouchable>();
 
+    private static List<MonoBehaviour> dragIntos = new List<MonoBehaviour>();
+    public static List<DiscTrashCan> discTrashCans = new List<DiscTrashCan>();
+    private static List<SnapArea> anapAreas = new List<SnapArea>();
+
     public static void AddToMTouchables(MTouchable mtble)
     {
         if (mTouchables == null)
@@ -128,10 +132,7 @@ public class MTouchController : MonoBehaviour
 
             mt.pos = pos;
 
-            if (mt.currentMTble != null)
-            {
-                mt.currentMTble.OnMTouchDrag(mt);
-            }
+            CheckDragInto(mt);
         }
     }
 
@@ -145,10 +146,33 @@ public class MTouchController : MonoBehaviour
             {
                 mt.currentMTble.grapped = false;
                 mt.currentMTble.OnMTouchUp(mt);
+                Debug.Log("Up happened");
             }
         }
 
         mTouches.Remove(fingerId);
+    }
+
+    private void CheckDragInto(MTouch mt)
+    {
+        if (mt.currentMTble != null)
+        {
+            mt.currentMTble.OnMTouchDrag(mt);
+
+            if (mt.currentMTble.GetType() == typeof(Disc))
+            {
+                Vector2 wPos = Funcs.MouseToWorldPoint(mt.pos, cam);
+
+                foreach (MonoBehaviour dragInto in dragIntos)
+                {
+                    
+                }
+
+                foreach (DiscTrashCan can in discTrashCans)
+                    if (can.Area.bounds.Contains(wPos))
+                        Destroy(mt.currentMTble.gameObject);
+            }
+        }
     }
 
 

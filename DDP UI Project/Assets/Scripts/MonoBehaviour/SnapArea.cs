@@ -9,18 +9,5 @@ public class SnapArea : MonoBehaviour
 
     public DragAndClick item = null;
 
-    private void OnMouseDown()
-    {
-        Debug.Log("Down");
-    }
-
-    private void OnMouseDrag()
-    {
-        Debug.Log("Drag");
-    }
-
-    private void OnMouseUp()
-    {
-        Debug.Log("Up");
-    }
+    
 }
