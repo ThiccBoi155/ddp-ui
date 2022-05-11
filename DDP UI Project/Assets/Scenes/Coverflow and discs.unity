@@ -295,7 +295,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b1123ffa6e86c04ca45316b87badf65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  multiTouch: 1
+  multiTouch: 0
 --- !u!4 &51174266
 Transform:
   m_ObjectHideFlags: 0
@@ -492,7 +492,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   col: {fileID: 0}
   trigger: {fileID: 0}
-  item: {fileID: 0}
+  currentDisc: {fileID: 0}
+  offset: {x: 0, y: 0, z: 0}
+  angularVelocity: 0
 --- !u!21 &219470964
 Material:
   serializedVersion: 8
@@ -902,8 +904,9 @@ GameObject:
   - component: {fileID: 607244892}
   - component: {fileID: 607244891}
   - component: {fileID: 607244890}
+  - component: {fileID: 607244894}
   - component: {fileID: 607244893}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Disc player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -974,8 +977,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -123927625
+  m_SortingLayer: -4
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 59f2f1e78d868c54ea326b4c5b11e15b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1015,9 +1018,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84d4d0729bd9b2b46b2f95af5c33f8d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  col: {fileID: 0}
-  trigger: {fileID: 0}
-  item: {fileID: 0}
+  col: {fileID: 607244890}
+  trigger: {fileID: 607244894}
+  currentDisc: {fileID: 0}
+  offset: {x: -0.18, y: -0.01, z: 0}
+  angularVelocity: -150
+--- !u!61 &607244894
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 607244889}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1.2360984, y: 1}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1.2360984, y: 1}
+  m_EdgeRadius: 0
 --- !u!1 &632681215
 GameObject:
   m_ObjectHideFlags: 0
@@ -1439,8 +1470,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1711541855
+  m_SortingLayer: -5
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -2024,7 +2055,7 @@ GameObject:
   - component: {fileID: 946880127}
   - component: {fileID: 946880131}
   - component: {fileID: 946880133}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Trash can
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4289,8 +4320,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1711541855
+  m_SortingLayer: -5
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -4944,7 +4975,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1752367664}
   - component: {fileID: 1752367663}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DragTrigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}

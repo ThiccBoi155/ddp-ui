@@ -14,10 +14,11 @@ public class SimpleButton : MTouchable
         base.Awake();
 
         cam = Camera.main;
+
         trigger = GetComponent<Collider2D>();
 
-        if (trigger == null || !trigger.isTrigger)
-            Debug.Log("No trigger for simple button found");
+        if (MTouchCollider == null || !MTouchCollider.isTrigger)
+            Debug.Log($"{name}: No trigger for simple button found");
     }
 
     float timeAtMTouchClick;

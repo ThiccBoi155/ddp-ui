@@ -63,11 +63,11 @@ public class Disc : DragAndClick
         DiscTrashCan trashCollision = collision.gameObject.GetComponent<DiscTrashCan>();
         if (discCollision != null)
         {
-            Debug.Log("Disc collision");
+            //Debug.Log("Disc collision");
         }
         else if (trashCollision != null)
         {
-            Debug.Log("Trash can collision");
+            //Debug.Log("Trash can collision");
             trashCollision.PlayCollisionSound();
 
             if (!dv.playHereWhenTrashCanIsHit)
@@ -75,7 +75,7 @@ public class Disc : DragAndClick
         }
         else
         {
-            Debug.Log("Other collision");
+            //Debug.Log("Other collision");
         }
 
         if (!dv.invertPitchRange)

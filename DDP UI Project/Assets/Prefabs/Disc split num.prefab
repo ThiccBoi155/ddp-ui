@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2337048849604151803}
   - component: {fileID: 3613577694686410468}
   - component: {fileID: 6510762964129550602}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Right number (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -183,7 +183,7 @@ GameObject:
   - component: {fileID: 1707344494842385630}
   - component: {fileID: 8361143694403929406}
   - component: {fileID: 5573800413000242915}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -320,7 +320,7 @@ GameObject:
   - component: {fileID: 2366456075539811513}
   - component: {fileID: 9179517507811768998}
   - component: {fileID: 6113783148737901792}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Left number
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -431,7 +431,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1891618167720901709}
   - component: {fileID: 7896021371773210415}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Right underline
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -517,7 +517,7 @@ GameObject:
   - component: {fileID: 2836257331935905756}
   - component: {fileID: 5685763844475658541}
   - component: {fileID: 6227192094013202113}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Right number
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -628,7 +628,7 @@ GameObject:
   m_Component:
   - component: {fileID: 413136480011491693}
   - component: {fileID: 6659593901476618495}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Left underline
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -713,7 +713,7 @@ GameObject:
   - component: {fileID: 8611517344647788189}
   - component: {fileID: 8611517344647788191}
   - component: {fileID: 8611517344647788188}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Left number (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -890,7 +890,7 @@ GameObject:
   - component: {fileID: 4355670550867991345}
   - component: {fileID: 4062106017249933077}
   - component: {fileID: 6317192053533367610}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Disc split num
   m_TagString: Untagged
   m_Icon: {fileID: 0}

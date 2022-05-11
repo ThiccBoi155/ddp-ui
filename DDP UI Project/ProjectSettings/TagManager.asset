@@ -11,9 +11,9 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
-  - 
+  - Physics Disc
+  - Held Disc
+  - Drag Into
   - 
   - 
   - 
@@ -38,6 +38,12 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Queue
+    uniqueID: 1711541855
+    locked: 0
+  - name: Disc player
+    uniqueID: 4171039671
+    locked: 0
   - name: Disc
     uniqueID: 4059355511
     locked: 0

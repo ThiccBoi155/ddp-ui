@@ -9,7 +9,7 @@ public class MTouchController : MonoBehaviour
 
     private static List<MonoBehaviour> dragIntos = new List<MonoBehaviour>();
     public static List<DiscTrashCan> discTrashCans = new List<DiscTrashCan>();
-    private static List<SnapArea> anapAreas = new List<SnapArea>();
+    public static List<SnapArea> snapAreas = new List<SnapArea>();
 
     public static void AddToMTouchables(MTouchable mtble)
     {
@@ -120,6 +120,11 @@ public class MTouchController : MonoBehaviour
                 mt.currentMTble = mtble;
                 mtble.grapped = true;
                 mtble.OnMTouchDown(mt);
+
+                //IgnoreDiscDiscAreaCollision(mt);
+
+                if (mt.currentMTble.GetType() == typeof(Disc))
+                    mt.currentMTble.gameObject.layer = LayerMask.NameToLayer("Held Disc");
             }
         }
     }
@@ -132,7 +137,18 @@ public class MTouchController : MonoBehaviour
 
             mt.pos = pos;
 
-            CheckDragInto(mt);
+            if (mt.currentMTble != null)
+            {
+                if (mt.currentSnapArea == null)
+                {
+                    mt.currentMTble.OnMTouchDrag(mt);
+
+                    CheckDragInto(mt);
+                }
+                else
+                    CheckDraggingInto(mt);
+
+            }
         }
     }
 
@@ -146,6 +162,19 @@ public class MTouchController : MonoBehaviour
             {
                 mt.currentMTble.grapped = false;
                 mt.currentMTble.OnMTouchUp(mt);
+
+                if (mt.currentSnapArea != null)
+                {
+                    mt.currentSnapArea.Stay();
+                    mt.currentSnapArea = null;
+                }
+                else
+                {
+                    if (mt.currentMTble.GetType() == typeof(Disc))
+                        mt.currentMTble.gameObject.layer = LayerMask.NameToLayer("Physics Disc");
+
+                    //IgnoreDiscDiscAreaCollision(mt, false);
+                }
             }
         }
 
@@ -154,27 +183,67 @@ public class MTouchController : MonoBehaviour
 
     private void CheckDragInto(MTouch mt)
     {
-        if (mt.currentMTble != null)
+        if (mt.currentMTble.GetType() == typeof(Disc) && mt.currentSnapArea == null)
         {
-            mt.currentMTble.OnMTouchDrag(mt);
+            Vector2 wPos = Funcs.MouseToWorldPoint(mt.pos, cam);
 
-            if (mt.currentMTble.GetType() == typeof(Disc))
+            foreach (SnapArea snapArea in snapAreas)
             {
-                Vector2 wPos = Funcs.MouseToWorldPoint(mt.pos, cam);
-
-                foreach (MonoBehaviour dragInto in dragIntos)
+                if (snapArea.Area.bounds.Contains(wPos))
                 {
-                    
-                }
+                    if (snapArea.currentDisc == null)
+                    {
+                        mt.currentSnapArea = snapArea;
 
-                foreach (DiscTrashCan can in discTrashCans)
-                    if (can.Area.bounds.Contains(wPos))
-                        Destroy(mt.currentMTble.gameObject);
+                        mt.currentSnapArea.Enter(mt);
+
+                        break;
+                    }
+                    else if (snapArea.currentDisc == mt.currentMTble as Disc)
+                    {
+                        mt.currentSnapArea = snapArea;
+
+                        mt.currentSnapArea.HoldAgain();
+
+                        break;
+                    }
+                }
             }
+
+            foreach (DiscTrashCan can in discTrashCans)
+                if (can.Area.bounds.Contains(wPos))
+                    Destroy(mt.currentMTble.gameObject);
         }
     }
 
+    private void CheckDraggingInto(MTouch mt)
+    {
+        Vector2 wPos = Funcs.MouseToWorldPoint(mt.pos, cam);
 
+        if (mt.currentSnapArea.Area.bounds.Contains(wPos))
+        {
+            mt.currentSnapArea.Holding();
+        }
+        else
+        {
+            mt.currentSnapArea.Leave();
+            mt.currentSnapArea = null;
+        }
+    }
+
+    void IgnoreDiscDiscAreaCollision(MTouch mt, bool ignore = true)
+    {
+        Disc disc = mt.currentMTble as Disc;
+
+        if (disc != null)
+        {
+            foreach (SnapArea snapArea in snapAreas)
+                Physics2D.IgnoreCollision(disc.col, snapArea.col, ignore);
+
+            foreach (DiscTrashCan dtc in discTrashCans)
+                Physics2D.IgnoreCollision(disc.col, dtc.col, ignore);
+        }
+    }
 
     private void OnDrawGizmos()
     {
