@@ -53,6 +53,8 @@ public class SnapArea : MonoBehaviour
 
         disc.rid.constraints = RigidbodyConstraints2D.FreezePosition;
 
+        disc.SetLayerOrderToBack();
+
         notHolding = true;
     }
 
@@ -80,6 +82,8 @@ public class SnapArea : MonoBehaviour
         Debug.Log("Leave");
 
         currentDisc.rid.constraints = RigidbodyConstraints2D.None;
+
+        currentDisc.UpdateLayerOrder();
 
         currentDisc = null;
     }

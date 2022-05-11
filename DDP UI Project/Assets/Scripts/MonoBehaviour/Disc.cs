@@ -5,14 +5,24 @@ public class Disc : DragAndClick
 {
     [Header("References")]
     public SpriteRenderer coverArt;
+    public SpriteRenderer discSprite;
     public ShowDiscInfo showDiscInfo;
     public AudioSource audioSource;
     public DiscValues dv;
 
+    private int currentOrder;
+    public int CurrentOrder
+    {
+        get { return currentOrder; }
+        set
+        {
+            currentOrder = value;
+            UpdateLayerOrder();
+        }
+    }
+
     [HideInInspector]
     public CoverFlow cf;
-    //[HideInInspector]
-    //public Cover cov;
 
     private void Update()
     {
@@ -22,6 +32,20 @@ public class Disc : DragAndClick
     public void SetCoverArt(Sprite sprite)
     {
         coverArt.sprite = sprite;
+    }
+
+    public void UpdateLayerOrder()
+    {
+        int setOrder = currentOrder * 2;
+
+        discSprite.sortingOrder = setOrder;
+        coverArt.sortingOrder = setOrder + 1;
+    }
+
+    public void SetLayerOrderToBack()
+    {
+        discSprite.sortingOrder = -2;
+        coverArt.sortingOrder = -1;
     }
 
     protected override void ClickAction()

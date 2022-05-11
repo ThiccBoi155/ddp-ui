@@ -7,6 +7,8 @@ public class CoverFlow : MonoBehaviour
 {
     private const int space = 30;
 
+    private int currentSetLayer = 0;
+
     ////////////////////
     //// Pulic fields
     ////////////////////
@@ -350,6 +352,9 @@ public class CoverFlow : MonoBehaviour
         // Other disc values
 
         disc.SetCoverArt(cover.GetDiscSprite());
+
+        disc.CurrentOrder = currentSetLayer;
+        currentSetLayer++;
 
         //disc.showDiscInfo.SetDiscNum(discList.Count);
         disc.showDiscInfo.SetDiscNum(songIndex + 1);
