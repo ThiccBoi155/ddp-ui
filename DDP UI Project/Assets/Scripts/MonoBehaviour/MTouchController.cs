@@ -210,9 +210,11 @@ public class MTouchController : MonoBehaviour
                 }
             }
 
+            /*/
             foreach (DiscTrashCan can in discTrashCans)
                 if (can.Area.bounds.Contains(wPos))
                     Destroy(mt.currentMTble.gameObject);
+            /*/
         }
     }
 
@@ -228,20 +230,6 @@ public class MTouchController : MonoBehaviour
         {
             mt.currentSnapArea.Leave();
             mt.currentSnapArea = null;
-        }
-    }
-
-    void IgnoreDiscDiscAreaCollision(MTouch mt, bool ignore = true)
-    {
-        Disc disc = mt.currentMTble as Disc;
-
-        if (disc != null)
-        {
-            foreach (SnapArea snapArea in snapAreas)
-                Physics2D.IgnoreCollision(disc.col, snapArea.col, ignore);
-
-            foreach (DiscTrashCan dtc in discTrashCans)
-                Physics2D.IgnoreCollision(disc.col, dtc.col, ignore);
         }
     }
 

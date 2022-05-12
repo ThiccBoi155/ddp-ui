@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DiscTrashCan : MonoBehaviour
+public class DiscTrashCan : SnapArea
 {
-    public Collider2D Area { get { return dragTrigger; } }
-
     public bool Open { get; private set; } = false;
+
+    public float holdScale = 1f;
 
     [Header("References")]
     public Collider2D dragTrigger;
@@ -14,17 +14,51 @@ public class DiscTrashCan : MonoBehaviour
     public Collider2D col;
     public SpriteRenderer sr;
     public AudioSource audioSource;
+    public GameObject trashLid;
 
     [Header("Sprites")]
     public Sprite closedTrash;
     public Sprite openTrash;
+    public Sprite trashNoLid;
 
     [Header("...")]
     public AudioClip collisionSound;
 
-    private void Awake()
+    public new void Update()
     {
-        MTouchController.discTrashCans.Add(this);
+        SetDiscScale(holdScale);
+        base.Update();
+    }
+
+    public override void Enter(MTouch mt)
+    {
+        base.Enter(mt);
+
+        HoldDisc();
+    }
+
+    public override void Stay()
+    {
+        Destroy(currentDisc.gameObject);
+
+        CloseNow();
+
+        base.Stay();
+    }
+
+    public override void Leave()
+    {
+        CloseNow();
+
+        SetDiscScale(1f);
+
+        base.Leave();
+    }
+
+    private void SetDiscScale(float scale)
+    {
+        if (currentDisc != null)
+            currentDisc.transform.localScale = Vector3.one * scale;
     }
 
     public void ToggleOpen()
@@ -59,6 +93,15 @@ public class DiscTrashCan : MonoBehaviour
 
         if (throwTrigger != null)
             throwTrigger.enabled = false;
+
+        trashLid.SetActive(false);
+    }
+
+    private void HoldDisc()
+    {
+        sr.sprite = trashNoLid;
+
+        trashLid.SetActive(true);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
