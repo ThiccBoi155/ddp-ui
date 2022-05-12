@@ -35,8 +35,16 @@ public class DiscValues : ScriptableObject
 
     AudioClip previousAudioClip;
 
-    [Header("Other settings")]
+    [Header("Other sound settings")]
     public bool playHereWhenTrashCanIsHit;
+
+    [Header("Small force index")]
+    public float smallForceIndex = 0.005f;
+
+    [Header("Point effector settings")]
+    public float forceMagnitude;
+    public EffectorForceMode2D forceMode;
+    public float colliderRadius = 1f;
 
     [Header("Drag DiscValues here to copy values")]
     public DiscValues copyFrom;

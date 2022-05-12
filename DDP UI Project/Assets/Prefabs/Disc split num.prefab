@@ -1121,6 +1121,8 @@ MonoBehaviour:
   showDiscInfo: {fileID: 4062106017249933077}
   audioSource: {fileID: 6317192053533367610}
   dv: {fileID: 11400000, guid: b64fb99506584334b9df920d47492f47, type: 2}
+  pointEffector2D: {fileID: 8978802191852914557}
+  pointEffectorCol: {fileID: 2867549941528846348}
   cf: {fileID: 0}
 --- !u!114 &4062106017249933077
 MonoBehaviour:

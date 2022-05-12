@@ -20,6 +20,8 @@ public class Disc : DragAndClick
     public ShowDiscInfo showDiscInfo;
     public AudioSource audioSource;
     public DiscValues dv;
+    public PointEffector2D pointEffector2D;
+    public CircleCollider2D pointEffectorCol;
 
     [HideInInspector]
     public CoverFlow cf;
@@ -27,6 +29,16 @@ public class Disc : DragAndClick
     private void Update()
     {
         CapAudio();
+        SetPointEffectorValues();
+    }
+
+    public void SetPointEffectorValues()
+    {
+        pointEffector2D.forceMagnitude = dv.forceMagnitude;
+        pointEffector2D.forceMode = dv.forceMode;
+        pointEffectorCol.radius = dv.colliderRadius;
+
+        smallForceIndex = dv.smallForceIndex;
     }
 
     public void SetCoverArt(Sprite sprite)
