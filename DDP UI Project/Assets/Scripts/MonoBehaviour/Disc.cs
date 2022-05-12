@@ -3,13 +3,6 @@ using System;
 
 public class Disc : DragAndClick
 {
-    [Header("References")]
-    public SpriteRenderer coverArt;
-    public SpriteRenderer discSprite;
-    public ShowDiscInfo showDiscInfo;
-    public AudioSource audioSource;
-    public DiscValues dv;
-
     private int currentOrder;
     public int CurrentOrder
     {
@@ -20,6 +13,13 @@ public class Disc : DragAndClick
             UpdateLayerOrder();
         }
     }
+
+    [Header("References")]
+    public SpriteRenderer coverArt;
+    public SpriteRenderer discSprite;
+    public ShowDiscInfo showDiscInfo;
+    public AudioSource audioSource;
+    public DiscValues dv;
 
     [HideInInspector]
     public CoverFlow cf;

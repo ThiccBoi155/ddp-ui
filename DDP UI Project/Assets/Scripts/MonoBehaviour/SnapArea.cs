@@ -54,7 +54,7 @@ public abstract class SnapArea : MonoBehaviour
 
     public virtual void Stay()
     {
-        Debug.Log("Stay");
+        //Debug.Log("Stay");
 
         notHolding = false;
     }
