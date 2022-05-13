@@ -353,11 +353,13 @@ public class CoverFlow : MonoBehaviour
 
         disc.SetCoverArt(cover.GetDiscSprite());
 
-        disc.CurrentOrder = currentSetLayer;
+        disc.discNum = songIndex + 1;
+
+        disc.CurrentOrder = currentSetLayer; // here disc num is also shown
         currentSetLayer++;
 
         //disc.showDiscInfo.SetDiscNum(discList.Count);
-        disc.showDiscInfo.SetDiscNum(songIndex + 1);
+        //disc.showDiscInfo.SetDiscNum(songIndex + 1);
     }
 
     public void RemoveDiscFromList(Disc dac)

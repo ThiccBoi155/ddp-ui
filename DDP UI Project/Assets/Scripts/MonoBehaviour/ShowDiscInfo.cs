@@ -17,7 +17,7 @@ public class ShowDiscInfo : MonoBehaviour
         //SetDiscNum(discNum);
     }
 
-    public virtual void SetDiscNum(int num)
+    public virtual void SetDiscNum(int num, int sortingOrder)
     {
 
     }

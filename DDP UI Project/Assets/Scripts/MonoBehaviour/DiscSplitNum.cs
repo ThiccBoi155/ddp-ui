@@ -9,7 +9,7 @@ public class DiscSplitNum : ShowDiscInfo
     public TextMeshPro leftNum;
     public TextMeshPro rightNum;
 
-    public override void SetDiscNum(int num)
+    public override void SetDiscNum(int num, int sortingOrder)
     {
         string sNum = num.ToString();
 
@@ -31,5 +31,8 @@ public class DiscSplitNum : ShowDiscInfo
             leftNum.text = l;
             rightNum.text = r;
         }
+
+        leftNum.sortingOrder = sortingOrder;
+        rightNum.sortingOrder = sortingOrder;
     }
 }

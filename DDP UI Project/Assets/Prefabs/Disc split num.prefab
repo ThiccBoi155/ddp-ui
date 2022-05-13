@@ -76,8 +76,8 @@ MeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -235611785
+  m_SortingLayer: -3
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &6510762964129550602
@@ -847,8 +847,8 @@ MeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -235611785
+  m_SortingLayer: -3
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &8611517344647788188
@@ -1123,6 +1123,7 @@ MonoBehaviour:
   dv: {fileID: 11400000, guid: b64fb99506584334b9df920d47492f47, type: 2}
   pointEffector2D: {fileID: 8978802191852914557}
   pointEffectorCol: {fileID: 2867549941528846348}
+  songFile: {fileID: 0}
   cf: {fileID: 0}
 --- !u!114 &4062106017249933077
 MonoBehaviour:

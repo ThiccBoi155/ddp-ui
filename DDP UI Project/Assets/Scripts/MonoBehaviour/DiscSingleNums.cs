@@ -7,7 +7,7 @@ public class DiscSingleNums : ShowDiscInfo
 {
     public List<TextMeshPro> numTexts;
 
-    public override void SetDiscNum(int num)
+    public override void SetDiscNum(int num, int sortingOrder)
     {
         string sNum = num.ToString();
 
@@ -17,6 +17,7 @@ public class DiscSingleNums : ShowDiscInfo
         foreach (TextMeshPro numText in numTexts)
         {
             numText.text = sNum;
+            numText.sortingOrder = sortingOrder;
         }
     }
 }

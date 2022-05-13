@@ -28,6 +28,8 @@ public class Disc : DragAndClick
 
     [HideInInspector]
     public CoverFlow cf;
+    [HideInInspector]
+    public int discNum;
 
     private void Update()
     {
@@ -49,18 +51,21 @@ public class Disc : DragAndClick
         coverArt.sprite = sprite;
     }
 
+    // also updates disc num
     public void UpdateLayerOrder()
     {
-        int setOrder = currentOrder * 2;
+        int setOrder = currentOrder * 3;
 
         discSprite.sortingOrder = setOrder;
         coverArt.sortingOrder = setOrder + 1;
+        showDiscInfo.SetDiscNum(discNum, setOrder + 2);
     }
 
     public void SetLayerOrderToBack()
     {
-        discSprite.sortingOrder = -2;
-        coverArt.sortingOrder = -1;
+        discSprite.sortingOrder = -3;
+        coverArt.sortingOrder = -2;
+        showDiscInfo.SetDiscNum(discNum, -1);
     }
 
     protected override void ClickAction()
