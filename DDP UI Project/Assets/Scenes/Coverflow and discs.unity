@@ -295,7 +295,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b1123ffa6e86c04ca45316b87badf65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  multiTouch: 0
+  multiTouch: 1
 --- !u!4 &51174266
 Transform:
   m_ObjectHideFlags: 0
@@ -674,6 +674,7 @@ GameObject:
   - component: {fileID: 607244890}
   - component: {fileID: 607244894}
   - component: {fileID: 607244895}
+  - component: {fileID: 607244896}
   m_Layer: 8
   m_Name: Disc player
   m_TagString: Untagged
@@ -816,6 +817,107 @@ MonoBehaviour:
   currentDisc: {fileID: 0}
   offset: {x: -0.18, y: -0.01, z: 0}
   angularVelocity: -150
+  audioSource: {fileID: 607244896}
+  defaultSongs:
+  - {fileID: 8300000, guid: 6de2eb5a7df7bba43b5a6938b394745a, type: 3}
+  - {fileID: 8300000, guid: 3e6073e506565ac4e88d5637b7ac9a79, type: 3}
+  maxClickToPause: 0.65
+--- !u!82 &607244896
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 607244889}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &632681215
 GameObject:
   m_ObjectHideFlags: 0
@@ -1774,6 +1876,13 @@ MonoBehaviour:
   openTrash: {fileID: 21300000, guid: ae23a7b98ab17e54197fcf21540810ec, type: 3}
   trashNoLid: {fileID: 21300000, guid: ff5586a1ab7b6cb4e98fddf949ce561b, type: 3}
   collisionSound: {fileID: 8300000, guid: 412d0461176959e4190041d71e1e391c, type: 3}
+  minPitch: 0.9
+  maxPitch: 2
+  startTossOutDragPitch: 0.7
+  tossOutDragPitchMultiplier: 0.3
+  pitchesNum: 4
+  resetPitchPosTime: -1
+  pitchPosition: 0
 --- !u!61 &946880128
 BoxCollider2D:
   m_ObjectHideFlags: 0

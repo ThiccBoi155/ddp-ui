@@ -24,9 +24,34 @@ public class DiscTrashCan : SnapArea
     [Header("...")]
     public AudioClip collisionSound;
 
+    [Header("Impact pitch settings")]
+    public float minPitch = 1f;
+    public float maxPitch = 1f;
+
+    [Header("Toss out (with drag) settings")]
+    public float startTossOutDragPitch = .7f;
+    public float tossOutDragPitchMultiplier = .1f;
+    public int pitchesNum = 4;
+    public float resetPitchPosTime = -1f;
+
+    [SerializeField]
+    private int pitchPosition = 0;
+
+    private float timeSinceLastToss = 0f;
+
+    public new void Awake()
+    {
+        base.Awake();
+
+        pitchPosition = 0;
+    }
+
     public new void Update()
     {
         SetDiscScale(holdScale);
+
+        ResetPitchPositionAfterTime();
+
         base.Update();
     }
 
@@ -42,6 +67,8 @@ public class DiscTrashCan : SnapArea
         Destroy(currentDisc.gameObject);
 
         CloseNow();
+
+        PlayTossOutSound();
 
         base.Stay();
     }
@@ -116,11 +143,37 @@ public class DiscTrashCan : SnapArea
             audioSource.Play();
     }
 
-    public void PlayCollisionSound()
+    public void PlayCollisionSound(float impact = -1f)
     {
-        // Implement: Change pitch and volume
+        if (impact != -1f)
+            audioSource.pitch = Mathf.Lerp(maxPitch, minPitch, impact);
+        else
+            audioSource.pitch = 1f;
 
         if (audioSource != null && collisionSound != null)
             audioSource.PlayOneShot(collisionSound, audioSource.volume);
+    }
+
+    private void PlayTossOutSound()
+    {
+        audioSource.pitch = startTossOutDragPitch + tossOutDragPitchMultiplier * pitchPosition;
+        
+        pitchPosition = (pitchPosition + 1) % pitchesNum;
+
+        if (audioSource != null && collisionSound != null)
+            audioSource.PlayOneShot(collisionSound, audioSource.volume);
+    }
+
+    private void ResetPitchPositionAfterTime()
+    {
+        if (resetPitchPosTime != -1f && pitchPosition != 0)
+        {
+            timeSinceLastToss += Time.deltaTime;
+
+            if (resetPitchPosTime <= timeSinceLastToss)
+                pitchPosition = 0;
+        }
+        else
+            timeSinceLastToss = 0;
     }
 }

@@ -14,13 +14,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minSpeedRange: 0.5
   maxSpeedRange: 10
-  minVolume: 0.45
-  maxVolume: 0.823
-  minPitch: 0.85
-  maxPitch: 1.54
+  minVolume: 0.375
+  maxVolume: 0.533
+  minPitch: 0.7
+  maxPitch: 1.7
   invertPitchRange: 0
-  audioClip: {fileID: 8300000, guid: 029d3a62fe4544147b65b0cffa3058d5, type: 3}
-  maxAudioClipLength: 0.042970523
-  playHereWhenTrashCanIsHit: 0
+  audioClip: {fileID: 8300000, guid: 920b41703341cd244a598e71b82a765d, type: 3}
+  maxAudioClipLength: 0.5660544
+  playHereWhenTrashCanIsHit: 1
+  smallForceIndex: 0.005
+  forceMagnitude: 0.0025
+  forceMode: 2
+  colliderRadius: 2
   copyFrom: {fileID: 0}
   allowCopyFromValues: 1

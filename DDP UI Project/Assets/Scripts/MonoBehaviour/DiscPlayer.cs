@@ -12,13 +12,31 @@ public class DiscPlayer : SnapArea
     [Header("Music")]
     public List<AudioClip> defaultSongs;
 
-    //public AudioClip currentSong;
+    [Header("Settings")]
+    public float maxClickToPause = .8f;
+
+    private bool pauseNextStay = false;
+    private bool setPaused;
+    private float timeSinceHoldAgain = 0f;
+
+    protected new void Awake()
+    {
+        base.Awake();
+
+        if (defaultSongs.Count < 1)
+            Debug.Log("The disc player needs at least one default song");
+        if (audioSource == null)
+            Debug.Log("No audio source found");
+    }
 
     protected new void Update()
     {
         SetCurrentDiscValues();
 
         SetTimer();
+
+        if (timeSinceHoldAgain != float.MaxValue)
+            timeSinceHoldAgain += Time.deltaTime;
 
         base.Update();
     }
@@ -27,7 +45,7 @@ public class DiscPlayer : SnapArea
     {
         if (currentDisc != null)
         {
-            currentDisc.rid.angularVelocity = !notHolding ? angularVelocity : 0f;
+            currentDisc.rid.angularVelocity = !notHolding && audioSource.isPlaying ? angularVelocity : 0f;
         }
     }
 
@@ -41,6 +59,9 @@ public class DiscPlayer : SnapArea
         base.Enter(mt);
 
         SetCurrentSong();
+
+        setPaused = false;
+        timeSinceHoldAgain = float.MaxValue;
     }
 
     public override void Holding()
@@ -52,7 +73,15 @@ public class DiscPlayer : SnapArea
     {
         base.Stay();
 
-        audioSource.Play();
+        if (timeSinceHoldAgain <= maxClickToPause && setPaused == false)
+        {
+            setPaused = true;
+        }
+        else
+        {
+            setPaused = false;
+            audioSource.Play();
+        }
     }
 
     public override void HoldAgain()
@@ -60,6 +89,8 @@ public class DiscPlayer : SnapArea
         base.HoldAgain();
 
         audioSource.Pause();
+
+        timeSinceHoldAgain = 0f;
     }
 
     public override void Leave()

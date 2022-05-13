@@ -107,7 +107,8 @@ public class Disc : DragAndClick
         else if (trashCollision != null)
         {
             //Debug.Log("Trash can collision");
-            trashCollision.PlayCollisionSound();
+            if (dv.minSpeedRange < speed)
+                trashCollision.PlayCollisionSound(impact);
 
             if (!dv.playHereWhenTrashCanIsHit)
                 dontPlaySoundHere = true;
