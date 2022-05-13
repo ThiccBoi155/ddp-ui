@@ -23,6 +23,9 @@ public class Disc : DragAndClick
     public PointEffector2D pointEffector2D;
     public CircleCollider2D pointEffectorCol;
 
+    [Header("Song")]
+    public AudioClip songFile;
+
     [HideInInspector]
     public CoverFlow cf;
 

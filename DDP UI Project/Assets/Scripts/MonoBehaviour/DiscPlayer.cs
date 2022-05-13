@@ -6,9 +6,20 @@ public class DiscPlayer : SnapArea
 {
     public float angularVelocity;
 
+    [Header("References")]
+    public AudioSource audioSource;
+
+    [Header("Music")]
+    public List<AudioClip> defaultSongs;
+
+    //public AudioClip currentSong;
+
     protected new void Update()
     {
         SetCurrentDiscValues();
+
+        SetTimer();
+
         base.Update();
     }
 
@@ -20,28 +31,66 @@ public class DiscPlayer : SnapArea
         }
     }
 
-    public new void Enter(MTouch mt)
+    void SetTimer()
     {
-        base.Enter(mt);
+
     }
 
-    public new void Holding()
+    public override void Enter(MTouch mt)
+    {
+        base.Enter(mt);
+
+        SetCurrentSong();
+    }
+
+    public override void Holding()
     {
         base.Holding();
     }
 
-    public new void Stay()
+    public override void Stay()
     {
         base.Stay();
+
+        audioSource.Play();
     }
 
-    public new void HoldAgain()
+    public override void HoldAgain()
     {
         base.HoldAgain();
+
+        audioSource.Pause();
     }
 
-    public new void Leave()
+    public override void Leave()
     {
         base.Leave();
+
+        SetCurrentSong();
+    }
+
+    private void SetCurrentSong()
+    {
+        if (currentDisc != null)
+        {
+            if (currentDisc.songFile != null)
+                audioSource.clip = currentDisc.songFile;
+            else
+            {
+                audioSource.clip = defaultSongs[Random.Range(0, defaultSongs.Count)];
+            }
+        }
+        else
+            audioSource.clip = null;
+    }
+
+    private void PlaySong()
+    {
+        audioSource.Play();
+    }
+
+    private void PauseSong()
+    {
+        audioSource.Pause();
     }
 }
