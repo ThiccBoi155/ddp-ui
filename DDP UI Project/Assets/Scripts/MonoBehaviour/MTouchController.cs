@@ -16,7 +16,7 @@ public class MTouchController : MonoBehaviour
         if (mTouchables == null)
             mTouchables = new List<MTouchable>();
 
-        mTouchables.Add(mtble);
+        mTouchables.Insert(0, mtble);
     }
 
     public static void RemoveFromMTouchables(MTouchable mtble)
@@ -125,6 +125,8 @@ public class MTouchController : MonoBehaviour
 
                 if (mt.currentMTble.GetType() == typeof(Disc))
                     mt.currentMTble.gameObject.layer = LayerMask.NameToLayer("Held Disc");
+
+                break;
             }
         }
     }
