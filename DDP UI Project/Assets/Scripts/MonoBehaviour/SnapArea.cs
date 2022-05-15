@@ -14,7 +14,7 @@ public abstract class SnapArea : MonoBehaviour
     [Header("Settings")]
     public Vector3 offset;
 
-    protected bool notHolding = false;
+    protected bool holding = false;
 
     protected void Awake()
     {
@@ -32,48 +32,44 @@ public abstract class SnapArea : MonoBehaviour
 
     public virtual void Enter(MTouch mt)
     {
-        //Debug.Log("Enter");
-
         Disc disc = mt.currentMTble as Disc;
 
+        Enter(disc);
+    }
+
+    public virtual void Enter(Disc disc)
+    {
         currentDisc = disc;
 
         disc.rid.velocity = Vector2.zero;
-
         disc.rid.constraints = RigidbodyConstraints2D.FreezePosition;
-
         disc.SetLayerOrderToBack();
 
-        notHolding = true;
+        holding = true;
     }
 
     public virtual void Holding()
     {
-        //Debug.Log("Holding");
+        
     }
 
     public virtual void Stay()
     {
-        //Debug.Log("Stay");
-
-        notHolding = false;
+        holding = false;
     }
 
     public virtual void HoldAgain()
     {
-        //Debug.Log("Hold again");
-
-        notHolding = true;
+        holding = true;
     }
 
     public virtual void Leave()
     {
-        //Debug.Log("Leave");
-
         currentDisc.rid.constraints = RigidbodyConstraints2D.None;
-
         currentDisc.UpdateLayerOrder();
 
         currentDisc = null;
+
+        holding = false;
     }
 }

@@ -26,17 +26,25 @@ public class DiscQueue : SnapArea
     void PassDisc()
     {
         if (nextQueue != null)
-            if (nextQueue.currentDisc == null && currentDisc != null)
+            if (nextQueue.currentDisc == null && currentDisc != null && !holding)
             {
                 countTime += Time.deltaTime;
 
                 if (dqp.passDiscDelay <= countTime)
                 {
-                    nextQueue.currentDisc = currentDisc;
-                    currentDisc = null;
+                    PassDiscNow();
                 }
             }
             else
                 countTime = 0f;
+    }
+
+    void PassDiscNow()
+    {
+        //nextQueue.currentDisc = currentDisc;
+        nextQueue.Enter(currentDisc);
+        nextQueue.Stay();
+
+        Leave();
     }
 }

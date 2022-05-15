@@ -55,9 +55,9 @@ public class DiscTrashCan : SnapArea
         base.Update();
     }
 
-    public override void Enter(MTouch mt)
+    public override void Enter(Disc disc)
     {
-        base.Enter(mt);
+        base.Enter(disc);
 
         HoldDisc();
     }

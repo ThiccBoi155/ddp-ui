@@ -44,7 +44,7 @@ public class DiscPlayer : SnapArea
     {
         if (currentDisc != null)
         {
-            currentDisc.rid.angularVelocity = !notHolding && audioSource.isPlaying ? angularVelocity : 0f;
+            currentDisc.rid.angularVelocity = !holding && audioSource.isPlaying ? angularVelocity : 0f;
         }
     }
 
@@ -53,9 +53,9 @@ public class DiscPlayer : SnapArea
 
     }
 
-    public override void Enter(MTouch mt)
+    public override void Enter(Disc disc)
     {
-        base.Enter(mt);
+        base.Enter(disc);
 
         SetCurrentSong();
 
