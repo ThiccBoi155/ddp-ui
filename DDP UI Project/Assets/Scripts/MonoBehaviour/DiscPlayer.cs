@@ -8,6 +8,7 @@ public class DiscPlayer : SnapArea
 
     [Header("References")]
     public AudioSource audioSource;
+    public DisplaySongTime dst;
 
     [Header("Music")]
     public List<AudioClip> defaultSongs;
@@ -54,7 +55,8 @@ public class DiscPlayer : SnapArea
 
     void SetTimer()
     {
-
+        if (currentDisc != null && audioSource.clip != null)
+            dst.Display(audioSource.time, audioSource.clip.length);
     }
 
     void RemoveDiscWhenSongIsOver()
@@ -116,6 +118,8 @@ public class DiscPlayer : SnapArea
         base.Leave();
 
         SetCurrentSong();
+
+        dst.Clear();
     }
 
     private void SetCurrentSong()
