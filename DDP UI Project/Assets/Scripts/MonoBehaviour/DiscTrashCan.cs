@@ -44,6 +44,8 @@ public class DiscTrashCan : SnapArea
         base.Awake();
 
         pitchPosition = 0;
+
+        CloseNow();
     }
 
     public new void Update()
@@ -134,7 +136,10 @@ public class DiscTrashCan : SnapArea
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.GetComponent<Disc>() != null)
+        {
+            Debug.Log("Disc entered trash trigger");
             Destroy(collision.gameObject);
+        }
     }
 
     public void PlayClickSound()
