@@ -15,7 +15,6 @@ public class DiscPlayer : SnapArea
     [Header("Settings")]
     public float maxClickToPause = .8f;
 
-    private bool pauseNextStay = false;
     private bool setPaused;
     private float timeSinceHoldAgain = 0f;
 
