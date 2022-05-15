@@ -955,7 +955,6 @@ GameObject:
   - component: {fileID: 8611517344786495392}
   - component: {fileID: 8611517344786495393}
   - component: {fileID: 8611517344786495406}
-  - component: {fileID: 8611517344786495407}
   - component: {fileID: 4355670550867991345}
   - component: {fileID: 4062106017249933077}
   - component: {fileID: 6317192053533367610}
@@ -1072,25 +1071,12 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0
   m_Material: {fileID: 6200000, guid: fc3137a9d6fc6a14190a65dc0bed5c51, type: 2}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &8611517344786495407
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8611517344786495405}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a140bf2e3dddb1147bb7a9a4b427a54e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gravityVector: {x: 0, y: 0}
 --- !u!114 &4355670550867991345
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1125,6 +1111,7 @@ MonoBehaviour:
   pointEffectorCol: {fileID: 2867549941528846348}
   songFile: {fileID: 0}
   cf: {fileID: 0}
+  discNum: 0
 --- !u!114 &4062106017249933077
 MonoBehaviour:
   m_ObjectHideFlags: 0

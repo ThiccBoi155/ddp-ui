@@ -137,7 +137,6 @@ public class DiscTrashCan : SnapArea
     {
         if (collision.GetComponent<Disc>() != null)
         {
-            Debug.Log("Disc entered trash trigger");
             Destroy(collision.gameObject);
         }
     }

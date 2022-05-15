@@ -14,6 +14,8 @@ public class DiscPlayer : SnapArea
 
     [Header("Settings")]
     public float maxClickToPause = .8f;
+    public Vector3 removeOffset;
+    public Vector2 removeVelocity;
 
     private bool setPaused;
     private float timeSinceHoldAgain = 0f;
@@ -38,6 +40,8 @@ public class DiscPlayer : SnapArea
             timeSinceHoldAgain += Time.deltaTime;
 
         base.Update();
+
+        RemoveDiscWhenSongIsOver();
     }
 
     void SetCurrentDiscValues()
@@ -51,6 +55,21 @@ public class DiscPlayer : SnapArea
     void SetTimer()
     {
 
+    }
+
+    void RemoveDiscWhenSongIsOver()
+    {
+        if (audioSource.clip != null && audioSource.time == audioSource.clip.length)
+        {
+            currentDisc.transform.position = transform.position + removeOffset;
+
+            currentDisc.gameObject.layer = LayerMask.NameToLayer("Physics Disc");
+
+            currentDisc.rid.gravityScale = 1f;
+            currentDisc.rid.velocity = removeVelocity;
+
+            Leave();
+        }
     }
 
     public override void Enter(Disc disc)

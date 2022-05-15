@@ -106,6 +106,11 @@ public class BorderCollider : MonoBehaviour
     private void OnTriggerExit2D(Collider2D collision)
     {
         Physics2D.IgnoreCollision(col, collision, false);
+
+        Disc disc = collision.GetComponent<Disc>();
+
+        if (disc != null)
+            disc.rid.mass = 1f;
     }
 
     private void OnDrawGizmos()

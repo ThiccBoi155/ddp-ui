@@ -766,7 +766,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b1123ffa6e86c04ca45316b87badf65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  multiTouch: 1
+  multiTouch: 0
 --- !u!4 &51174266
 Transform:
   m_ObjectHideFlags: 0
@@ -1624,6 +1624,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 6de2eb5a7df7bba43b5a6938b394745a, type: 3}
   - {fileID: 8300000, guid: 3e6073e506565ac4e88d5637b7ac9a79, type: 3}
   maxClickToPause: 0.65
+  removeOffset: {x: 0, y: -1.2, z: 0}
+  removeVelocity: {x: 1.4, y: 0}
 --- !u!82 &607244896
 AudioSource:
   m_ObjectHideFlags: 0
@@ -7838,6 +7840,7 @@ MonoBehaviour:
   discObj: {fileID: 8611517344786495405, guid: 527c0931ba41b9f409bee4d3ace30cd3, type: 3}
   toggleMoveCurrentCover: 0
   ejectSpeed: 5
+  ejectMass: 7
   ejectAngle: 0
   randomEjectAngle: 1
   randomEjectAngleRange: 25

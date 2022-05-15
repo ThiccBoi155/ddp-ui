@@ -30,6 +30,7 @@ public class CoverFlow : MonoBehaviour
 
     [Header("Eject speed settings")]
     public float ejectSpeed = 5f;
+    public float ejectMass = 1f;
     [Header("Eject angle settings")]
     public float ejectAngle = 0f;
     public bool randomEjectAngle = true;
@@ -348,6 +349,8 @@ public class CoverFlow : MonoBehaviour
         disc.rid.AddTorque(currentEjectTorque, ForceMode2D.Impulse);
 
         Physics2D.IgnoreCollision(bc.col, disc.col);
+
+        disc.rid.mass = ejectMass;
 
         // Other disc values
 
