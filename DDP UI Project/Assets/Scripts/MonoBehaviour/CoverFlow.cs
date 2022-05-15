@@ -43,6 +43,7 @@ public class CoverFlow : MonoBehaviour
     [Space(space)]
 
     [Header("Position, rotation and scale settings")]
+    public int startPosition = 0;
     public float angle = 88; // 59.92
     public float selectGap = 2.6f; // 3.43
     public float stackGap = 0.6f;
@@ -135,11 +136,18 @@ public class CoverFlow : MonoBehaviour
         discList = new List<Disc>();
 
         UpdateCoverCount();
+
+        SetRandomPosition();
     }
 
     void UpdateCoverCount()
     {
         coverCount = coverHolder.transform.childCount;
+    }
+
+    void SetRandomPosition()
+    {
+        CFPosition = Random.Range(3, coverCount - 3);
     }
 
     ////////////////////
@@ -494,6 +502,8 @@ public class CoverFlow : MonoBehaviour
         UpdatePositions();
 
         DrawProjectedPanelPoints();
+
+        CFPosition = startPosition;
     }
 
     void DrawProjectedPanelPoints()
