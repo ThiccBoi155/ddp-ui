@@ -17,12 +17,11 @@ public class DiscQueueParent : MonoBehaviour
     {
         SetChildrenReferences();
 
-        //HideFrom(StartHideIndex);
+        HideFrom(startHideIndex);
     }
 
     private void Update()
     {
-        //HideFrom(startHideIndex);
         Stuff();
     }
 
