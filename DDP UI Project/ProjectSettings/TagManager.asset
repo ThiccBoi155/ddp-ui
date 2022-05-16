@@ -38,6 +38,9 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Buttons
+    uniqueID: 623111969
+    locked: 0
   - name: Queue
     uniqueID: 1711541855
     locked: 0

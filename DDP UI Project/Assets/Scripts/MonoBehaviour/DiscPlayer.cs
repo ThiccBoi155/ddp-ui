@@ -9,6 +9,7 @@ public class DiscPlayer : SnapArea
     [Header("References")]
     public AudioSource audioSource;
     public DisplaySongTime dst;
+    public SpriteRenderer skipButtonRenderer;
 
     [Header("Music")]
     public List<AudioClip> defaultSongs;
@@ -43,6 +44,8 @@ public class DiscPlayer : SnapArea
         base.Update();
 
         RemoveDiscWhenSongIsOver();
+
+        HideSkipButton();
     }
 
     void SetCurrentDiscValues()
@@ -59,9 +62,23 @@ public class DiscPlayer : SnapArea
             dst.Display(audioSource.time, audioSource.clip.length);
     }
 
+    void HideSkipButton()
+    {
+        if (skipButtonRenderer != null)
+            skipButtonRenderer.enabled = (currentDisc != null);
+    }
+
     void RemoveDiscWhenSongIsOver()
     {
         if (audioSource.clip != null && audioSource.time == audioSource.clip.length)
+        {
+            RemoveDiscNow();
+        }
+    }
+
+    public void RemoveDiscNow()
+    {
+        if (currentDisc != null)
         {
             currentDisc.transform.position = transform.position + removeOffset;
 
