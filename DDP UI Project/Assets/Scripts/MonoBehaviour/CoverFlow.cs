@@ -17,6 +17,7 @@ public class CoverFlow : MonoBehaviour
     public Camera cam;
     public BorderCollider bc;
     public Transform coverHolder;
+    public AudioSource audioSource;
 
     [Header("Prefabs")]
     public GameObject discObj;
@@ -64,6 +65,13 @@ public class CoverFlow : MonoBehaviour
     [Header("Move cover settings")]
     public Vector3 moveCoverDeltaPos = new Vector3(0f, 0f, .4f);
     public float learpMoveCoverStuff = .5f;
+
+    [Space(space)]
+
+    // Come up with better names
+    [Header("Sound settings")]
+    public AudioClip roundNowClip;
+    public AudioClip snapClip;
 
     ////////////////////
     //// Old temporary input
@@ -138,6 +146,8 @@ public class CoverFlow : MonoBehaviour
         UpdateCoverCount();
 
         SetRandomPosition();
+
+        lastPos = GetCurrentCoverIndex();
     }
 
     void UpdateCoverCount()
@@ -161,6 +171,8 @@ public class CoverFlow : MonoBehaviour
         UpdatePositions();
 
         FixPositionAfterTime();
+
+        MakeScrollSounds();
     }
 
     private void BooleanButtons()
@@ -263,14 +275,51 @@ public class CoverFlow : MonoBehaviour
 
             if (fixPositionDelay <= notIntegerPosTime)
             {
+                MakeRoundNowSound();
+
                 float target = Mathf.Round(cFPosition);
 
-                cFPosition = Mathf.Lerp(cFPosition, target, fixPositionLerpVal);
+                cFPosition = Mathf.Lerp(cFPosition, target, fixPositionLerpVal * Time.deltaTime);
 
                 cFPosition = Funcs.RoundWithinRange(cFPosition, roundWithinRangeVal);
 
                 lastCFPos = cFPosition;
             }
+        }
+    }
+
+    private int lastPos;
+    [System.NonSerialized]
+    public bool readyForRoundNowSound;
+    [System.NonSerialized]
+    public bool readyForSnapSound;
+
+    private void MakeScrollSounds()
+    {
+        int currentPos = GetCurrentCoverIndex();
+
+        if (currentPos != lastPos)
+        {
+            audioSource.Play();
+        }
+
+        if (readyForSnapSound && Funcs.IsInteger(cFPosition))
+        {
+            if (snapClip != null)
+                audioSource.PlayOneShot(snapClip);
+            readyForSnapSound = false;
+        }
+
+        lastPos = currentPos;
+    }
+
+    private void MakeRoundNowSound()
+    {
+        if (readyForRoundNowSound)
+        {
+            if (roundNowClip != null)
+                audioSource.PlayOneShot(roundNowClip);
+            readyForRoundNowSound = false;
         }
     }
 

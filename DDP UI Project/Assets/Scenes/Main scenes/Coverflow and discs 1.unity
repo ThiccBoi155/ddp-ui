@@ -8207,7 +8207,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   texture: {fileID: 2800000, guid: 081f289871cf1dc468856d35b63bbb47, type: 3}
   discSprite: {fileID: 0}
-  songCount: 14
+  songCount: 16
   songDiscs: []
 --- !u!23 &1322594208
 MeshRenderer:
@@ -10109,6 +10109,7 @@ GameObject:
   - component: {fileID: 1721329801}
   - component: {fileID: 1721329800}
   - component: {fileID: 1721329803}
+  - component: {fileID: 1721329804}
   m_Layer: 0
   m_Name: Cover flow
   m_TagString: Untagged
@@ -10131,6 +10132,7 @@ MonoBehaviour:
   cam: {fileID: 1059207972}
   bc: {fileID: 317927051}
   coverHolder: {fileID: 632681216}
+  audioSource: {fileID: 1721329804}
   discObj: {fileID: 8611517344786495405, guid: 527c0931ba41b9f409bee4d3ace30cd3, type: 3}
   toggleMoveCurrentCover: 0
   ejectSpeed: 5
@@ -10147,11 +10149,13 @@ MonoBehaviour:
   stackGap: 0.6
   maxMinPositoin: 0.499999
   fixPositionDelay: 0.1
-  fixPositionLerpVal: 0.1
+  fixPositionLerpVal: 12
   roundWithinRangeVal: 0.01
   countFixTimeNow: 1
   moveCoverDeltaPos: {x: 0, y: 0, z: -1}
   learpMoveCoverStuff: 0.1
+  roundNowClip: {fileID: 0}
+  snapClip: {fileID: 8300000, guid: 87135b7489d86844aa0355c030a66cae, type: 3}
   discList: []
 --- !u!4 &1721329801
 Transform:
@@ -10200,6 +10204,102 @@ MonoBehaviour:
   maxClickDistance: 0.1
   maxClickDelay: 0.5
   delayBeforeDrag: 0.1
+--- !u!82 &1721329804
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1721329799}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 87135b7489d86844aa0355c030a66cae, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &1752367662
 GameObject:
   m_ObjectHideFlags: 0
@@ -11120,8 +11220,8 @@ MeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 623111969
+  m_SortingLayer: -6
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &1928144145
@@ -11186,7 +11286,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   texture: {fileID: 2800000, guid: 6875af653185ab64eb31ca1159192a03, type: 3}
   discSprite: {fileID: 0}
-  songCount: 14
+  songCount: 21
   songDiscs: []
 --- !u!23 &1946169134
 MeshRenderer:
@@ -12156,7 +12256,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   texture: {fileID: 2800000, guid: 548a4b61a86d1a1479e5760867611c06, type: 3}
   discSprite: {fileID: 0}
-  songCount: 14
+  songCount: 9
   songDiscs: []
 --- !u!23 &2136127011
 MeshRenderer:

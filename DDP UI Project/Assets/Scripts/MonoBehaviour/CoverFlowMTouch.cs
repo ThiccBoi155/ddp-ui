@@ -114,6 +114,14 @@ public class CoverFlowMTouch : MTouchable
         dragging = false;
 
         CalculateCFThrowVelocity();
+
+        if (minVelocity <= Mathf.Abs(velocity))
+        {
+            cf.readyForRoundNowSound = true;
+            cf.readyForSnapSound = true;
+        }
+
+        
     }
 
     void ClickAction()
