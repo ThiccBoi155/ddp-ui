@@ -70,8 +70,15 @@ public class CoverFlow : MonoBehaviour
 
     // Come up with better names
     [Header("Sound settings")]
+    [Range(-3f, 3f)]
+    public float scrollPitch = 1f;
+    [Range(-3f, 3f)]
+    public float roundNowPitch = 1f;
     public AudioClip roundNowClip;
+    [Range(-3f, 3f)]
+    public float snapPitch = 1f;
     public AudioClip snapClip;
+    
 
     ////////////////////
     //// Old temporary input
@@ -300,13 +307,17 @@ public class CoverFlow : MonoBehaviour
 
         if (currentPos != lastPos)
         {
+            audioSource.pitch = scrollPitch;
             audioSource.Play();
         }
 
         if (readyForSnapSound && Funcs.IsInteger(cFPosition))
         {
             if (snapClip != null)
+            {
+                audioSource.pitch = snapPitch;
                 audioSource.PlayOneShot(snapClip);
+            }
             readyForSnapSound = false;
         }
 
@@ -318,7 +329,10 @@ public class CoverFlow : MonoBehaviour
         if (readyForRoundNowSound)
         {
             if (roundNowClip != null)
+            {
+                audioSource.pitch = roundNowPitch;
                 audioSource.PlayOneShot(roundNowClip);
+            }
             readyForRoundNowSound = false;
         }
     }
