@@ -929,7 +929,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b1123ffa6e86c04ca45316b87badf65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  multiTouch: 0
+  multiTouch: 1
 --- !u!4 &51174266
 Transform:
   m_ObjectHideFlags: 0
