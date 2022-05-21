@@ -65,3 +65,6 @@ TagManager:
   - name: Trash can
     uniqueID: 892919179
     locked: 0
+  - name: Foreground
+    uniqueID: 3707647665
+    locked: 0
