@@ -22,6 +22,7 @@ public class DiscTrashCan : SnapArea
     public Sprite trashNoLid;
 
     [Header("...")]
+    public AudioClip clickSound;
     public AudioClip collisionSound;
 
     [Header("Impact pitch settings")]
@@ -144,11 +145,18 @@ public class DiscTrashCan : SnapArea
     public void PlayClickSound()
     {
         if (audioSource != null)
+        {
+            audioSource.volume = 1f;
+            audioSource.pitch = 1f;
+            audioSource.clip = clickSound;
             audioSource.Play();
+        }
     }
 
     public void PlayCollisionSound(float impact = -1f)
     {
+        audioSource.volume = 1f;
+
         if (impact != -1f)
             audioSource.pitch = Mathf.Lerp(maxPitch, minPitch, impact);
         else
@@ -160,6 +168,7 @@ public class DiscTrashCan : SnapArea
 
     private void PlayTossOutSound()
     {
+        audioSource.volume = 1f;
         audioSource.pitch = startTossOutDragPitch + tossOutDragPitchMultiplier * pitchPosition;
         
         pitchPosition = (pitchPosition + 1) % pitchesNum;

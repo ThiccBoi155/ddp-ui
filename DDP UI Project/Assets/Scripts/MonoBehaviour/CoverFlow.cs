@@ -78,7 +78,10 @@ public class CoverFlow : MonoBehaviour
     [Range(-3f, 3f)]
     public float snapPitch = 1f;
     public AudioClip snapClip;
-    
+    [Range(-3f, 3f)]
+    public float ejectPitch = 1f;
+    public AudioClip ejectClip;
+
 
     ////////////////////
     //// Old temporary input
@@ -434,6 +437,14 @@ public class CoverFlow : MonoBehaviour
 
         //disc.showDiscInfo.SetDiscNum(discList.Count);
         //disc.showDiscInfo.SetDiscNum(songIndex + 1);
+
+        // Sound
+
+        if (ejectClip != null)
+        {
+            audioSource.pitch = ejectPitch;
+            audioSource.PlayOneShot(ejectClip);
+        }
     }
 
     public void RemoveDiscFromList(Disc dac)

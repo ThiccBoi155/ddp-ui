@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class SimpleButton : MTouchable
 {
+    [Header("Sound")]
+    public AudioSource audioSource;
+
     public override Collider2D MTouchCollider { get { return trigger; } }
 
     private Camera cam;
@@ -47,11 +50,22 @@ public class SimpleButton : MTouchable
         Vector2 startWPos = Funcs.MouseToWorldPoint(mt.startPos, cam);
 
         if ((wPos - startWPos).magnitude <= maxClickDistance && Time.time - timeAtMTouchClick <= maxClickDelay)
+        {
             ClickAction();
+            PlayClickSound();
+        }
     }
 
     protected virtual void ClickAction()
     {
         Debug.Log("simple stuff");
+    }
+
+    protected void PlayClickSound()
+    {
+        if (audioSource != null)
+        {
+            audioSource.Play();
+        }
     }
 }

@@ -8,8 +8,19 @@ public abstract class SnapArea : MonoBehaviour
 
     [Header("References")]
     public Collider2D trigger;
-
+    public AudioSource snapAudioSource;
     public Disc currentDisc = null;
+
+    [Header("Snap sounds")]
+    public AudioClip snapSound;
+    [Range(0f, 1f)]
+    public float snapVolume = 1f;
+    [Range(-3f, 3f)]
+    public float enterPitch = 1f;
+    [Range(-3f, 3f)]
+    public float leavePitch = 1f;
+    //public AudioClip enterClip;
+    //public AudioClip leaveClip;
 
     [Header("Settings")]
     public Vector3 offset;
@@ -46,6 +57,9 @@ public abstract class SnapArea : MonoBehaviour
         disc.SetLayerOrderToBack();
 
         holding = true;
+
+        //PlaySound(enterClip);
+        PlaySnapSound(enterPitch);
     }
 
     public virtual void Holding()
@@ -71,5 +85,48 @@ public abstract class SnapArea : MonoBehaviour
         currentDisc = null;
 
         holding = false;
+
+        //PlaySound(leaveClip);
+        PlaySnapSound(leavePitch);
+    }
+
+    /*/
+    protected void PlayEnterSound()
+    {
+        if (audioSource != null)
+        {
+            audioSource.Play();
+        }
+    }
+
+    protected void PlayLeaveSound()
+    {
+        if (audioSource != null)
+        {
+            audioSource.Play();
+        }
+    }
+    /*/
+
+    /*/
+    protected void PlaySound(AudioClip clip)
+    {
+        if (clip != null && snapAudioSource != null)
+        {
+            snapAudioSource.clip = clip;
+            snapAudioSource.Play();
+        }
+    }
+    /*/
+
+    protected void PlaySnapSound(float pitch)
+    {
+        if (snapSound != null && snapAudioSource != null)
+        {
+            snapAudioSource.volume = snapVolume;
+            snapAudioSource.pitch = pitch;
+            snapAudioSource.clip = snapSound;
+            snapAudioSource.Play();
+        }
     }
 }
